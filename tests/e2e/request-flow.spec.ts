@@ -34,7 +34,8 @@ test("vehicle validation returns the user to VIN when vehicle identity is missin
   await page.getByRole("button", { name: "Отправить заявку" }).click();
 
   const vin = page.getByLabel("VIN");
-  await expect(page.getByRole("alert")).toHaveText("Укажите VIN или марку, модель и год автомобиля.");
+  const error = page.locator('[role="alert"]').filter({ hasText: "Укажите VIN или марку, модель и год автомобиля." });
+  await expect(error).toBeVisible();
   await expect(vin).toBeFocused();
   await expect(vin).toHaveAttribute("aria-invalid", "true");
 });
@@ -44,7 +45,8 @@ test("part validation returns the user to part name after vehicle is identified"
   await page.getByRole("button", { name: "Отправить заявку" }).click();
 
   const partName = page.getByLabel("Название детали");
-  await expect(page.getByRole("alert")).toHaveText("Добавьте название, OEM/Part Number, описание или фото детали.");
+  const error = page.locator('[role="alert"]').filter({ hasText: "Добавьте название, OEM/Part Number, описание или фото детали." });
+  await expect(error).toBeVisible();
   await expect(partName).toBeFocused();
   await expect(partName).toHaveAttribute("aria-invalid", "true");
 });
