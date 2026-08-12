@@ -1,8 +1,8 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 const endpointPattern = "**/functions/v1/create-landing-request";
 
-async function mockAcceptedRequest(page: Parameters<typeof test>[0]["page"], requestNumber = 999) {
+async function mockAcceptedRequest(page: Page, requestNumber = 999) {
   await page.route(endpointPattern, async (route) => {
     const request = route.request();
     expect(request.method()).toBe("POST");
