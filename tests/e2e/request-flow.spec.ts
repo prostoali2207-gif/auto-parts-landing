@@ -34,8 +34,7 @@ test("vehicle validation returns the user to VIN when vehicle identity is missin
   await page.getByRole("button", { name: "Отправить заявку" }).click();
 
   const vin = page.getByLabel("VIN");
-  const error = page.locator('[role="alert"]').filter({ hasText: "Укажите VIN или марку, модель и год автомобиля." });
-  await expect(error).toBeVisible();
+  await expect(page.locator("#vehicle-error")).toHaveText("Укажите VIN или марку, модель и год автомобиля.");
   await expect(vin).toBeFocused();
   await expect(vin).toHaveAttribute("aria-invalid", "true");
 });
@@ -45,18 +44,20 @@ test("part validation returns the user to part name after vehicle is identified"
   await page.getByRole("button", { name: "Отправить заявку" }).click();
 
   const partName = page.getByLabel("Название детали");
-  const error = page.locator('[role="alert"]').filter({ hasText: "Добавьте название, OEM/Part Number, описание или фото детали." });
-  await expect(error).toBeVisible();
+  await expect(page.locator("#part-error")).toHaveText("Добавьте название, OEM/Part Number, описание или фото детали.");
   await expect(partName).toBeFocused();
   await expect(partName).toHaveAttribute("aria-invalid", "true");
 });
 
-test("native required contact validation is preserved", async ({ page }) => {
+test("contact validation happens after vehicle and part are valid", async ({ page }) => {
   await page.getByLabel("VIN").fill("JT123456789012345");
   await page.getByLabel("Название детали").fill("Передняя фара");
   await page.getByRole("button", { name: "Отправить заявку" }).click();
 
-  await expect(page.getByLabel("Телефон / WhatsApp / Telegram")).toBeFocused();
+  const contact = page.getByLabel("Телефон / WhatsApp / Telegram");
+  await expect(page.locator("#contact-error")).toHaveText("Укажите телефон, WhatsApp или Telegram.");
+  await expect(contact).toBeFocused();
+  await expect(contact).toHaveAttribute("aria-invalid", "true");
 });
 
 test("VIN path reaches confirmed success without creating a real CRM record", async ({ page }) => {
