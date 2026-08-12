@@ -20,5 +20,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Audit dependencies
+        run: npm audit --json || true
+
       - name: Build
         run: npm run build
