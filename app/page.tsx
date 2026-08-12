@@ -47,32 +47,56 @@ export default function Home() {
   return (
     <main>
       <header className="topbar">
-        <a className="brand" href="#top" aria-label="Das Motors">DAS MOTORS</a>
+        <a className="brand" href="#top" aria-label="Das Motors">
+          <span className="brandMark">DM</span>
+          <span>DAS MOTORS</span>
+        </a>
         <a className="topCta" href="#request">Найти деталь</a>
       </header>
 
       <section className="hero" id="top">
         <div className="heroCopy">
-          <p className="eyebrow">Автозапчасти · ОАЭ</p>
-          <h1>Найдём нужную деталь для вашего автомобиля</h1>
-          <p className="lead">Отправьте VIN, фото детали или OEM‑номер. Менеджер получит заявку и продолжит подбор.</p>
-          <a className="primary" href="#request">Запросить запчасть</a>
-          <p className="micro">Без каталога и долгого поиска по сайту.</p>
+          <p className="eyebrow">Parts sourcing · UAE</p>
+          <h1>Нужна запчасть? Покажите машину и деталь.</h1>
+          <p className="lead">Отправьте VIN, данные автомобиля, фото или OEM‑номер. Менеджер получит всё в одной заявке и продолжит подбор.</p>
+          <div className="heroActions">
+            <a className="primary" href="#request">Запросить запчасть</a>
+            <span className="micro">Без каталога и долгого поиска по сайту.</span>
+          </div>
         </div>
-        <div className="heroPanel" aria-label="Как отправить запрос">
-          <span>01</span><strong>VIN или данные авто</strong>
-          <span>02</span><strong>Фото, название или OEM</strong>
-          <span>03</span><strong>Ваш контакт</strong>
-        </div>
+
+        <aside className="sourcingTicket" aria-label="Что можно отправить для поиска детали">
+          <div className="ticketHead">
+            <span>PART REQUEST</span>
+            <span>UAE / DAS MOTORS</span>
+          </div>
+          <div className="ticketRow">
+            <span className="ticketCode">VEHICLE ID</span>
+            <strong>VIN</strong>
+            <small>или марка · модель · год</small>
+          </div>
+          <div className="ticketRow">
+            <span className="ticketCode">PART ID</span>
+            <strong>Фото / OEM / название</strong>
+            <small>достаточно любого понятного признака</small>
+          </div>
+          <div className="ticketRow ticketRowLast">
+            <span className="ticketCode">CONTACT</span>
+            <strong>Телефон / WhatsApp / Telegram</strong>
+            <small>для ответа менеджера</small>
+          </div>
+        </aside>
       </section>
 
       <section className="process">
-        <p className="eyebrow">Как это работает</p>
-        <h2>Три шага до заявки менеджеру</h2>
-        <div className="steps">
-          <div><b>1</b><h3>Покажите автомобиль</h3><p>VIN или марка, модель и год.</p></div>
-          <div><b>2</b><h3>Покажите деталь</h3><p>Фото, название, OEM‑номер или короткое описание.</p></div>
-          <div><b>3</b><h3>Оставьте контакт</h3><p>Заявка сразу попадает в рабочий процесс Das Motors.</p></div>
+        <div className="sectionHead">
+          <p className="eyebrow">Как это работает</p>
+          <h2>Одна заявка. Три понятных блока.</h2>
+        </div>
+        <div className="processRail">
+          <article><span>01 / VEHICLE</span><h3>Покажите автомобиль</h3><p>VIN либо марка, модель и год.</p></article>
+          <article><span>02 / PART</span><h3>Покажите деталь</h3><p>Фото, название, OEM‑номер или короткое описание.</p></article>
+          <article><span>03 / CONTACT</span><h3>Оставьте контакт</h3><p>Заявка отправится в рабочий процесс Das Motors.</p></article>
         </div>
       </section>
 
@@ -81,11 +105,14 @@ export default function Home() {
           <p className="eyebrow">Request a part</p>
           <h2>Что нужно найти?</h2>
           <p>Не обязательно заполнять всё. Для автомобиля достаточно VIN либо марки, модели и года. Для детали — любого понятного признака.</p>
+          <div className="requestLegend" aria-label="Что можно использовать в заявке">
+            <span>VIN</span><span>OEM</span><span>PHOTO</span><span>VEHICLE</span>
+          </div>
         </div>
 
         {state === "success" ? (
           <div className="success" role="status">
-            <span>Заявка отправлена</span>
+            <span>REQUEST RECEIVED</span>
             <h2>{requestNumber ? `Заявка №${requestNumber}` : "Заявка принята"}</h2>
             <p>Она уже находится в CRM Das Motors.</p>
             <button className="secondary" onClick={() => setState("idle")}>Отправить ещё одну</button>
@@ -95,9 +122,10 @@ export default function Home() {
             <input className="honeypot" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
 
             <fieldset>
-              <legend>1. Автомобиль</legend>
+              <legend><span>01</span> Автомобиль</legend>
+              <p className="fieldNote">VIN — самый короткий путь. Если его нет под рукой, укажите данные автомобиля.</p>
               <label>VIN<input name="vin" placeholder="Например: JT..." autoCapitalize="characters" /></label>
-              <div className="or">или</div>
+              <div className="or"><span>или</span></div>
               <div className="grid3">
                 <label>Марка<input name="carMake" placeholder="Toyota" /></label>
                 <label>Модель<input name="carModel" placeholder="Camry" /></label>
@@ -106,15 +134,17 @@ export default function Home() {
             </fieldset>
 
             <fieldset>
-              <legend>2. Деталь</legend>
+              <legend><span>02</span> Деталь</legend>
+              <p className="fieldNote">Можно отправить название, номер или фотографию — необязательно знать всё сразу.</p>
               <label>Название детали<input name="partName" placeholder="Например: передняя фара" /></label>
               <label>OEM / Part Number<input name="partNumber" placeholder="Если известен" /></label>
-              <label>Фото детали<input name="photo" type="file" accept="image/*" /></label>
+              <label className="fileLabel">Фото детали<input name="photo" type="file" accept="image/*" /></label>
               <label>Комментарий<textarea name="description" rows={3} placeholder="Сторона, повреждение или любая полезная деталь" /></label>
             </fieldset>
 
             <fieldset>
-              <legend>3. Контакт</legend>
+              <legend><span>03</span> Контакт</legend>
+              <p className="fieldNote">Укажите удобный контакт, чтобы менеджер мог продолжить подбор.</p>
               <label>Телефон / WhatsApp / Telegram<input name="contact" required placeholder="Как с вами связаться" /></label>
               <label>Имя <span>(необязательно)</span><input name="clientName" placeholder="Ваше имя" /></label>
             </fieldset>
