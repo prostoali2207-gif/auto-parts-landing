@@ -6,11 +6,28 @@ const ENDPOINT = "https://ybjoayhahbifcrrrykln.supabase.co/functions/v1/create-l
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024;
 
 type SubmitState = "idle" | "loading" | "success" | "error";
+type FieldErrors = Partial<Record<"vehicle" | "year" | "part" | "photo", string>>;
 
 export default function Home() {
   const [state, setState] = useState<SubmitState>("idle");
   const [message, setMessage] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [requestNumber, setRequestNumber] = useState<number | null>(null);
+
+  function focusField(form: HTMLFormElement, name: string) {
+    const field = form.elements.namedItem(name);
+    if (field instanceof HTMLElement) {
+      field.focus();
+      field.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
+
+  function failField(form: HTMLFormElement, errors: FieldErrors, fieldName: string) {
+    setFieldErrors(errors);
+    setState("error");
+    setMessage("");
+    requestAnimationFrame(() => focusField(form, fieldName));
+  }
 
   async function submitRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -30,36 +47,34 @@ export default function Home() {
     const photo = values.get("photo");
     const hasPhoto = photo instanceof File && photo.size > 0;
 
+    setFieldErrors({});
+    setMessage("");
+
     if (!vin && !(carMake && carModel && carYear)) {
-      setState("error");
-      setMessage("Укажите VIN или марку, модель и год автомобиля");
+      failField(form, { vehicle: "Укажите VIN или марку, модель и год автомобиля." }, "vin");
       return;
     }
 
     if (carYear) {
       const year = Number(carYear);
       if (!Number.isInteger(year) || year < 1950 || year > 2100) {
-        setState("error");
-        setMessage("Проверьте год автомобиля");
+        failField(form, { year: "Проверьте год автомобиля." }, "carYear");
         return;
       }
     }
 
     if (!partName && !partNumber && !description && !hasPhoto) {
-      setState("error");
-      setMessage("Добавьте название, OEM/Part Number, описание или фото детали");
+      failField(form, { part: "Добавьте название, OEM/Part Number, описание или фото детали." }, "partName");
       return;
     }
 
     if (hasPhoto && photo instanceof File) {
       if (!photo.type.startsWith("image/")) {
-        setState("error");
-        setMessage("Можно загружать только изображения");
+        failField(form, { photo: "Можно загружать только изображения." }, "photo");
         return;
       }
       if (photo.size > MAX_PHOTO_BYTES) {
-        setState("error");
-        setMessage("Фотография слишком большая. Максимум 8 МБ");
+        failField(form, { photo: "Фотография слишком большая. Максимум 8 МБ." }, "photo");
         return;
       }
     }
@@ -74,7 +89,6 @@ export default function Home() {
     if (photoKeys.length && photo instanceof File) body.set(photoKeys[0], photo);
 
     setState("loading");
-    setMessage("");
 
     try {
       const response = await fetch(ENDPOINT, { method: "POST", body });
@@ -163,27 +177,31 @@ export default function Home() {
             <button className="secondary" onClick={() => setState("idle")}>Отправить ещё одну</button>
           </div>
         ) : (
-          <form onSubmit={submitRequest} className="requestForm">
+          <form onSubmit={submitRequest} className="requestForm" noValidate>
             <input className="honeypot" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
 
-            <fieldset>
+            <fieldset aria-describedby={fieldErrors.vehicle ? "vehicle-error" : undefined}>
               <legend><span>01</span> Автомобиль</legend>
               <p className="fieldNote">VIN — самый короткий путь. Если его нет под рукой, укажите данные автомобиля.</p>
-              <label>VIN<input name="vin" placeholder="Например: JT..." autoCapitalize="characters" /></label>
+              <label>VIN<input name="vin" placeholder="Например: JT..." autoCapitalize="characters" aria-invalid={fieldErrors.vehicle ? "true" : undefined} /></label>
+              {fieldErrors.vehicle && <p className="fieldError" id="vehicle-error" role="alert">{fieldErrors.vehicle}</p>}
               <div className="or"><span>или</span></div>
               <div className="grid3">
                 <label>Марка<input name="carMake" placeholder="Toyota" /></label>
                 <label>Модель<input name="carModel" placeholder="Camry" /></label>
-                <label>Год<input name="carYear" inputMode="numeric" placeholder="2022" /></label>
+                <label>Год<input name="carYear" inputMode="numeric" placeholder="2022" aria-invalid={fieldErrors.year ? "true" : undefined} aria-describedby={fieldErrors.year ? "year-error" : undefined} /></label>
               </div>
+              {fieldErrors.year && <p className="fieldError" id="year-error" role="alert">{fieldErrors.year}</p>}
             </fieldset>
 
-            <fieldset>
+            <fieldset aria-describedby={fieldErrors.part ? "part-error" : undefined}>
               <legend><span>02</span> Деталь</legend>
               <p className="fieldNote">Можно отправить название, номер или фотографию — необязательно знать всё сразу.</p>
-              <label>Название детали<input name="partName" placeholder="Например: передняя фара" /></label>
+              <label>Название детали<input name="partName" placeholder="Например: передняя фара" aria-invalid={fieldErrors.part ? "true" : undefined} /></label>
+              {fieldErrors.part && <p className="fieldError" id="part-error" role="alert">{fieldErrors.part}</p>}
               <label>OEM / Part Number<input name="partNumber" placeholder="Если известен" /></label>
-              <label className="fileLabel">Фото детали<input name="photo" type="file" accept="image/*" /></label>
+              <label className="fileLabel">Фото детали<input name="photo" type="file" accept="image/*" aria-invalid={fieldErrors.photo ? "true" : undefined} aria-describedby={fieldErrors.photo ? "photo-error" : undefined} /></label>
+              {fieldErrors.photo && <p className="fieldError" id="photo-error" role="alert">{fieldErrors.photo}</p>}
               <label>Комментарий<textarea name="description" rows={3} placeholder="Сторона, повреждение или любая полезная деталь" /></label>
             </fieldset>
 
@@ -194,7 +212,7 @@ export default function Home() {
               <label>Имя <span>(необязательно)</span><input name="clientName" placeholder="Ваше имя" /></label>
             </fieldset>
 
-            {state === "error" && <p className="error" role="alert">{message}</p>}
+            {state === "error" && message && <p className="error" role="alert">{message}</p>}
             <button className="primary submit" disabled={state === "loading"} type="submit">
               {state === "loading" ? "Отправляем…" : "Отправить заявку"}
             </button>
