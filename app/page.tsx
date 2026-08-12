@@ -6,7 +6,7 @@ const ENDPOINT = "https://ybjoayhahbifcrrrykln.supabase.co/functions/v1/create-l
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024;
 
 type SubmitState = "idle" | "loading" | "success" | "error";
-type FieldErrors = Partial<Record<"vehicle" | "year" | "part" | "photo", string>>;
+type FieldErrors = Partial<Record<"vehicle" | "year" | "part" | "photo" | "contact", string>>;
 
 export default function Home() {
   const [state, setState] = useState<SubmitState>("idle");
@@ -37,6 +37,7 @@ export default function Home() {
     const values = new FormData(form);
     const text = (name: string) => String(values.get(name) ?? "").trim();
 
+    const contact = text("contact");
     const vin = text("vin");
     const carMake = text("carMake");
     const carModel = text("carModel");
@@ -77,6 +78,11 @@ export default function Home() {
         failField(form, { photo: "Фотография слишком большая. Максимум 8 МБ." }, "photo");
         return;
       }
+    }
+
+    if (!contact) {
+      failField(form, { contact: "Укажите телефон, WhatsApp или Telegram." }, "contact");
+      return;
     }
 
     const photoKeys = hasPhoto ? ["part-0-photo-0"] : [];
@@ -177,7 +183,7 @@ export default function Home() {
             <button className="secondary" onClick={() => setState("idle")}>Отправить ещё одну</button>
           </div>
         ) : (
-          <form onSubmit={submitRequest} className="requestForm">
+          <form onSubmit={submitRequest} className="requestForm" noValidate>
             <input className="honeypot" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
 
             <fieldset aria-describedby={fieldErrors.vehicle ? "vehicle-error" : undefined}>
@@ -205,10 +211,11 @@ export default function Home() {
               <label>Комментарий<textarea name="description" rows={3} placeholder="Сторона, повреждение или любая полезная деталь" /></label>
             </fieldset>
 
-            <fieldset>
+            <fieldset aria-describedby={fieldErrors.contact ? "contact-error" : undefined}>
               <legend><span>03</span> Контакт</legend>
               <p className="fieldNote">Укажите удобный контакт, чтобы менеджер мог продолжить подбор.</p>
-              <label>Телефон / WhatsApp / Telegram<input name="contact" required placeholder="Как с вами связаться" /></label>
+              <label>Телефон / WhatsApp / Telegram<input name="contact" placeholder="Как с вами связаться" aria-invalid={fieldErrors.contact ? "true" : undefined} aria-describedby={fieldErrors.contact ? "contact-error" : undefined} /></label>
+              {fieldErrors.contact && <p className="fieldError" id="contact-error" role="alert">{fieldErrors.contact}</p>}
               <label>Имя <span>(необязательно)</span><input name="clientName" placeholder="Ваше имя" /></label>
             </fieldset>
 
