@@ -20,12 +20,5 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Diagnose TypeScript install
-        run: |
-          cat package.json
-          npm config get omit
-          npm ls typescript @types/node @types/react @types/react-dom || true
-          test -f node_modules/typescript/package.json
-
       - name: Build
         run: npm run build
