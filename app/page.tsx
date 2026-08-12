@@ -177,7 +177,7 @@ export default function Home() {
             <button className="secondary" onClick={() => setState("idle")}>Отправить ещё одну</button>
           </div>
         ) : (
-          <form onSubmit={submitRequest} className="requestForm" noValidate>
+          <form onSubmit={submitRequest} className="requestForm">
             <input className="honeypot" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
 
             <fieldset aria-describedby={fieldErrors.vehicle ? "vehicle-error" : undefined}>
