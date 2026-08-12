@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 
 const ENDPOINT = "https://ybjoayhahbifcrrrykln.supabase.co/functions/v1/create-landing-request";
+const MAX_PHOTO_BYTES = 8 * 1024 * 1024;
 
 type SubmitState = "idle" | "loading" | "success" | "error";
 
@@ -17,15 +18,59 @@ export default function Home() {
 
     const form = event.currentTarget;
     const values = new FormData(form);
-    const photo = values.get("photo");
-    const photoKeys = photo instanceof File && photo.size > 0 ? ["part-0-photo-0"] : [];
+    const text = (name: string) => String(values.get(name) ?? "").trim();
 
+    const vin = text("vin");
+    const carMake = text("carMake");
+    const carModel = text("carModel");
+    const carYear = text("carYear");
+    const partName = text("partName");
+    const partNumber = text("partNumber");
+    const description = text("description");
+    const photo = values.get("photo");
+    const hasPhoto = photo instanceof File && photo.size > 0;
+
+    if (!vin && !(carMake && carModel && carYear)) {
+      setState("error");
+      setMessage("Укажите VIN или марку, модель и год автомобиля");
+      return;
+    }
+
+    if (carYear) {
+      const year = Number(carYear);
+      if (!Number.isInteger(year) || year < 1950 || year > 2100) {
+        setState("error");
+        setMessage("Проверьте год автомобиля");
+        return;
+      }
+    }
+
+    if (!partName && !partNumber && !description && !hasPhoto) {
+      setState("error");
+      setMessage("Добавьте название, OEM/Part Number, описание или фото детали");
+      return;
+    }
+
+    if (hasPhoto && photo instanceof File) {
+      if (!photo.type.startsWith("image/")) {
+        setState("error");
+        setMessage("Можно загружать только изображения");
+        return;
+      }
+      if (photo.size > MAX_PHOTO_BYTES) {
+        setState("error");
+        setMessage("Фотография слишком большая. Максимум 8 МБ");
+        return;
+      }
+    }
+
+    const photoKeys = hasPhoto ? ["part-0-photo-0"] : [];
     const body = new FormData();
     for (const key of ["contact", "clientName", "vin", "carMake", "carModel", "carYear", "website"]) {
       const value = values.get(key);
       if (typeof value === "string") body.set(key, value);
     }
-    body.set("parts", JSON.stringify([{ partName: values.get("partName") || "", partNumber: values.get("partNumber") || "", description: values.get("description") || "", photoKeys }]));
+    body.set("parts", JSON.stringify([{ partName, partNumber, description, photoKeys }]));
     if (photoKeys.length && photo instanceof File) body.set(photoKeys[0], photo);
 
     setState("loading");
