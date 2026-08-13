@@ -26,7 +26,7 @@ jobs:
 
       - name: Submit one real Instagram-attributed production request
         env:
-          PROD_URL: https://auto-parts-landing-five.vercel.app/?utm_source=instagram&utm_medium=social&utm_campaign=bio
+          PROD_URL: https://auto-parts-landing-five.vercel.app/?utm_source=instagram&utm_medium=qa&utm_campaign=qa_smoke
         run: |
           node <<'NODE'
           const { chromium } = require('@playwright/test');
