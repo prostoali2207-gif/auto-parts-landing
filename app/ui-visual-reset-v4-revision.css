@@ -1,0 +1,126 @@
+/* Visual Reset V4 — narrow UI Guard revision for PR #16. Visual-only overrides. */
+
+/* Keep the commercial voice in the service sans. Mono remains reserved for real identifiers. */
+.hero > .heroCopy > .eyebrow,
+.compactProcessHead > .eyebrow,
+.requestIntro > .eyebrow {
+  font-family: var(--font-plex-sans), Arial, sans-serif;
+  letter-spacing: 0;
+  font-weight: 600;
+}
+
+/* Process: connect the section label and title more tightly before the three beats. */
+.compactProcessHead {
+  justify-content: flex-start;
+}
+
+@media (min-width: 760px) {
+  .compactProcessHead {
+    display: block;
+  }
+
+  .compactProcessHead .eyebrow {
+    margin-bottom: 8px;
+  }
+
+  /* Hero specimen: one compact, intentional identification cluster instead of scattered metadata. */
+  .identificationSpecimen {
+    min-height: 0;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+    padding: 8px 0 8px 42px;
+    margin-bottom: 0;
+    overflow: visible;
+  }
+
+  .serviceMark {
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    height: auto;
+  }
+
+  .specimenItem,
+  .specimenVin,
+  .specimenOem,
+  .specimenPhoto {
+    grid-column: auto;
+    grid-row: auto;
+    align-self: auto;
+    max-width: 230px;
+    margin: 0;
+  }
+
+  .specimenItem {
+    gap: 5px;
+  }
+
+  .specimenItem span {
+    font-size: 12px;
+  }
+
+  .specimenItem small {
+    max-width: 210px;
+  }
+
+  /* Request: the dark brand contrast is a finite service intro, not a full-height application shell. */
+  .requestSection {
+    max-width: none;
+    padding: 88px max(24px, calc((100vw - 1220px) / 2)) 104px;
+    background: var(--v4-paper);
+    color: var(--v4-ink);
+    grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);
+    gap: 72px;
+    align-items: start;
+  }
+
+  .requestIntro {
+    position: relative;
+    top: auto;
+    max-width: 410px;
+    padding: 48px 42px 52px;
+    background: var(--v4-ink);
+    color: #f5f1e9;
+  }
+
+  .requestIntro:before {
+    margin-bottom: 26px;
+  }
+
+  .requestIntro .eyebrow {
+    color: #c78d73;
+  }
+
+  .requestIntro h2 {
+    color: #f5f1e9;
+    font-size: clamp(48px, 4.6vw, 64px);
+  }
+
+  .requestForm,
+  .success {
+    width: 100%;
+    max-width: 820px;
+    padding-top: 8px;
+    background: transparent;
+  }
+
+  .requestForm {
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+
+  .success {
+    padding: 34px 0 0;
+  }
+}
+
+@media (min-width: 1100px) {
+  .requestSection {
+    grid-template-columns: minmax(350px, 0.72fr) minmax(0, 1.28fr);
+    gap: 88px;
+  }
+}
