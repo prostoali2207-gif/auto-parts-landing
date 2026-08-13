@@ -8,7 +8,7 @@ const MAX_PHOTO_BYTES = 8 * 1024 * 1024;
 type SubmitState = "idle" | "loading" | "success" | "error";
 type FieldErrors = Partial<Record<"vehicle" | "year" | "part" | "photo" | "contact", string>>;
 type FunnelEvent = "landing_view" | "request_start" | "request_submit" | "request_error";
-function attribution(){const p=new URLSearchParams(window.location.search);let r="";try{r=document.referrer?new URL(document.referrer).hostname:"")}catch{}return{source:p.get("utm_source")||undefined,medium:p.get("utm_medium")||undefined,campaign:p.get("utm_campaign")||undefined,referrerHost:r||undefined}}
+function attribution(){const p=new URLSearchParams(window.location.search);let r="";try{r=document.referrer?new URL(document.referrer).hostname:""}catch{}return{source:p.get("utm_source")||undefined,medium:p.get("utm_medium")||undefined,campaign:p.get("utm_campaign")||undefined,referrerHost:r||undefined}}
 export default function Home(){
  const[state,setState]=useState<SubmitState>("idle"),[message,setMessage]=useState(""),[fieldErrors,setFieldErrors]=useState<FieldErrors>({}),[requestNumber,setRequestNumber]=useState<number|null>(null);const sessionId=useRef(""),started=useRef(false);
  function track(eventName:FunnelEvent){if(!sessionId.current)return;void fetch(ANALYTICS_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},keepalive:true,body:JSON.stringify({eventName,sessionId:sessionId.current,...attribution()})}).catch(()=>undefined)}
