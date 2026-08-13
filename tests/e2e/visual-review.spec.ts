@@ -2,6 +2,9 @@ import { test, expect, type Page } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
 
 const outputDir = "artifacts/visual-review";
+const deployedUrl = process.env.PLAYWRIGHT_TEST_BASE_URL;
+
+test.skip(!deployedUrl, "Visual review runs only against a deployed URL.");
 
 async function openLanding(page: Page) {
   await page.goto("/", { waitUntil: "domcontentloaded" });
