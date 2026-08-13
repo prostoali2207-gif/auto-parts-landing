@@ -1,0 +1,49 @@
+name: PR Visual Review
+
+on:
+  push:
+    branches:
+      - frontend/ui-ux-rebuild-v2
+
+jobs:
+  visual-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Wait for Vercel preview
+        run: |
+          for i in {1..30}; do
+            if curl -fsS "$PLAYWRIGHT_TEST_BASE_URL" >/dev/null; then exit 0; fi
+            sleep 5
+          done
+          exit 1
+        env:
+          PLAYWRIGHT_TEST_BASE_URL: https://auto-parts-landing-git-fron-804889-prostoali2207-5636s-projects.vercel.app
+
+      - name: Capture V2 mobile and desktop
+        env:
+          PLAYWRIGHT_TEST_BASE_URL: https://auto-parts-landing-git-fron-804889-prostoali2207-5636s-projects.vercel.app
+        run: npx playwright test tests/e2e/visual-review.spec.ts --retries=0
+
+      - name: Upload V2 visual review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-review-v2
+          path: artifacts/visual-review/
+          if-no-files-found: error
+          retention-days: 14
