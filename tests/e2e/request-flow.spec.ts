@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
 const endpointPattern = "**/functions/v1/create-landing-request";
+const analyticsPattern = "**/functions/v1/track-landing-event";
 
 async function mockAcceptedRequest(page: Page, requestNumber = 999) {
   await page.route(endpointPattern, async (route) => {
@@ -19,6 +20,9 @@ async function mockAcceptedRequest(page: Page, requestNumber = 999) {
 }
 
 test.beforeEach(async ({ page }) => {
+  await page.route(analyticsPattern, async (route) => {
+    await route.fulfill({ status: 204, body: "" });
+  });
   await page.goto("/");
 });
 
@@ -69,7 +73,7 @@ test("VIN path reaches confirmed success without creating a real CRM record", as
   await page.getByRole("button", { name: "Отправить заявку" }).click();
 
   await expect(page.getByRole("status")).toContainText("Заявка №999");
-  await expect(page.getByRole("status")).toContainText("CRM Das Motors");
+  await expect(page.getByRole("status")).toContainText("Spline");
 });
 
 test("make model year fallback remains a valid vehicle path", async ({ page }) => {
