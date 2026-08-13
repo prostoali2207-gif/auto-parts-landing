@@ -42,18 +42,18 @@ All normal text/background combinations must meet WCAG 2.2 AA contrast: 4.5:1 fo
 
 ## Typography
 
-### Primary family — Geist Sans
-Use **Geist Sans** for:
+### Primary family — IBM Plex Sans
+Use **IBM Plex Sans** for:
 - hero and section headings;
 - body copy;
 - buttons;
 - form labels;
 - navigation.
 
-Reason: it is open-source, designed for clarity/functionality, supports a broad weight range, and gives the interface a precise contemporary character without forcing an automotive cliché.
+Reason: IBM Plex is open-source, designed to work well in UI environments, and IBM officially supports Cyrillic. That matters because the current landing is Russian-first and should not silently fall back to a different font for most customer-facing text.
 
-### Technical family — Geist Mono
-Use **Geist Mono** only for domain identifiers and machine-like metadata:
+### Technical family — IBM Plex Mono
+Use **IBM Plex Mono** only for domain identifiers and machine-like metadata:
 - `VIN`;
 - `OEM / PART NO.`;
 - request numbers;
@@ -66,28 +66,28 @@ Do not use Mono for paragraphs or all UI text.
 ## Type roles
 
 ### Display / Hero
-- Geist Sans 800–900
-- tight tracking around `-0.04em` to `-0.055em`
-- compact line-height around `0.92–0.98`
+- IBM Plex Sans 700
+- tight tracking around `-0.035em` to `-0.045em`
+- compact line-height around `0.94–1.0`
 - mobile hero should remain approximately 42–46px unless wrapping proves better at a smaller value.
 
 ### Section headings
-- Geist Sans 750–850
-- tracking around `-0.035em`
-- line-height about `0.95–1.05`
+- IBM Plex Sans 600–700
+- tracking around `-0.025em` to `-0.035em`
+- line-height about `0.98–1.08`
 
 ### Body
-- Geist Sans 400–500
+- IBM Plex Sans 400–500
 - 16–19px depending on role
 - line-height 1.45–1.6
 - no condensed treatment that reduces Russian readability.
 
 ### Controls / labels
-- Geist Sans 650–800
+- IBM Plex Sans 600–700
 - avoid artificial all-caps for Russian control text.
 
 ### Technical labels
-- Geist Mono 600–800
+- IBM Plex Mono 600–700
 - 10–12px
 - uppercase English identifiers where useful
 - tracking `0.08em–0.12em`.
@@ -104,13 +104,13 @@ Avoid:
 - all-caps paragraphs.
 
 ## Logo relationship
-The custom SVG wordmark remains its own asset. Do not recreate it with Geist or other text fonts.
+The custom SVG wordmark remains its own asset. Do not recreate it with IBM Plex or other text fonts.
 
 The surrounding UI type should be calmer than the logo, allowing the wordmark’s `SP` connection to remain the distinctive branded gesture.
 
 ## Implementation target
-Use `next/font/google` with `Geist` and `Geist_Mono` so Next.js handles font optimization. Expose CSS variables and use them throughout the current CSS rather than adding another styling framework.
+Use `next/font/google` with `IBM_Plex_Sans` and `IBM_Plex_Mono`, including Cyrillic and Latin subsets, so Next.js handles font optimization. Expose CSS variables and layer the brand typography/palette over the existing CSS rather than adding another styling framework.
 
 ## Sources
-- Vercel Geist: official font documentation — Geist is designed around simplicity, clarity, functionality and speed, and is available for Next.js integration.
+- IBM Plex official repository / IBM Design Language — Plex is open-source, designed for UI use, and supports Cyrillic in Sans and Mono.
 - W3C WCAG 2.2, Success Criterion 1.4.3 — 4.5:1 minimum contrast for normal text; 3:1 for large text.
