@@ -14,48 +14,52 @@ Current Brand Identity Agent rules remain valid. External industrial reference r
 Strengths: already readable, compact, path-based, monochrome, proven at 24/32/48 px.
 Weakness: the SP intervention can still feel like a cut applied to a heavy grotesk rather than a truly proprietary connection rule.
 
-## Challenger A — Interlock / keyed joint
-Asset: `public/brand-exploration/spline-round2-a-interlock.svg`
+## Gate 2 — construction and reduction check
+Before broadening exploration, the three challengers were checked against the actual 112–120 unit SVG height and the intended rendered sizes.
 
-Change: replace the simple SP slot with one asymmetric keyed negative-space joint. The geometry creates a male/female-style fit event without drawing a literal spline shaft.
+At 24 px height, one source-unit is about 0.21 px. At 16 px it is about 0.14 px. This makes tiny auxiliary details structurally unreliable and favors a single robust negative-space event.
 
-Expected advantage: strongest link to the name's mechanical meaning and strongest chance to become ownable.
-Main risk: if the keyed cut reads as damage or tuning-logo aggression at 24 px, kill it.
+### Challenger B — Indexed Precision
+Status: **KILL**.
 
-Current status: PRIMARY CHALLENGER.
+Reason: its 2-unit datum rule falls below half a pixel at 24 px and around 0.3 px at 16 px. The external datum therefore either disappears or becomes antialiasing noise. Without that datum, the remaining notch on the I is too generic to beat the current A1.1. It also violates the preference for one meaningful logo intervention over supporting decoration.
 
-## Challenger B — Indexed Precision
-Asset: `public/brand-exploration/spline-round2-b-indexed.svg`
+### Challenger C — Coupled S
+Status: **KILL**.
 
-Change: keep the word mostly quiet; place one precision notch on the I and a small datum/index cue below it.
+Reason: the intervention is inside the S rather than at an actual relationship between letterforms. It weakens the fit/mating concept and has a higher probability of reading as damage/glitch. It is less semantically precise than the existing SP relationship and does not justify replacing the control.
 
-Expected advantage: calm, technical and system-friendly; easy to extend into labels and part-identification graphics.
-Main risk: the logo itself may become less distinctive than the control and the datum may feel like decoration.
+### Challenger A — Interlock
+Status: **REFINE / ONLY SURVIVING CHALLENGER**.
 
-Current status: CONTROL-STYLE CHALLENGER.
+The first keyed joint was directionally correct but slightly too assertive. It has been reduced to **A2 — Restrained Interlock**:
 
-## Challenger C — Coupled S
-Asset: `public/brand-exploration/spline-round2-c-coupled-s.svg`
+`public/brand-exploration/spline-round2-a-interlock.svg`
 
-Change: move the connection event into the S itself and leave PLINE quiet.
+A2 keeps one asymmetric male/female-style event at the SP interface, but the cut is now closer in footprint to the proven A1.1 slot. The intention remains:
 
-Expected advantage: potentially creates a proprietary opening letter that can later yield a compact mark if a real application needs one.
-Main risk: highest chance of reading as glitch, chain/link, software mark or arbitrary cut.
+**read SPLINE first; discover the connection second.**
 
-Current status: HIGH-RISK CHALLENGER.
+## Current comparison
 
-## Gate 1 decision
-Do not replace production yet.
+| Criterion | A1.1 control | A2 restrained interlock |
+|---|---|---|
+| Immediate readability | Proven strong | Expected strong; final rendered check required |
+| Small-size robustness | Proven | Geometry sized for 24–32 px; final rendered check required |
+| Mechanical meaning | Moderate | Stronger: actual keyed/mating relationship |
+| Distinctiveness | Moderate–strong | Potentially stronger |
+| Generic-decoration risk | Low | Low–medium |
+| Conceptual precision | Good | Stronger |
+| Production risk | Low | Low–medium until rendered validation |
 
-Order for stress testing:
-1. A — Interlock keyed joint
-2. Existing A1.1 BALANCED control
-3. B — Indexed Precision
-4. C — Coupled S
+## Decision
+Round 2 is now a **two-way final**:
 
-A is the only candidate currently worth serious refinement before rendered testing. B is useful as a restraint/control direction. C should be killed quickly if the S loses effortless reading.
+1. current A1.1 BALANCED;
+2. A2 Restrained Interlock.
 
-## Required next test
-Render A / B / C / current control side-by-side at 48, 32, 24 and 16 px, black-on-white and reverse. Check SP separation, I survival, negative-space closure, visual noise and first-glance reading.
+B and C are no longer candidates. Do not spend more time polishing them.
 
-Only after that gate may any challenger replace `public/spline-wordmark.svg`.
+Production logo remains untouched until A2 wins a rendered side-by-side stress test at 48 / 32 / 24 / 16 px in black-on-white and reverse.
+
+If A2 is not clearly better, keep A1.1. A tie goes to the existing production mark.
