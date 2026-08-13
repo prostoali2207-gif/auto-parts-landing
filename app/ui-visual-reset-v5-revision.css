@@ -5,6 +5,8 @@
 .requestForm input,.requestForm textarea{min-width:0}
 .fileControl{grid-template-columns:auto minmax(0,1fr)}
 @media(min-width:760px){
+.requestSection{display:block;padding:0;max-width:none;grid-template-columns:none;gap:0;align-items:initial}
+.requestThreshold{width:100%}
 .processSequence{height:340px;display:block;overflow:hidden;border-bottom:1px solid #121212}
 .processSequence:before{left:5%;right:5%;top:55%;bottom:auto;width:auto;height:1px;background:#bdb6aa;transform:rotate(4deg);transform-origin:left center}
 .processStep{position:absolute;display:block;width:31%;padding:0;border:0;background:#f2eee6}
