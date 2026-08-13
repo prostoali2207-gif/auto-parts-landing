@@ -10,6 +10,7 @@ import "./ui-visual-refinement-v3.css";
 import "./ui-visual-reset-v4.css";
 import "./ui-visual-reset-v4-revision.css";
 import "./ui-visual-reset-v5-revision.css";
+import "./ui-visual-reset-v6.css";
 
 const plexSans = IBM_Plex_Sans({
   variable: "--font-plex-sans",
@@ -31,9 +32,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Spline — автозапчасти в ОАЭ",
   description: "Запросите автозапчасть в ОАЭ по VIN, данным автомобиля, фото или OEM / Part Number.",
-  alternates: {
-    canonical: "/",
-  },
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "/",
