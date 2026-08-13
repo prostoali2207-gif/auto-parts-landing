@@ -1,0 +1,49 @@
+name: Production Smoke
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  instagram-production-smoke:
+    if: contains(github.event.head_commit.message, '[prod-smoke]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Submit one real Instagram-attributed production request
+        env:
+          PROD_URL: https://auto-parts-landing-five.vercel.app/?utm_source=instagram&utm_medium=social&utm_campaign=bio
+        run: |
+          node <<'NODE'
+          const { chromium } = require('@playwright/test');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+            await page.goto(process.env.PROD_URL, { waitUntil: 'networkidle' });
+            await page.locator('input[name="vin"]').fill('SMOKETESTVIN000001');
+            await page.locator('input[name="partName"]').fill('QA TEST - DO NOT PROCESS');
+            await page.locator('input[name="contact"]').fill('qa-smoke-instagram');
+            await page.locator('input[name="clientName"]').fill('QA Instagram Smoke');
+            await page.getByRole('button', { name: 'Отправить заявку' }).click();
+            await page.getByText(/Заявка №|Заявка принята/).waitFor({ timeout: 20000 });
+            console.log(await page.locator('[role="status"]').innerText());
+            await browser.close();
+          })().catch((error) => {
+            console.error(error);
+            process.exit(1);
+          });
+          NODE
