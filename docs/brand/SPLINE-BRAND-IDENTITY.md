@@ -1,6 +1,6 @@
 # Spline — Brand Identity Spec
 
-Status: **canonical V1 brand identity specification**
+Status: **canonical V1 brand identity specification — FINAL**
 
 This document consolidates the approved Spline identity system. If another branding note conflicts with this file, this file is the canonical V1 reference.
 
@@ -33,16 +33,35 @@ Canonical asset:
 
 `public/spline-wordmark.svg`
 
-The primary identity is the custom uppercase `SPLINE` A1 Interlock Wordmark.
+**Approved construction:** `A1.1 BALANCED`.
+
+The primary identity is the custom uppercase `SPLINE` wordmark. The previous experimental A1 SVG is superseded and must not be reused.
 
 ### Signature idea
-The opening `SP` relationship carries the connection/fit idea.
+The opening `SP` relationship carries one restrained precision/connection intervention.
 
 Rule:
 
 **Read SPLINE first. Notice the connection second.**
 
 The logo must never sacrifice immediate readability to demonstrate the mechanical metaphor.
+
+### Production validation
+The approved A1.1 geometry has been checked at:
+- 48 px rendered height — PASS;
+- 32 px — PASS;
+- 24 px — PASS;
+- light background — PASS;
+- reverse/light mark on dark background — PASS.
+
+Production SVG is path-based and has no runtime font dependency.
+
+The production viewBox is optically tightened around the actual wordmark geometry to avoid false whitespace in layout.
+
+### Header sizing
+Current V1 mobile header implementation: approximately `103 × 24 px`.
+
+Preferred desktop rendered height: `28–30 px` where space allows.
 
 ### Logo color
 The logo is **monochrome only**.
@@ -59,6 +78,8 @@ Do not:
 - stretch or condense;
 - alter spacing;
 - redraw the SP connection in CSS;
+- recreate the logo with a live font;
+- use superseded experimental SVG geometry;
 - add shadow, bevel, chrome or 3D effects;
 - add a car silhouette, gear, shield, wing, speed line or badge;
 - place the wordmark inside a decorative emblem.
@@ -240,7 +261,7 @@ If credible photography does not exist, use typography and whitespace instead of
 
 ### Landing page
 Use:
-- full wordmark;
+- full A1.1 wordmark;
 - Paper/Ink foundation;
 - Signal orange sparingly;
 - IBM Plex Sans + Mono roles;
@@ -303,7 +324,7 @@ Any new Spline visual should pass these questions:
 1. Does it feel precise, practical and mechanical without an automotive cliché?
 2. Does it support fit / connection / identification or provide real evidence?
 3. Is the communication still simple?
-4. Is the logo geometry protected?
+4. Is the A1.1 logo geometry protected?
 5. Is Signal orange being used as a signal rather than decoration?
 6. Is typography following the Plex Sans / Mono role split?
 7. Would removing this visual element make the communication worse?
@@ -314,7 +335,7 @@ If the answer to #7 is no, remove it.
 
 The approved system is internally consistent:
 
-- logo: monochrome wordmark;
+- logo: A1.1 BALANCED monochrome wordmark;
 - accent: interface/graphic signal, not default logo color;
 - typography: IBM Plex Sans + Mono;
 - visual language: precision/connection, not racing;
@@ -325,12 +346,14 @@ No active contradiction remains between the approved logo, color, typography and
 
 ## 11. V1 identity status
 
-The core Spline brand identity system is now **complete for V1**.
+The core Spline brand identity system is **complete and frozen for V1**.
 
 Approved V1 deliverables:
 - brand name: Spline;
-- primary wordmark;
-- canonical SVG asset;
+- primary wordmark: A1.1 BALANCED;
+- canonical path-based SVG asset;
+- 24/32/48 px production validation;
+- light/reverse validation;
 - logo usage rules;
 - color system;
 - typography system;
