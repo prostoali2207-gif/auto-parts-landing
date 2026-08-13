@@ -5,6 +5,7 @@ import "./brand.css";
 import "./ui-polish.css";
 import "./ui-pass-3.css";
 import "./ui-pass-4.css";
+import "./ui-rebuild-v2.css";
 
 const plexSans = IBM_Plex_Sans({
   variable: "--font-plex-sans",
