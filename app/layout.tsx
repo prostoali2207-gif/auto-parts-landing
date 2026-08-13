@@ -1,5 +1,21 @@
 import type { Metadata } from "next";
+import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
+import "./brand.css";
+
+const plexSans = IBM_Plex_Sans({
+  variable: "--font-plex-sans",
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  subsets: ["latin", "cyrillic"],
+  weight: ["600", "700"],
+  display: "swap",
+});
 
 const SITE_URL = "https://auto-parts-landing-five.vercel.app";
 
@@ -27,7 +43,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ru">
+    <html lang="ru" className={`${plexSans.variable} ${plexMono.variable}`}>
       <body>{children}</body>
     </html>
   );
