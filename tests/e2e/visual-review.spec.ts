@@ -17,10 +17,22 @@ test.beforeAll(async () => {
   await mkdir(outputDir, { recursive: true });
 });
 
+test("capture full landing on narrow mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await openLanding(page);
+  await page.screenshot({ path: `${outputDir}/landing-mobile-360.png`, fullPage: true });
+});
+
 test("capture full landing on mobile", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await openLanding(page);
   await page.screenshot({ path: `${outputDir}/landing-mobile-390.png`, fullPage: true });
+});
+
+test("capture full landing at intermediate width", async ({ page }) => {
+  await page.setViewportSize({ width: 768, height: 960 });
+  await openLanding(page);
+  await page.screenshot({ path: `${outputDir}/landing-intermediate-768.png`, fullPage: true });
 });
 
 test("capture full landing on desktop", async ({ page }) => {
