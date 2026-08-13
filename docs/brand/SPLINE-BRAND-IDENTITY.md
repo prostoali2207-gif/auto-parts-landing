@@ -35,7 +35,7 @@ Canonical asset:
 
 **Approved construction:** `A1.1 BALANCED`.
 
-The primary identity is the custom uppercase `SPLINE` wordmark. The previous experimental A1 SVG is superseded and must not be reused.
+The primary identity is the custom uppercase `SPLINE` wordmark.
 
 ### Signature idea
 The opening `SP` relationship carries one restrained precision/connection intervention.
@@ -56,11 +56,8 @@ The approved A1.1 geometry has been checked at:
 
 Production SVG is path-based and has no runtime font dependency.
 
-The production viewBox is optically tightened around the actual wordmark geometry to avoid false whitespace in layout.
-
 ### Header sizing
 Current V1 mobile header implementation: approximately `103 × 24 px`.
-
 Preferred desktop rendered height: `28–30 px` where space allows.
 
 ### Logo color
@@ -79,7 +76,6 @@ Do not:
 - alter spacing;
 - redraw the SP connection in CSS;
 - recreate the logo with a live font;
-- use superseded experimental SVG geometry;
 - add shadow, bevel, chrome or 3D effects;
 - add a car silhouette, gear, shield, wing, speed line or badge;
 - place the wordmark inside a decorative emblem.
@@ -95,15 +91,28 @@ Preferred:
 
 ### Clear space
 Use the `I` stem width as base unit `x`.
-
 Minimum:
 - left/right: `2x`;
 - top/bottom: `1.5x`.
 
-### Standalone icon
-No standalone `S`, monogram or secondary emblem is approved in V1.
+### Compact use
+No separate monogram, badge or secondary symbol is approved in V1.
 
-A separate symbol may be designed later only if a real application proves the full wordmark unusable.
+For physically constrained applications only, reuse the opening `S` geometry directly from the approved wordmark.
+
+Approved compact use cases:
+- favicon / browser icon;
+- small circular Instagram / Telegram avatar;
+- very small square profile image;
+- tiny document/app stamp where the full wordmark becomes unreadable.
+
+The compact `S` is not a new logo architecture. It is a constrained derivative of the primary production wordmark.
+
+Do not:
+- invent an `SP` monogram;
+- add a notch or decorative cut to the `S`;
+- put it inside a shield, gear, hexagon or outlined badge;
+- alter its proportions independently of the primary wordmark.
 
 ## 3. Color system
 
@@ -120,17 +129,7 @@ A separate symbol may be designed later only if a real application proves the fu
 - `Spline Signal` — `#E85D24`
 - interactive hover working token — `#F06A32`
 
-### Signal orange role
-Use for:
-- primary CTA emphasis;
-- selected/active state;
-- focus/important request identifiers;
-- small indexing marks;
-- limited branded highlights.
-
-Do not use it as a page-wide decorative color.
-
-The identity must not become an orange/black tuning theme.
+Use Signal orange for primary action/state emphasis and small brand signals; never as page-wide decoration or a default orange/black automotive theme.
 
 ### Contrast
 Normal UI text/background combinations must meet WCAG 2.2 AA:
@@ -140,36 +139,18 @@ Normal UI text/background combinations must meet WCAG 2.2 AA:
 ## 4. Typography
 
 ### Primary family
-**IBM Plex Sans**
-
-Use for:
-- headings;
-- body copy;
-- buttons;
-- navigation;
-- form labels;
-- general UI.
-
-Reason: open-source, precise, highly legible and Cyrillic-safe for the Russian-first V1 landing.
+**IBM Plex Sans** — headings, body, buttons, navigation, form labels and general UI.
 
 ### Technical family
-**IBM Plex Mono**
-
-Use only for structured/domain identifiers such as:
-- VIN;
-- OEM / PART NO.;
-- request/reference numbers;
-- step numbers;
-- technical eyebrow labels;
-- ticket metadata.
+**IBM Plex Mono** — VIN, OEM/PART NO., request/reference numbers, step numbers and technical metadata only.
 
 Do not use Mono for normal paragraphs.
 
 ### Type hierarchy
 Hero/display:
 - IBM Plex Sans 700;
-- tight tracking about `-0.035em` to `-0.045em`;
-- compact line-height `0.94–1.0`.
+- tracking about `-0.035em` to `-0.045em`;
+- line-height `0.94–1.0`.
 
 Section headings:
 - weight 600–700;
@@ -177,7 +158,7 @@ Section headings:
 
 Body:
 - weight 400–500;
-- 16–19 px depending on role;
+- 16–19 px;
 - line-height 1.45–1.6.
 
 Technical labels:
@@ -194,8 +175,7 @@ The visual system is built around:
 
 **PRECISION / FIT / CONNECTION**
 
-### Approved supporting devices
-Use sparingly:
+Approved supporting devices, used sparingly:
 - short alignment/index ticks;
 - datum-like lines;
 - small numbered references;
@@ -206,26 +186,11 @@ Use sparingly:
 - hard rectangular crops;
 - asymmetric technical layouts.
 
-These devices should structure information or reinforce fit/identification.
-
-They must not become fake engineering decoration.
-
-### Connection motif
-Supporting graphics may imply:
-- two edges meeting precisely;
-- matching slots/notches;
-- aligned cuts;
-- complementary shapes.
-
-Do not repeat the SP logo geometry as wallpaper.
-
-The principle is connection, not pattern repetition.
+These devices must structure information or reinforce fit/identification. They must not become fake engineering decoration.
 
 ## 6. Photography
 
-Photography should provide evidence and authenticity.
-
-### Priority subjects
+Priority subjects:
 1. Real auto parts.
 2. OEM / part-number labels and real packaging where safe to show.
 3. Connectors, mounting points, teeth, housings, seals, machined surfaces and fasteners.
@@ -233,46 +198,19 @@ Photography should provide evidence and authenticity.
 5. Genuine shelves, boxes, receiving/sourcing context.
 6. Vehicle context only when useful for fitment/identification.
 
-### Composition
-Prefer:
-- tight or medium crops;
-- one clear subject;
-- visible texture/material;
-- controlled perspective;
-- hard crop edges;
-- negative space only when useful.
+Prefer believable color, neutral light, tight/medium crops and one clear subject.
 
-### Treatment
-Prefer believable color and neutral light.
-
-Avoid:
-- cinematic teal/orange grading;
-- HDR;
-- chrome glow;
-- fake metallic treatments;
-- generic supercars;
-- drifting/racing imagery;
-- staged mechanics posing;
-- AI-generated fake stock, warehouse or inventory presented as real.
-
-If credible photography does not exist, use typography and whitespace instead of filler stock.
+Avoid cinematic grading, HDR, chrome glow, generic supercars, racing/drifting imagery, staged mechanics and AI-generated fake inventory/facilities presented as real.
 
 ## 7. Brand applications
 
 ### Landing page
-Use:
-- full A1.1 wordmark;
-- Paper/Ink foundation;
-- Signal orange sparingly;
-- IBM Plex Sans + Mono roles;
-- technical rules/index marks only where useful;
-- real part photography where available.
-
-Branding must support the commercial flow, not force a redesign around decorative identity elements.
+Use full A1.1 wordmark, Paper/Ink foundation, Signal orange sparingly, IBM Plex Sans + Mono roles, useful technical rules/index marks and real part photography where available.
 
 ### Instagram / Telegram
 Preferred composition:
-- wordmark;
+- full wordmark where space allows;
+- compact approved `S` derivative only for the profile/avatar constraint;
 - one strong real image;
 - short headline;
 - optional small technical identifier;
@@ -281,22 +219,10 @@ Preferred composition:
 Avoid badge/sticker overload, gradients and tuning-poster aesthetics.
 
 ### Documents / quotes / request sheets
-Use conservatively:
-- wordmark top-left;
-- visible request/reference number;
-- monochrome-first information hierarchy;
-- orange only as a small status/reference signal.
+Use wordmark top-left, visible request/reference number, monochrome-first hierarchy and orange only as a small status/reference signal.
 
 ### Packaging / stickers
-Future only when required.
-
-Prioritize:
-- wordmark;
-- reference/OEM/request data;
-- one- or two-color reproduction;
-- durability and legibility.
-
-Do not build an extensive packaging system before the business needs it.
+Future only when required. Prioritize wordmark, reference/OEM/request data, one- or two-color reproduction, durability and legibility.
 
 ## 8. Explicit exclusions
 
@@ -320,7 +246,6 @@ Do not introduce without a new documented brand decision:
 ## 9. Identity consistency test
 
 Any new Spline visual should pass these questions:
-
 1. Does it feel precise, practical and mechanical without an automotive cliché?
 2. Does it support fit / connection / identification or provide real evidence?
 3. Is the communication still simple?
@@ -331,20 +256,7 @@ Any new Spline visual should pass these questions:
 
 If the answer to #7 is no, remove it.
 
-## 10. Contradiction audit
-
-The approved system is internally consistent:
-
-- logo: A1.1 BALANCED monochrome wordmark;
-- accent: interface/graphic signal, not default logo color;
-- typography: IBM Plex Sans + Mono;
-- visual language: precision/connection, not racing;
-- photography: real evidence over lifestyle imagery;
-- applications: restrained, information-led.
-
-No active contradiction remains between the approved logo, color, typography and visual-language documents.
-
-## 11. V1 identity status
+## 10. V1 identity status
 
 The core Spline brand identity system is **complete and frozen for V1**.
 
@@ -354,6 +266,7 @@ Approved V1 deliverables:
 - canonical path-based SVG asset;
 - 24/32/48 px production validation;
 - light/reverse validation;
+- constrained compact `S` derivative for tiny square/circular placements;
 - logo usage rules;
 - color system;
 - typography system;
@@ -365,7 +278,6 @@ Approved V1 deliverables:
 Future brand work should be application-driven, not another exploration round.
 
 Possible later tasks only when actually needed:
-- dedicated social avatar / compact symbol;
 - physical signage;
 - packaging/sticker system;
 - business cards;

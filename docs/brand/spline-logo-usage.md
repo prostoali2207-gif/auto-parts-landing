@@ -1,81 +1,58 @@
-# Spline — logo usage rules
+# Spline — Logo Usage
 
-Status: production usage contract for the approved A1 wordmark.
+Status: V1 usage rules.
 
 ## Primary logo
-Use `public/spline-wordmark.svg` as the canonical logo asset.
+Use `public/spline-wordmark.svg` as the default brand mark.
 
-The logo is a monochrome custom `SPLINE` wordmark. The `SP` connection is the only signature intervention. Do not add a separate icon, badge, gear, car silhouette, shield, speed line, or secondary emblem unless a later channel constraint proves it necessary.
+The full `SPLINE` wordmark is the primary identity and should be used whenever available space allows immediate reading.
 
-## Color behavior
-The SVG uses `currentColor` and a true transparent knockout in the `SP` connection.
+## Compact use
+No separate monogram, badge or secondary symbol is approved for V1.
 
-Approved behavior:
-- dark mark on light backgrounds;
-- light mark on dark backgrounds;
-- one-color reproduction only.
+For physically constrained applications only, reuse the opening `S` geometry from the approved primary wordmark.
 
-Do not bake a white rectangle into the `SP` gap. The gap must remain transparent so the background shows through.
+Approved constrained applications:
+- favicon / browser icon;
+- small circular Instagram / Telegram avatar;
+- very small square profile image;
+- tiny document/app stamp where the full wordmark becomes unreadable.
 
-## Minimum size
-Digital production minimum:
-- preferred header height: 24–30 px;
-- minimum approved rendered height: 24 px;
-- 16 px is stress-test territory only and should not be used as the normal wordmark size.
+The compact `S` is not a new standalone logo architecture. It is a direct crop/derivative of the primary production wordmark.
 
-If the logo must appear smaller than 24 px, do not invent a micro-logo automatically. First test whether the context can use plain text `Spline` or a larger placement.
+Do not:
+- invent an `SP` monogram;
+- add a notch or decorative cut to the `S`;
+- enclose it in a shield, gear, hexagon, circle outline or badge;
+- apply gradients, chrome, shadows or 3D effects;
+- change its proportions independently of the approved wordmark geometry.
+
+## Logo color
+The logo remains monochrome:
+- Spline Ink/dark mark on light backgrounds;
+- white/light mark on dark backgrounds.
+
+Signal orange may be used as a surrounding system/background accent where appropriate, but is not required for logo recognition.
+
+## Minimum wordmark size
+Digital minimum rendered wordmark height: 24 px.
+
+Preferred:
+- mobile header: ~24 px;
+- desktop header: ~28–30 px.
+
+If a constrained placement cannot support a readable 24 px wordmark, use the approved compact `S` derivative instead.
 
 ## Clear space
-Use the cap-height of the `I` stem width as the base unit `x`.
+Use the `I` stem width as base unit `x`.
 
-Minimum clear space around the wordmark:
-- left/right: at least `2x`;
-- top/bottom: at least `1.5x`.
+Minimum around the full wordmark:
+- left/right: `2x`;
+- top/bottom: `1.5x`.
 
-For headers, CTA buttons, menu icons, and container edges must not enter this clear-space zone.
+For compact `S` placements, preserve enough surrounding negative space that the letter silhouette is not visually fused with the container edge.
 
-## Backgrounds
-Approved:
-- solid light neutral background with dark logo;
-- solid dark/graphite background with light logo;
-- quiet photographic areas only when contrast remains strong and the wordmark is fully readable.
+## Principle
+Use the simplest identity asset that remains readable in context.
 
-Avoid:
-- busy part photography directly behind the logo;
-- gradients crossing through letter counters;
-- low-contrast mid-tone-on-mid-tone combinations;
-- placing the mark over visual texture that obscures the `SP` knockout.
-
-## Geometry protection
-Never:
-- stretch or condense the SVG;
-- alter individual letter widths;
-- change spacing between letters in CSS;
-- redraw the `SP` connection in CSS;
-- rotate, skew, outline, shadow, bevel, chrome, or add 3D effects;
-- recolor individual letters independently;
-- add a bounding badge around the wordmark.
-
-Always preserve the SVG aspect ratio.
-
-## Accessibility / implementation
-When the logo is inside a link, the link must have an accessible name such as `aria-label="Spline"`.
-
-If the SVG is decorative inside an already-labelled link, use an empty alt or hide the image from assistive technology rather than repeating the brand twice.
-
-## Current header implementation
-Target production use:
-- mobile: approximately 24 px rendered logo height;
-- desktop: approximately 28–30 px rendered logo height;
-- logo remains visually secondary to the primary `Find My Part` / request CTA.
-
-The brand must support conversion, not dominate the header.
-
-## Final acceptance gate
-Before approving any new placement, verify:
-1. `SPLINE` reads immediately;
-2. the `SP` gap remains visibly open;
-3. contrast is strong;
-4. aspect ratio is untouched;
-5. no other element crowds the clear space;
-6. the mark still looks like a serious automotive-parts brand rather than tuning, gaming, or software branding.
+Do not create additional marks merely to increase the number of brand deliverables.
