@@ -1,9 +1,9 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
 
 const outputDir = "artifacts/visual-review";
 
-async function openLanding(page: Parameters<Parameters<typeof test>[1]>[0]["page"]) {
+async function openLanding(page: Page) {
   await page.goto("/", { waitUntil: "domcontentloaded" });
   await expect(page.locator("main")).toBeVisible();
   await expect(page.locator("#request")).toBeAttached();
