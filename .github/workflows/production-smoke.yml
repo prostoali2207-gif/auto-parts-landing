@@ -33,7 +33,8 @@ jobs:
           (async () => {
             const browser = await chromium.launch({ headless: true });
             const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-            await page.goto(process.env.PROD_URL, { waitUntil: 'networkidle' });
+            await page.goto(process.env.PROD_URL, { waitUntil: 'domcontentloaded', timeout: 30000 });
+            await page.locator('input[name="vin"]').waitFor({ timeout: 15000 });
             await page.locator('input[name="vin"]').fill('SMOKETESTVIN000001');
             await page.locator('input[name="partName"]').fill('QA TEST - DO NOT PROCESS');
             await page.locator('input[name="contact"]').fill('qa-smoke-instagram');
