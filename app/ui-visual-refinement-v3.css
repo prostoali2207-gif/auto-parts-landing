@@ -1,0 +1,396 @@
+/* Visual Refinement V3 — Precision Editorial Automotive
+   Visual-only override. Preserve V2 structure, request logic, analytics and CRM flow. */
+
+/* Global rhythm: fewer simultaneous hard treatments, more hierarchy from type + space. */
+.topbar{
+  border-bottom-width:1px;
+}
+
+.topCta{
+  box-shadow:2px 2px 0 var(--ui-ink);
+}
+.topCta:hover{
+  box-shadow:3px 3px 0 var(--ui-ink);
+}
+
+.hero{
+  padding-top:84px;
+  padding-bottom:68px;
+  align-items:center;
+}
+.heroCopy{
+  padding-top:0;
+}
+.hero .eyebrow{
+  margin-bottom:24px;
+}
+.hero .eyebrow:before{
+  width:18px;
+  height:2px;
+}
+.hero h1{
+  max-width:760px;
+  font-size:clamp(54px,6.8vw,84px);
+  line-height:.91;
+  letter-spacing:-.052em;
+}
+.lead{
+  max-width:600px;
+  margin-top:30px;
+  font-size:18px;
+  line-height:1.58;
+}
+.heroActions{
+  margin-top:34px;
+  gap:14px 20px;
+}
+.heroActions .primary{
+  min-width:216px;
+  box-shadow:3px 3px 0 var(--ui-ink);
+}
+.heroActions .primary:hover{
+  box-shadow:4px 4px 0 var(--ui-ink);
+}
+.micro{
+  max-width:230px;
+  line-height:1.5;
+}
+
+/* Ticket: retain one strong outer boundary; quiet everything inside it. */
+.sourcingTicket{
+  max-width:352px;
+  margin-top:0;
+  border-width:1px;
+  background:#ebe6dc;
+  box-shadow:4px 4px 0 rgba(20,20,18,.9);
+}
+.sourcingTicket:before{
+  width:3px;
+}
+.ticketHead{
+  padding:12px 15px 12px 18px;
+  font-size:10px;
+  letter-spacing:.1em;
+}
+.ticketHead span:last-child{
+  color:#d8d0c3;
+}
+.ticketRow{
+  gap:5px;
+  padding:17px 15px 17px 18px;
+  border-bottom-color:#c2baad;
+}
+.ticketCode{
+  font-size:10px;
+  letter-spacing:.1em;
+  color:#777168;
+}
+.ticketRow strong{
+  font-size:18px;
+  line-height:1.18;
+}
+.ticketRow small{
+  max-width:260px;
+  font-size:12px;
+  line-height:1.45;
+  color:#666158;
+}
+
+/* Process: transition rail, not another focal panel. */
+.process{
+  padding-top:36px;
+  padding-bottom:38px;
+  border-top:1px solid var(--ui-line);
+}
+.compactProcessHead{
+  align-items:baseline;
+}
+.compactProcessHead .eyebrow{
+  color:#777168;
+}
+.process .compactProcessHead h2{
+  font-size:clamp(28px,3.1vw,38px);
+  letter-spacing:-.035em;
+}
+.compactProcessRail{
+  margin-top:20px;
+  border-top:1px solid #8f887d;
+  border-bottom-color:#d0c8bb;
+}
+.compactProcessRail article{
+  padding-top:18px;
+  padding-bottom:18px;
+  border-right-color:#d0c8bb;
+}
+.compactProcessRail article span{
+  color:#b74a1f;
+  font-size:10px;
+  letter-spacing:.1em;
+}
+.compactProcessRail h3{
+  font-size:19px;
+  font-weight:700;
+}
+.compactProcessRail p{
+  color:#69645c;
+  font-size:13px;
+}
+
+/* Request: dark transition stays strong; form surface becomes calmer. */
+.requestSection{
+  padding-top:64px;
+  padding-bottom:76px;
+  border-top-width:3px;
+  gap:48px;
+}
+.requestIntro{
+  max-width:260px;
+}
+.requestIntro .eyebrow{
+  margin-bottom:16px;
+  color:#d79a7d;
+}
+.requestIntro h2{
+  max-width:250px;
+  font-size:clamp(40px,4.6vw,52px);
+  line-height:.98;
+}
+
+.requestForm{
+  max-width:860px;
+  padding:8px 30px 30px;
+  border:1px solid #2c2b27;
+  background:#f1ede4;
+  box-shadow:5px 5px 0 #0d0d0c;
+}
+.requestForm fieldset{
+  gap:16px;
+  padding:29px 0 30px;
+  border-top-color:#cec6b9;
+}
+.requestForm legend{
+  font-size:19px;
+}
+.requestForm legend span{
+  color:#b84a1f;
+}
+.fieldNote{
+  color:#726d65;
+  line-height:1.55;
+}
+.requestForm label{
+  font-weight:650;
+}
+.requestForm input,
+.requestForm textarea{
+  min-height:50px;
+  border-color:#aaa296;
+  background:#faf8f3;
+  box-shadow:none;
+}
+.requestForm input:hover,
+.requestForm textarea:hover{
+  border-color:#7e776d;
+}
+.requestForm input:focus,
+.requestForm textarea:focus{
+  border-color:var(--ui-ink);
+  outline:2px solid rgba(232,93,36,.2);
+  outline-offset:1px;
+}
+.requestForm input[type=file]{
+  border-style:solid;
+  border-color:#aaa296;
+  background:#e9e4da;
+}
+.requestForm input[type=file]::file-selector-button{
+  border:0;
+  border-right:1px solid #aaa296;
+  background:#ded8cd;
+  color:var(--ui-ink);
+}
+.requestForm input[type=file]::file-selector-button:hover{
+  background:#d3ccbf;
+}
+.or{
+  color:#8b857c;
+}
+.or:before,.or:after{
+  background:#d6cec1;
+}
+.or span{
+  background:#f1ede4;
+}
+.requestForm .submit{
+  min-height:58px;
+  margin-top:4px;
+  border-width:1px;
+  box-shadow:3px 3px 0 var(--ui-ink);
+}
+.requestForm .submit:hover{
+  box-shadow:4px 4px 0 var(--ui-ink);
+}
+.success{
+  border-width:1px;
+  box-shadow:5px 5px 0 #0d0d0c;
+}
+
+@media(min-width:760px){
+  .hero{
+    grid-template-columns:minmax(0,1.5fr) minmax(300px,.5fr);
+    gap:92px;
+  }
+  .sourcingTicket{
+    justify-self:end;
+    width:100%;
+  }
+  .requestSection{
+    grid-template-columns:minmax(210px,.46fr) minmax(0,1.54fr);
+    gap:56px;
+  }
+}
+
+@media(max-width:759px){
+  .hero{
+    padding-top:52px;
+    padding-bottom:42px;
+    gap:32px;
+  }
+  .hero .eyebrow{
+    margin-bottom:17px;
+  }
+  .hero h1{
+    font-size:44px;
+    line-height:.93;
+  }
+  .lead{
+    margin-top:21px;
+    font-size:16px;
+    line-height:1.52;
+  }
+  .heroActions{
+    margin-top:24px;
+  }
+  .sourcingTicket{
+    max-width:none;
+    box-shadow:3px 3px 0 var(--ui-ink);
+  }
+
+  .process{
+    padding-top:28px;
+    padding-bottom:30px;
+  }
+  .compactProcessRail{
+    margin-top:15px;
+  }
+  .compactProcessRail article,
+  .compactProcessRail article+article{
+    padding-top:12px;
+    padding-bottom:12px;
+    border-bottom-color:#d0c8bb;
+  }
+
+  .requestSection{
+    padding-top:38px;
+    padding-bottom:60px;
+    gap:20px;
+    border-top-width:2px;
+  }
+  .requestIntro{
+    max-width:none;
+  }
+  .requestIntro .eyebrow{
+    margin-bottom:9px;
+  }
+  .requestIntro h2{
+    max-width:none;
+  }
+  .requestForm{
+    padding:3px 17px 23px;
+    border-color:#34322d;
+    box-shadow:3px 3px 0 #0d0d0c;
+  }
+  .requestForm fieldset{
+    padding:22px 0 23px;
+    gap:14px;
+  }
+}
+
+@media(max-width:520px){
+  .topCta{
+    box-shadow:1px 1px 0 var(--ui-ink);
+  }
+  .hero{
+    padding:40px 18px 38px;
+    gap:28px;
+  }
+  .hero h1{
+    font-size:42px;
+    letter-spacing:-.048em;
+  }
+  .heroActions .primary{
+    min-height:52px;
+    box-shadow:2px 2px 0 var(--ui-ink);
+  }
+  .ticketHead{
+    padding:10px 13px 10px 16px;
+  }
+  .ticketRow{
+    padding:14px 13px 14px 16px;
+  }
+  .ticketRow strong{
+    font-size:17px;
+  }
+  .ticketRow small{
+    font-size:11.5px;
+  }
+
+  .process{
+    padding:25px 18px 27px;
+  }
+  .process .compactProcessHead h2{
+    font-size:27px;
+  }
+  .compactProcessRail article,
+  .compactProcessRail article+article{
+    grid-template-columns:88px minmax(0,1fr);
+    gap:4px 9px;
+    padding:11px 0;
+  }
+  .compactProcessRail h3{
+    font-size:15px;
+  }
+  .compactProcessRail p{
+    font-size:12px;
+  }
+
+  .requestSection{
+    padding-top:36px;
+  }
+  .requestSection h2{
+    font-size:35px;
+  }
+  .requestForm{
+    padding-inline:14px;
+  }
+  .requestForm label{
+    font-size:13px;
+  }
+  .requestForm input,
+  .requestForm textarea{
+    font-size:16px;
+    padding:13px;
+  }
+  .requestForm .submit{
+    min-height:54px;
+    box-shadow:2px 2px 0 var(--ui-ink);
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .topCta:hover,
+  .heroActions .primary:hover,
+  .requestForm .submit:hover{
+    transform:none;
+  }
+}
