@@ -1,396 +1,275 @@
-/* Visual Refinement V3 — Precision Editorial Automotive
+/* Visual Refinement V3 — revision after UI Guard review.
    Visual-only override. Preserve V2 structure, request logic, analytics and CRM flow. */
 
-/* Global rhythm: fewer simultaneous hard treatments, more hierarchy from type + space. */
-.topbar{
-  border-bottom-width:1px;
-}
+.topbar{border-bottom-width:1px}
+.topCta{box-shadow:2px 2px 0 var(--ui-ink)}
+.topCta:hover{box-shadow:3px 3px 0 var(--ui-ink)}
 
-.topCta{
-  box-shadow:2px 2px 0 var(--ui-ink);
-}
-.topCta:hover{
-  box-shadow:3px 3px 0 var(--ui-ink);
-}
-
+/* Hero: headline, CTA and sourcing artifact read as one asymmetric scene. */
 .hero{
-  padding-top:84px;
-  padding-bottom:68px;
+  padding-top:92px;
+  padding-bottom:76px;
   align-items:center;
 }
-.heroCopy{
-  padding-top:0;
-}
-.hero .eyebrow{
-  margin-bottom:24px;
-}
-.hero .eyebrow:before{
-  width:18px;
-  height:2px;
-}
+.heroCopy{padding-top:0;position:relative;z-index:1}
+.hero .eyebrow{margin-bottom:24px}
+.hero .eyebrow:before{width:18px;height:2px}
 .hero h1{
-  max-width:760px;
-  font-size:clamp(54px,6.8vw,84px);
-  line-height:.91;
-  letter-spacing:-.052em;
+  max-width:790px;
+  font-size:clamp(58px,7vw,88px);
+  line-height:.9;
+  letter-spacing:-.055em;
 }
 .lead{
-  max-width:600px;
-  margin-top:30px;
+  max-width:590px;
+  margin-top:31px;
   font-size:18px;
   line-height:1.58;
 }
-.heroActions{
-  margin-top:34px;
-  gap:14px 20px;
-}
-.heroActions .primary{
-  min-width:216px;
-  box-shadow:3px 3px 0 var(--ui-ink);
-}
-.heroActions .primary:hover{
-  box-shadow:4px 4px 0 var(--ui-ink);
-}
-.micro{
-  max-width:230px;
-  line-height:1.5;
-}
+.heroActions{margin-top:35px;gap:14px 20px}
+.heroActions .primary{min-width:216px;box-shadow:3px 3px 0 var(--ui-ink)}
+.heroActions .primary:hover{box-shadow:4px 4px 0 var(--ui-ink)}
+.micro{max-width:230px;line-height:1.5}
 
-/* Ticket: retain one strong outer boundary; quiet everything inside it. */
 .sourcingTicket{
-  max-width:352px;
-  margin-top:0;
+  max-width:318px;
+  margin-top:34px;
   border-width:1px;
-  background:#ebe6dc;
-  box-shadow:4px 4px 0 rgba(20,20,18,.9);
+  background:#ece7dd;
+  box-shadow:3px 3px 0 rgba(20,20,18,.88);
 }
-.sourcingTicket:before{
-  width:3px;
-}
-.ticketHead{
-  padding:12px 15px 12px 18px;
-  font-size:10px;
-  letter-spacing:.1em;
-}
-.ticketHead span:last-child{
-  color:#d8d0c3;
-}
+.sourcingTicket:before{width:2px}
+.ticketHead{padding:11px 14px 11px 17px;font-size:9px;letter-spacing:.1em}
+.ticketHead span:last-child{color:#d8d0c3}
 .ticketRow{
-  gap:5px;
-  padding:17px 15px 17px 18px;
-  border-bottom-color:#c2baad;
+  gap:4px;
+  padding:15px 14px 15px 17px;
+  border-bottom-color:#c7c0b4;
 }
-.ticketCode{
-  font-size:10px;
-  letter-spacing:.1em;
-  color:#777168;
-}
-.ticketRow strong{
-  font-size:18px;
-  line-height:1.18;
-}
-.ticketRow small{
-  max-width:260px;
-  font-size:12px;
-  line-height:1.45;
-  color:#666158;
-}
+.ticketCode{font-size:9px;letter-spacing:.09em;color:#7d776e}
+.ticketRow strong{font-size:17px;line-height:1.18}
+.ticketRow small{max-width:250px;font-size:11.5px;line-height:1.42;color:#6a655d}
 
-/* Process: transition rail, not another focal panel. */
+/* Process: a short progression rail, deliberately subordinate to hero and request. */
 .process{
-  padding-top:36px;
-  padding-bottom:38px;
+  padding-top:30px;
+  padding-bottom:31px;
   border-top:1px solid var(--ui-line);
 }
-.compactProcessHead{
-  align-items:baseline;
-}
-.compactProcessHead .eyebrow{
-  color:#777168;
-}
-.process .compactProcessHead h2{
-  font-size:clamp(28px,3.1vw,38px);
-  letter-spacing:-.035em;
-}
+.compactProcessHead{align-items:baseline}
+.compactProcessHead .eyebrow{color:#817b72}
+.process .compactProcessHead h2{font-size:clamp(27px,2.8vw,35px);letter-spacing:-.035em}
 .compactProcessRail{
-  margin-top:20px;
-  border-top:1px solid #8f887d;
-  border-bottom-color:#d0c8bb;
+  grid-template-columns:.82fr 1.08fr 1.1fr;
+  margin-top:16px;
+  border-top:1px solid #9a9388;
+  border-bottom-color:#d4cdc1;
 }
 .compactProcessRail article{
-  padding-top:18px;
-  padding-bottom:18px;
-  border-right-color:#d0c8bb;
+  padding-top:15px;
+  padding-bottom:14px;
+  padding-right:34px;
+  border-right:0;
+  gap:5px;
 }
-.compactProcessRail article span{
-  color:#b74a1f;
-  font-size:10px;
-  letter-spacing:.1em;
+.compactProcessRail article+article{
+  padding-left:30px;
+  border-left:1px solid #d7d0c4;
 }
-.compactProcessRail h3{
-  font-size:19px;
-  font-weight:700;
-}
-.compactProcessRail p{
-  color:#69645c;
-  font-size:13px;
-}
+.compactProcessRail article:nth-child(2){padding-top:19px}
+.compactProcessRail article:nth-child(3){padding-top:23px}
+.compactProcessRail article span{color:#b74a1f;font-size:9px;letter-spacing:.09em}
+.compactProcessRail h3{font-size:18px;font-weight:700}
+.compactProcessRail p{color:#706a62;font-size:12.5px;line-height:1.42}
 
-/* Request: dark transition stays strong; form surface becomes calmer. */
+/* Request: intro participates in the dark composition; form remains the product surface. */
 .requestSection{
-  padding-top:64px;
-  padding-bottom:76px;
+  padding-top:72px;
+  padding-bottom:84px;
   border-top-width:3px;
-  gap:48px;
+  gap:64px;
+  align-items:start;
 }
 .requestIntro{
-  max-width:260px;
+  max-width:390px;
+  padding-top:42px;
 }
-.requestIntro .eyebrow{
-  margin-bottom:16px;
-  color:#d79a7d;
-}
+.requestIntro .eyebrow{margin-bottom:20px;color:#d79a7d}
 .requestIntro h2{
-  max-width:250px;
-  font-size:clamp(40px,4.6vw,52px);
-  line-height:.98;
+  max-width:360px;
+  font-size:clamp(48px,5.1vw,66px);
+  line-height:.92;
+  letter-spacing:-.045em;
 }
 
 .requestForm{
-  max-width:860px;
-  padding:8px 30px 30px;
-  border:1px solid #2c2b27;
-  background:#f1ede4;
-  box-shadow:5px 5px 0 #0d0d0c;
+  max-width:820px;
+  padding:10px 34px 34px;
+  border:1px solid #302e29;
+  background:#f2eee6;
+  box-shadow:4px 4px 0 #0d0d0c;
 }
 .requestForm fieldset{
-  gap:16px;
-  padding:29px 0 30px;
-  border-top-color:#cec6b9;
+  gap:15px;
+  padding:34px 0 36px;
+  border-top-color:#d4cdc2;
 }
+.requestForm fieldset+fieldset{padding-top:38px}
 .requestForm legend{
-  font-size:19px;
+  padding-right:18px;
+  font-size:20px;
+  letter-spacing:-.015em;
 }
-.requestForm legend span{
-  color:#b84a1f;
-}
+.requestForm legend span{color:#b84a1f;font-size:.72em;letter-spacing:.05em}
 .fieldNote{
-  color:#726d65;
-  line-height:1.55;
+  max-width:590px;
+  margin-top:-4px;
+  color:#777168;
+  line-height:1.52;
 }
-.requestForm label{
-  font-weight:650;
-}
-.requestForm input,
-.requestForm textarea{
+.requestForm label{font-weight:650;color:#26241f}
+.requestForm label>span{color:#777168;font-weight:500}
+.requestForm input,.requestForm textarea{
   min-height:50px;
-  border-color:#aaa296;
-  background:#faf8f3;
+  border-color:#b5aea3;
+  background:#fbf9f5;
   box-shadow:none;
 }
-.requestForm input:hover,
-.requestForm textarea:hover{
-  border-color:#7e776d;
-}
-.requestForm input:focus,
-.requestForm textarea:focus{
+.requestForm input:hover,.requestForm textarea:hover{border-color:#898278}
+.requestForm input:focus,.requestForm textarea:focus{
   border-color:var(--ui-ink);
   outline:2px solid rgba(232,93,36,.2);
   outline-offset:1px;
 }
-.requestForm input[type=file]{
-  border-style:solid;
-  border-color:#aaa296;
-  background:#e9e4da;
-}
+.requestForm input[type=file]{border-style:solid;border-color:#b5aea3;background:#ebe6dd}
 .requestForm input[type=file]::file-selector-button{
   border:0;
-  border-right:1px solid #aaa296;
-  background:#ded8cd;
+  border-right:1px solid #b5aea3;
+  background:#e0dbd1;
   color:var(--ui-ink);
 }
-.requestForm input[type=file]::file-selector-button:hover{
-  background:#d3ccbf;
-}
-.or{
-  color:#8b857c;
-}
-.or:before,.or:after{
-  background:#d6cec1;
-}
-.or span{
-  background:#f1ede4;
-}
+.requestForm input[type=file]::file-selector-button:hover{background:#d5cec3}
+.or{color:#938d84}
+.or:before,.or:after{background:#ddd6ca}
+.or span{background:#f2eee6}
 .requestForm .submit{
-  min-height:58px;
-  margin-top:4px;
+  min-height:60px;
+  margin-top:7px;
   border-width:1px;
   box-shadow:3px 3px 0 var(--ui-ink);
 }
-.requestForm .submit:hover{
-  box-shadow:4px 4px 0 var(--ui-ink);
-}
-.success{
-  border-width:1px;
-  box-shadow:5px 5px 0 #0d0d0c;
-}
+.requestForm .submit:hover{box-shadow:4px 4px 0 var(--ui-ink)}
+.success{border-width:1px;box-shadow:4px 4px 0 #0d0d0c}
 
 @media(min-width:760px){
   .hero{
-    grid-template-columns:minmax(0,1.5fr) minmax(300px,.5fr);
-    gap:92px;
+    grid-template-columns:minmax(0,1.72fr) minmax(270px,.48fr);
+    gap:34px;
   }
   .sourcingTicket{
-    justify-self:end;
+    justify-self:start;
     width:100%;
+    transform:translate(-24px,24px);
   }
   .requestSection{
-    grid-template-columns:minmax(210px,.46fr) minmax(0,1.54fr);
-    gap:56px;
+    grid-template-columns:minmax(330px,.72fr) minmax(0,1.28fr);
+    gap:64px;
   }
+  .requestIntro{
+    position:sticky;
+    top:96px;
+  }
+}
+
+@media(min-width:1100px){
+  .hero{gap:18px}
+  .sourcingTicket{transform:translate(-46px,30px)}
+  .requestSection{grid-template-columns:minmax(360px,.78fr) minmax(0,1.22fr);gap:78px}
 }
 
 @media(max-width:759px){
   .hero{
     padding-top:52px;
-    padding-bottom:42px;
-    gap:32px;
+    padding-bottom:46px;
+    gap:38px;
   }
-  .hero .eyebrow{
-    margin-bottom:17px;
-  }
-  .hero h1{
-    font-size:44px;
-    line-height:.93;
-  }
-  .lead{
-    margin-top:21px;
-    font-size:16px;
-    line-height:1.52;
-  }
-  .heroActions{
-    margin-top:24px;
-  }
+  .hero .eyebrow{margin-bottom:17px}
+  .hero h1{font-size:44px;line-height:.93}
+  .lead{margin-top:21px;font-size:16px;line-height:1.52}
+  .heroActions{margin-top:24px}
   .sourcingTicket{
     max-width:none;
-    box-shadow:3px 3px 0 var(--ui-ink);
+    margin-top:2px;
+    box-shadow:2px 2px 0 var(--ui-ink);
   }
+  .ticketHead{font-size:8.5px}
+  .ticketCode{font-size:8.5px;color:#89837a}
 
   .process{
-    padding-top:28px;
-    padding-bottom:30px;
+    padding-top:24px;
+    padding-bottom:27px;
   }
-  .compactProcessRail{
-    margin-top:15px;
-  }
+  .compactProcessHead .eyebrow{margin-bottom:7px;opacity:.72}
+  .compactProcessRail{margin-top:13px;border-top-color:#aaa398}
   .compactProcessRail article,
   .compactProcessRail article+article{
-    padding-top:12px;
-    padding-bottom:12px;
-    border-bottom-color:#d0c8bb;
+    padding-top:10px;
+    padding-bottom:10px;
+    border-left:0;
+    border-bottom-color:#d7d0c4;
   }
+  .compactProcessRail article:nth-child(2),
+  .compactProcessRail article:nth-child(3){padding-top:10px}
 
   .requestSection{
-    padding-top:38px;
-    padding-bottom:60px;
-    gap:20px;
+    padding-top:42px;
+    padding-bottom:62px;
+    gap:24px;
     border-top-width:2px;
   }
-  .requestIntro{
-    max-width:none;
-  }
-  .requestIntro .eyebrow{
-    margin-bottom:9px;
-  }
-  .requestIntro h2{
-    max-width:none;
-  }
+  .requestIntro{max-width:none;padding-top:0}
+  .requestIntro .eyebrow{margin-bottom:9px;opacity:.8}
+  .requestIntro h2{max-width:none}
   .requestForm{
-    padding:3px 17px 23px;
-    border-color:#34322d;
+    padding:5px 18px 25px;
+    border-color:#393630;
     box-shadow:3px 3px 0 #0d0d0c;
   }
-  .requestForm fieldset{
-    padding:22px 0 23px;
-    gap:14px;
-  }
+  .requestForm fieldset{padding:24px 0 27px;gap:14px}
+  .requestForm fieldset+fieldset{padding-top:29px}
 }
 
 @media(max-width:520px){
-  .topCta{
-    box-shadow:1px 1px 0 var(--ui-ink);
-  }
-  .hero{
-    padding:40px 18px 38px;
-    gap:28px;
-  }
-  .hero h1{
-    font-size:42px;
-    letter-spacing:-.048em;
-  }
-  .heroActions .primary{
-    min-height:52px;
-    box-shadow:2px 2px 0 var(--ui-ink);
-  }
-  .ticketHead{
-    padding:10px 13px 10px 16px;
-  }
-  .ticketRow{
-    padding:14px 13px 14px 16px;
-  }
-  .ticketRow strong{
-    font-size:17px;
-  }
-  .ticketRow small{
-    font-size:11.5px;
-  }
+  .topCta{box-shadow:1px 1px 0 var(--ui-ink)}
+  .hero{padding:40px 18px 42px;gap:34px}
+  .hero h1{font-size:42px;letter-spacing:-.048em}
+  .heroActions .primary{min-height:52px;box-shadow:2px 2px 0 var(--ui-ink)}
+  .ticketHead{padding:9px 13px 9px 16px}
+  .ticketRow{padding:13px 13px 13px 16px}
+  .ticketRow strong{font-size:16px}
+  .ticketRow small{font-size:11px}
 
-  .process{
-    padding:25px 18px 27px;
-  }
-  .process .compactProcessHead h2{
-    font-size:27px;
-  }
+  .process{padding:23px 18px 25px}
+  .process .compactProcessHead h2{font-size:26px}
   .compactProcessRail article,
   .compactProcessRail article+article{
-    grid-template-columns:88px minmax(0,1fr);
-    gap:4px 9px;
-    padding:11px 0;
+    grid-template-columns:76px minmax(0,1fr);
+    gap:3px 10px;
+    padding:9px 0;
   }
-  .compactProcessRail h3{
-    font-size:15px;
-  }
-  .compactProcessRail p{
-    font-size:12px;
-  }
+  .compactProcessRail article span{opacity:.72}
+  .compactProcessRail h3{font-size:15px}
+  .compactProcessRail p{font-size:11.5px;color:#777168}
 
-  .requestSection{
-    padding-top:36px;
-  }
-  .requestSection h2{
-    font-size:35px;
-  }
-  .requestForm{
-    padding-inline:14px;
-  }
-  .requestForm label{
-    font-size:13px;
-  }
-  .requestForm input,
-  .requestForm textarea{
-    font-size:16px;
-    padding:13px;
-  }
-  .requestForm .submit{
-    min-height:54px;
-    box-shadow:2px 2px 0 var(--ui-ink);
-  }
+  .requestSection{padding-top:38px}
+  .requestSection h2{font-size:38px}
+  .requestForm{padding-inline:14px}
+  .requestForm legend{font-size:18px}
+  .requestForm label{font-size:13px}
+  .requestForm input,.requestForm textarea{font-size:16px;padding:13px}
+  .requestForm .submit{min-height:56px;box-shadow:2px 2px 0 var(--ui-ink)}
 }
 
 @media(prefers-reduced-motion:reduce){
-  .topCta:hover,
-  .heroActions .primary:hover,
-  .requestForm .submit:hover{
-    transform:none;
-  }
+  .topCta:hover,.heroActions .primary:hover,.requestForm .submit:hover{transform:none}
 }
