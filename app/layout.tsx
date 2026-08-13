@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Das Motors — автозапчасти в ОАЭ",
+  title: "Spline — автозапчасти в ОАЭ",
   description: "Запрос автозапчастей по VIN, фото или номеру детали.",
 };
 
