@@ -1,0 +1,10 @@
+/* UI Guard P1 correction — mobile/tablet routing/process continuity */
+@media(max-width:900px){
+  .processSequence{position:relative!important;display:grid!important;grid-template-columns:1fr!important;gap:34px!important;padding:6px 0 4px 0!important;min-height:0!important}
+  .processSequence::before{content:""!important;display:block!important;position:absolute!important;left:34px!important;top:34px!important;bottom:34px!important;right:auto!important;width:14px!important;height:auto!important;background:var(--orange)!important;border:2px solid var(--ink)!important;transform:none!important;z-index:0!important}
+  .processStep,.processStep:nth-child(2),.processStep:nth-child(3){position:relative!important;display:grid!important;grid-template-columns:92px minmax(0,1fr)!important;align-items:start!important;gap:16px!important;margin:0!important;padding:0!important;min-height:118px!important;z-index:1!important}
+  .processStep:nth-child(2){margin-left:18px!important}.processStep:nth-child(3){margin-left:0!important}
+  .processStep .stepNo,.processStep:nth-child(2) .stepNo,.processStep:nth-child(3) .stepNo{font-size:82px!important;line-height:.82!important;letter-spacing:-.075em!important;display:block!important;width:82px!important;background:var(--p)!important;position:relative!important;z-index:2!important;padding:4px 5px 6px 0!important}
+  .processStep>div{max-width:280px!important;margin-top:8px!important;position:relative!important;z-index:2!important;background:var(--p)!important;padding:0 6px 8px 0!important}
+  .processStep h3{font-size:28px!important;line-height:1!important;margin:5px 0 7px!important}.processStep p{font-size:16px!important;line-height:1.4!important;margin:0!important}.stepCode{font-size:11px!important}
+}

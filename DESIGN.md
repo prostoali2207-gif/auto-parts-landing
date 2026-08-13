@@ -1,312 +1,240 @@
-# Das Motors Landing — Design Contract
+# Spline Landing — Design Contract
 
-## Visual thesis
-The landing page should feel like a modern automotive parts sourcing workstation: precise, practical, technical, and trustworthy.
+## Current visual thesis
+The approved visual direction is **THE UNBOXING**.
 
-It is not a racing site, luxury-car brochure, generic ecommerce template, or dashboard. The visual system should reinforce one job: help a customer identify the right vehicle/part and send a request with confidence.
+Spline should feel like the moment a correctly identified automotive part arrives: physical, precise, satisfying and unmistakably related to parts sourcing. The visitor completes the missing identification information needed to route the request to a manager.
 
-Primary direction: **Parts Sourcing Workstation**.
-
-Supporting influences:
-- real parts-counter / specialist photography for trust;
-- restrained technical catalogue language for identity.
+This contract supersedes the previous **Parts Sourcing Workstation** thesis. Do not return to CRM, dashboard, internal-tool, SaaS onboarding, technical workstation or sparse wireframe aesthetics.
 
 ## Commercial priority
 The visual system must preserve this path:
 
 `arrival → understand offer → trust the process → identify vehicle/part → Request a Part → CRM/manager`
 
-`Find My Part / Request a Part` remains the dominant action.
+`Find My Part / Request a Part` remains the dominant action. Visual theatre must not delay or weaken the request path.
 
-No visual treatment may hide, delay, or visually demote the request flow.
+## Functional integrity
+Do not change the existing request contract for visual reasons.
 
-## Signature visual ideas
-Use 1–2 recurring signatures rather than many decorative effects.
+Vehicle identification:
+- VIN; OR
+- make + model + year.
 
-### 1. Technical identification language
-Small structured labels can reference real service inputs such as:
-- VIN;
-- OEM / Part No.;
-- vehicle;
-- part photo;
-- request status / step numbers.
+Part identification requires at least one useful signal:
+- part name;
+- OEM / Part Number;
+- description;
+- photo.
 
-They should feel like functional identifiers, not fake engineering decoration.
+Plus required contact data.
 
-### 2. Real-part imagery
-When real assets are available, use close, tactile photography of:
-- actual parts;
-- packaging and labels;
-- OEM/part-number markings;
-- specialist handling/checking a part;
-- actual counter / sourcing environment.
+Preserve existing validation, analytics, loading/error/success semantics, `create-landing-request`, CRM mapping and confirmed-success behavior.
 
-Photography should provide evidence and texture, not generic automotive lifestyle imagery.
+## Core visual language
+### Surfaces
+- warm paper / off-white dominant field;
+- near-black ink;
+- one saturated safety/packing orange routing accent;
+- muted corrugated/grey-beige secondary material tone;
+- semantic success/error colors remain separate from brand orange.
 
-## Automotive identity rule
-If the logo and words `auto parts` were removed, the page should still plausibly feel connected to vehicle-part sourcing and verification.
+No gradients, glow, glass, metallic effects, neon or multi-accent palettes.
 
-Do this through real domain material, not clichés.
+### Signature motif
+Use one continuous **routing / packing** grammar:
+- orange tape/route;
+- hard rules;
+- cut/angled edges;
+- label blocks;
+- large serial numerals;
+- restrained identification marks;
+- off-grid crops.
 
-Avoid by default:
-- carbon-fibre textures;
-- racing stripes;
-- speedometers;
-- unrelated supercars;
-- red/black purely because the business is automotive;
-- fake exploded diagrams;
-- meaningless mechanical HUD graphics.
+The orange route expresses `unknown part → useful signals → request → dispatch`. It is a continuity device, not decoration on every component.
 
-## Visual calibration
-- **Visual boldness:** 6/10 — distinctive but commercial.
-- **Density:** 5/10 — efficient, not sparse luxury and not marketplace clutter.
-- **Motion:** 2/10 — mostly static; interaction feedback only.
-- **Industrial character:** 7/10 — technical and mechanical without cosplay.
-- **Trust formality:** 7/10 — competent specialist, not corporate bureaucracy.
+### Typography
+Typography is primary art-direction material.
 
-## Typography
-Current Arial-only treatment is too neutral.
-
-Use a strong contemporary sans-serif system with clear distinction between:
-- display / hero;
-- section headings;
-- body;
-- technical labels / VIN / OEM values.
+Roles:
+- monumental editorial display for hero and major chapter headings;
+- highly legible sans for body and controls;
+- mono only for genuine identifiers or restrained label language such as VIN/OEM/step metadata.
 
 Requirements:
-- display type should feel engineered and deliberate, not futuristic;
-- body must stay highly readable on mobile;
-- technical labels may use tighter tracking or a mono/technical secondary face only when it improves identification;
-- avoid decorative mixed-font tricks;
-- avoid oversized headings that push the primary CTA below useful view.
+- strong scale contrast;
+- authored headline wrapping;
+- readable 16–18px-class body/support copy on desktop;
+- important mobile copy should appear approximately 15–16px minimum;
+- persistent form labels;
+- no tiny low-contrast helper text used to simulate sophistication;
+- no terminal-like mono treatment across the page.
 
-Do not introduce paid/licensed fonts unless already available and legally usable.
+## Hero
+The hero is a package-front/editorial composition, not a card layout.
 
-## Color
-Keep the foundation neutral and practical.
+It must communicate within seconds:
+- Spline can help source the needed part;
+- VIN, vehicle data, OEM, photo or description can start the request;
+- the primary action is Request a Part.
 
-Preferred structure:
-- warm or cool near-white base;
-- charcoal / near-black primary text;
-- one controlled brand/accent color;
-- subdued technical secondary tones.
+Keep:
+- oversized left-dominant commercial headline;
+- one monumental abstract packaging/label object;
+- one primary CTA in the first viewport;
+- clear relationship between CTA and orange route;
+- asymmetric edge tension and deliberate crop.
 
-Avoid:
-- AI purple/blue glow;
-- multi-accent palettes;
-- excessive gradients;
-- neon;
-- fake metallic effects.
+Do not add supercars, fake warehouse imagery, floating UI specimens or a mini form in the hero.
 
-The accent should primarily support CTA, focus, active state, and selected/important identification information.
+## Process
+Process is one routing composition, not three equal cards.
 
-## Photography
-Photography is the main opportunity to add authenticity.
+Desktop:
+- large `01 / 02 / 03` anchors;
+- concise Vehicle / Part / Contact copy grouped tightly with each numeral;
+- one route visibly connecting the three beats;
+- deliberate asymmetry with controlled density.
 
-Prefer:
-- real business photos over generic stock;
-- close crops showing material, labels, surfaces, boxes, connectors, lamps, mechanical parts;
-- controlled backgrounds;
-- consistent crop treatment across the page.
+Mobile:
+- three typographic beats;
+- route changes edge/position intentionally;
+- no boxed feature stack.
 
-Avoid:
-- unrelated sports cars;
-- stock mechanics posing at camera;
-- dramatic workshop imagery that does not prove anything about this business;
-- AI-generated fake warehouse, team, order, or inventory presented as real.
+## Evidence / quiet interval
+Use a short calm release between process and request.
 
-If real assets are not yet available, keep the layout strong without pretending proof exists.
+It may reinforce useful input vocabulary such as VIN / OEM / PHOTO / DESCRIPTION, but must not create fake proof, badges, testimonials, partner logos or inventory claims.
 
-## Asset needs
-Priority assets to request from the business:
-1. 3–5 real parts/orders photographed cleanly on the actual counter or neutral surface;
-2. at least one photo where a real OEM/part-number label is readable;
-3. one real sourcing / handling / packaging scene if practical;
-4. current logo in clean vector or high-resolution transparent format;
-5. only if true and useful: real location/counter/store photo.
+Whitespace must feel authored rather than empty.
 
-Do not block V1 launch solely because these are missing; design should degrade gracefully.
+## Request transition
+The transition should feel like opening the outer package to reveal the work surface.
 
-## Hero composition
-Hero must communicate within seconds:
-- auto parts in UAE;
-- we can identify/find the part for this specific vehicle;
-- VIN/photo/OEM are valid ways to start;
-- primary action is Request a Part.
+Use a hard cut, diagonal/stepped edge and/or continuation of the orange route so the dark request intro and the form belong to one event rather than separate modules.
 
-Preferred composition:
-- strong left-aligned commercial message;
-- one dominant request CTA;
-- one purposeful technical/visual object on the other side, not a generic card stack;
-- technical identifiers or a real part image may support the message.
-
-The existing three-step black panel should not remain merely because it fills the right side. Replace or redesign it only if the new element adds identity, confidence, or comprehension.
-
-## Request tool
-The request area is the core product surface, not a generic contact form.
-
-Visually communicate three jobs:
-1. identify the vehicle;
-2. identify the part;
-3. provide a contact.
+## Request form
+The form is the commercial core and should feel like a calm manifest / packing-table work surface.
 
 Rules:
-- VIN must feel important but not mandatory when approved fallback vehicle data is available;
-- photo upload must look easy and useful on mobile;
-- OEM/Part Number should feel like a useful shortcut, not obscure technical trivia;
-- required vs optional inputs must be obvious;
-- entered information must remain legible and calm;
-- submit action must be visually dominant within the form;
-- no decorative controls that imply functionality we do not have.
+- one broad surface;
+- no nested cards;
+- no giant dark application shell;
+- three clear groups: vehicle, part, contact;
+- hierarchy through typography, whitespace and thin aligned rules;
+- conventional native controls;
+- practical 48–54px-class single-line controls;
+- readable labels/helper text;
+- VIN/OEM mono only where useful;
+- generous but simple photo upload control;
+- explicit optional/required meaning where needed;
+- visible focus, error, disabled, loading and success states.
 
-Do not make the request tool look like a multi-step SaaS onboarding wizard unless the UX actually becomes multi-step.
+The request form must look art-directed at the same level as the hero without becoming decorative or harder to complete.
 
-## Sections and rhythm
-Avoid a page made from repeated equal cards.
+## Submit / dispatch
+The submit action is the endpoint of the routing concept.
 
-Use different but coherent section compositions based on purpose:
-- hero = offer and action;
-- process = simple explanation;
-- proof/trust = real evidence when available;
-- request = functional tool.
+- one dominant submit CTA;
+- orange route should terminate at or align decisively with it;
+- mobile submit uses full available width and practical touch height;
+- no competing secondary CTA beside it;
+- loading/disabled states must remain unmistakable.
 
-Prefer section rhythm created through spacing, typography, imagery, rules/lines, crop changes, and layout shifts rather than alternating random background colors.
+## Graphic evidence integrity
+Abstract packaging and routing marks are allowed only as expressive art direction.
 
-## Surfaces
-Use borders and panels only when they structure information.
+Do not fabricate:
+- tracking/order IDs;
+- shipment status;
+- inventory quantities;
+- supplier evidence;
+- reviews/ratings;
+- customers/orders;
+- guarantees;
+- locations;
+- delivery times;
+- stock/prices.
 
-Preferred:
-- crisp 1px rules;
-- restrained surface contrast;
-- low or zero radius for technical areas, or a deliberate small radius system;
-- shadows only when elevation communicates something real.
+Barcode-like decoration must be clearly non-scannable/non-factual.
 
-Avoid:
-- rounded rectangles around every text group;
-- card-on-card nesting;
-- glass surfaces;
-- generic floating SaaS panels.
+When real Spline parts/packaging assets become available, real close crops may replace abstract material forms.
 
-## Buttons
-Primary CTA must be unmistakable.
+## Responsive composition
+Mobile is a recomposition, not scaled desktop.
 
-Use:
-- one strong filled primary style;
-- clear secondary/text actions only where needed;
-- strong hover, pressed, focus, disabled states;
-- minimum practical mobile touch height around 44–48px.
+At ~390px:
+- preserve the hero poster feeling;
+- keep primary CTA within useful first-screen travel;
+- no horizontal overflow;
+- expressive bleeds cannot clip text or controls;
+- request labels/helpers remain readable;
+- form stays single-column;
+- submit is full width.
 
-Avoid multiple equal-weight CTA styles competing in the same viewport.
+At ~1440px:
+- preserve hero asymmetry and package scale;
+- process should feel composed rather than dispersed;
+- evidence should be purposeful release;
+- request intro and form should read as one chapter;
+- form uses enough spatial presence to feel deliberate without becoming a dashboard.
 
-## Icons
-Use icons sparingly.
+Also verify at least one intermediate width around 768–1024px.
 
-Good uses:
-- upload/photo;
-- VIN/vehicle identification;
-- contact channel;
-- simple directional/action meaning.
+## Visual load budget
+Use emphasis selectively. Borders, hard shadows, mono labels, uppercase text, orange, cut edges and large numbers are limited budget.
 
-Do not decorate every heading with an icon.
-Use one consistent icon family if icons are introduced.
+Prefer hierarchy through:
+- scale;
+- negative space;
+- placement;
+- value contrast;
+- density changes;
+- one strong motif.
+
+Do not make every group look like a sticker or technical panel.
 
 ## Motion
-Motion is supporting polish only.
+Motion budget is low.
 
 Allowed:
-- short hover/press transitions;
-- subtle state transitions;
-- small reveal only if it does not delay comprehension.
+- short route/tape reveal;
+- physical CTA press;
+- restrained state transitions.
 
-Avoid:
-- scroll hijacking;
-- parallax stacks;
-- cinematic intro sequences;
-- looping decorative movement;
-- animations before CTA access.
+No scroll hijacking, parallax theatre, 3D package rotation or generic fade-up choreography. Respect `prefers-reduced-motion`.
 
-Respect reduced-motion preferences where animation exists.
+## Accessibility
+- readable contrast is mandatory;
+- visible focus must survive paper/orange/dark surfaces;
+- no essential text rotated;
+- orange cannot communicate state alone;
+- practical mobile targets around 44–48px minimum;
+- text resizing/reflow must not break content or controls;
+- no decorative bleed may clip focusable elements.
 
-## Mobile — 390px baseline
-Mobile is the primary design constraint.
+## Hard anti-patterns
+Do not introduce:
+- dashboard / CRM / workstation aesthetic;
+- SaaS card stacks;
+- generic ecommerce catalogue/cart/account UI;
+- racing/carbon-fibre/HUD language;
+- unrelated supercars;
+- repeated rounded cards;
+- gradients/glow/glass/neon;
+- fake social proof or business imagery;
+- excessive mono labels;
+- decorative technical diagrams presented as evidence;
+- new sections merely to make the page feel richer.
 
-Require:
-- offer and main CTA visible early;
-- no horizontal scrolling;
-- hero does not depend on side-by-side composition;
-- technical details wrap safely;
-- VIN/OEM strings do not break layout;
-- photo upload is thumb-friendly;
-- form fields are single-column unless a grouping is clearly easier;
-- no tiny labels;
-- sticky elements must not consume excessive viewport height;
-- keyboard appearance must not make the flow unusable.
+## Current refinement contract
+`docs/v6-fundamentals-refinement.md` is the active refinement specification for typography, CTA mass, process Gestalt, evidence compression, request-transition continuity, manifest-style form composition and submit dispatch treatment.
 
-Desktop may become more expressive, but must not introduce a different information hierarchy.
+If this file and older V4/V5 documents conflict, this `DESIGN.md`, the V6 art direction and the V6 fundamentals refinement are authoritative for current visual work.
 
-## Trust treatment
-Trust should answer: `Why can I believe they can find the correct part?`
+## Release sequence
+For material visual changes:
 
-Prefer proof of mechanism:
-- VIN / vehicle identification;
-- part-number/photo inputs;
-- explanation of specialist verification;
-- real order/part evidence;
-- real contact/location/social presence where confirmed.
+`Visual direction → Frontend implementation → rendered 390 / intermediate / 1440 review → independent UI Guard → QA → merge`
 
-Do not use unsupported:
-- star ratings;
-- client counts;
-- years in business;
-- partner logos;
-- `Best Price`;
-- `Premium Quality`;
-- delivery-speed claims;
-- warranty claims.
-
-## Explicit defaults to reject
-- generic AI hero with gradient blobs;
-- dark mesh background + glowing button;
-- three equal rounded feature cards;
-- bento layout with no business reason;
-- fake dashboard panels;
-- black/red racing theme by default;
-- excessive pill badges;
-- giant ornamental headline with tiny useful copy;
-- stock supercar as main proof;
-- long decorative animations;
-- visual complexity that suggests a catalogue/ecommerce system that does not exist.
-
-## Implementation guardrails
-Frontend Agent should preserve current working request logic and CRM integration unless a separate UX/technical change is explicitly approved.
-
-Visual redesign should primarily touch:
-- composition;
-- typography;
-- CSS/design tokens;
-- imagery and image treatment;
-- section hierarchy;
-- request-form presentation;
-- responsive polish;
-- interaction states.
-
-Do not rebuild the application architecture to implement this design.
-
-## Visual review gate
-After implementation, review rendered output at minimum at:
-- ~390px mobile;
-- ~1440px desktop.
-
-Check:
-- 5-second offer clarity;
-- primary CTA visibility;
-- automotive identity;
-- request-tool clarity;
-- typography wrapping;
-- image quality/crop;
-- trust credibility;
-- section rhythm;
-- generic AI fingerprints;
-- consistency with this document.
-
-No PASS with unresolved P0/P1 issues.
+Frontend implementation is not final visual approval.
