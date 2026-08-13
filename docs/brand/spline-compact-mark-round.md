@@ -1,6 +1,6 @@
 # Spline — Compact Mark Round
 
-Status: ACTIVE BRAND EXPLORATION. Wordmark remains unchanged.
+Status: CLOSED — NO CUSTOM COMPACT MARK APPROVED.
 
 ## Problem
 The SPLINE wordmark is the primary identity, but square/circular placements need a compact asset: Instagram/Telegram avatar, favicon, browser/app icon, small document stamp and future part-label applications.
@@ -23,7 +23,7 @@ A compact mark is NOT required to replace the wordmark. It is accepted only if i
 ### Baseline — plain S
 Asset: `public/brand-exploration/spline-compact-baseline-s.svg`
 
-Unmodified opening S from the approved wordmark. This is deliberately boring and establishes the minimum acceptable tiny-size performance.
+Unmodified opening S from the approved wordmark. Deliberately simple and strongest at tiny size.
 
 ### A — SP Joint
 Asset: `public/brand-exploration/spline-compact-a-sp-joint.svg`
@@ -35,57 +35,44 @@ Strengths:
 - preserves real letters instead of inventing an abstract icon;
 - carries the same `fit / connection` idea as the full identity.
 
-Risks:
-- wider than a single-letter avatar;
-- at 16 px the SP relationship may compress into visual noise;
-- must avoid sports-team / aftermarket-monogram character.
+Failure at Gate 2:
+- the horizontal SP construction consumes substantially more square/circular avatar area than the single-S baseline;
+- the shared joint becomes too small relative to the overall mark at 24–32 px, so its conceptual advantage is largely lost;
+- at 16 px the two-letter relationship is materially less robust than the single-S silhouette;
+- without the joint being clearly perceived, SP risks reading as a generic monogram rather than as a uniquely Spline asset.
 
 ### B — Restrained S
 Asset: `public/brand-exploration/spline-compact-b-s.svg`
 
-Opening S with one small alignment notch.
-
-Strengths:
-- strongest tiny-size silhouette;
-- easiest social-avatar crop;
-- minimal complexity.
-
-Risks:
-- notch does not add enough proprietary value;
-- once reduced, it is functionally close to the plain-S baseline;
-- generic single-letter brand risk remains high.
+Rejected because its added notch does not provide enough proprietary value over the unmodified approved S.
 
 ### C — SP Negative-Space Block
 Asset: `public/brand-exploration/spline-compact-c-sp-block.svg`
 
-Solid square carrying simplified SP forms in negative space.
+Rejected because it introduces a new badge/block language and drifts toward tuning/team/emblem territory.
 
-Strengths:
-- compact silhouette;
-- potentially strong physical stamp/label behavior.
+## Final Gate 2 decision
 
-Risks:
-- introduces a new badge/block language not present in the approved identity;
-- strongest tuning/team/emblem association;
-- simplified letter construction is no longer directly derived from the approved wordmark.
+**A — REJECT.** It is conceptually stronger than the plain-S baseline, but not functionally stronger where compact marks are actually needed. The distinctive joint is too subtle at 24–32 px and the two-letter width is a disadvantage inside circular/social crops.
 
-## Gate 1 decision
+**B — REJECT.** Decoration without enough recognition gain.
 
-**C — KILL.** It solves the square-format problem by inventing a second visual language. That is not worth the identity drift.
+**C — REJECT.** Identity drift and cliché risk.
 
-**B — HOLD / likely kill.** It is usable, but the added notch does not clearly beat the plain-S baseline. If a single-S asset is eventually needed, the unmodified approved S is cleaner than decorating it merely to create novelty.
+**WINNER FOR COMPACT USE: plain approved S from the primary wordmark.**
 
-**A — ADVANCE.** SP Joint is the only candidate with a credible reason to exist beyond convenience. It inherits the approved wordmark geometry and the brand's connection logic.
+This is not a new secondary logo. It is a cropped/reused production letterform for constrained applications only.
 
-## Gate 2
-Compare only:
-1. A — SP Joint;
-2. plain-S baseline.
+## Usage decision
+Use the full `SPLINE` wordmark whenever it fits.
 
-At 48 / 32 / 24 / 16 px and in circular crop, evaluate:
-- does SP read immediately at 24–32 px;
-- does the joint remain open rather than becoming a dark blob;
-- does the mark feel like the same Spline identity, not an aftermarket monogram;
-- does A add enough recognition to justify being wider/more complex than plain S.
+Use the plain approved `S` only when the full wordmark physically cannot fit, such as:
+- favicon / browser icon;
+- small circular social avatar;
+- very small square profile image;
+- tiny document/app stamp where the wordmark becomes unreadable.
 
-Decision rule: if A is not clearly better at 24–32 px, do not approve a custom compact mark. Use the plain approved S only where the full wordmark physically cannot fit.
+Do not add an enclosing badge, shield, gear, circle outline, gradient, extra notch or new monogram treatment.
+
+## Brand-system result
+The compact-mark exploration produced a useful negative decision: Spline does not need a second symbol in V1. The current wordmark remains the identity; constrained applications inherit the opening S directly from it.
