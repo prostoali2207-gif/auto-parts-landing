@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import "./brand.css";
+import "./ui-polish.css";
 
 const plexSans = IBM_Plex_Sans({
   variable: "--font-plex-sans",
