@@ -13,9 +13,7 @@ type FunnelEvent = "landing_view" | "request_start" | "request_submit" | "reques
 function attribution() {
   const p = new URLSearchParams(window.location.search);
   let r = "";
-  try {
-    r = document.referrer ? new URL(document.referrer).hostname : "";
-  } catch {}
+  try { r = document.referrer ? new URL(document.referrer).hostname : ""; } catch {}
   return {
     source: p.get("utm_source") || undefined,
     medium: p.get("utm_medium") || undefined,
@@ -156,8 +154,7 @@ export default function Home() {
 
       <section className="hero" id="top">
         <div className="heroCopy">
-          <p className="eyebrow">Parts sourcing · UAE</p>
-          <h1>Нужна запчасть? Покажите машину и деталь.</h1>
+          <h1>Нужна <span className="routeWord">запчасть?</span> Покажите машину и деталь.</h1>
           <p className="lead">Отправьте VIN, данные автомобиля, фото или OEM‑номер. Менеджер получит всё в одной заявке и продолжит подбор.</p>
           <div className="heroActions">
             <a className="primary" href="#request">Запросить запчасть</a>
@@ -165,14 +162,19 @@ export default function Home() {
           </div>
         </div>
 
-        <aside className="identificationPoster" aria-label="Что можно отправить для поиска детали">
-          <div className="posterRail" aria-hidden="true"><span>IDENTIFY</span><b>01</b></div>
-          <div className="posterMain">
-            <div className="posterVin"><strong>VIN</strong><small>или марка · модель · год</small></div>
-            <div className="posterOem"><strong>OEM / PART NO.</strong><small>если номер известен</small></div>
-            <div className="posterPhoto"><strong>PHOTO</strong><small>или название · описание</small></div>
+        <aside className="packageEvidence" aria-label="Какие данные помогают найти деталь">
+          <div className="packagePlane" aria-hidden="true" />
+          <div className="shippingLabel">
+            <small>PART IDENTIFICATION</small>
+            <strong>Нужен один полезный сигнал</strong>
+            <dl>
+              <div><dt>VEHICLE</dt><dd>VIN / марка · модель · год</dd></div>
+              <div><dt>PART</dt><dd>OEM / фото / название</dd></div>
+              <div><dt>CONTACT</dt><dd>телефон / мессенджер</dd></div>
+            </dl>
+            <div className="barcode" aria-hidden="true" />
           </div>
-          <span className="posterDatum" aria-hidden="true" />
+          <div className="packageTape" aria-hidden="true">ROUTE → REQUEST</div>
         </aside>
       </section>
 
@@ -195,6 +197,11 @@ export default function Home() {
             <div><span className="stepCode">CONTACT</span><h3>Контакт</h3><p>Телефон, WhatsApp или Telegram</p></div>
           </article>
         </div>
+      </section>
+
+      <section className="evidenceGap" aria-label="Что полезно отправить">
+        <span className="evidenceStamp">USE WHAT YOU HAVE<br />VIN · OEM · PHOTO · DESCRIPTION</span>
+        <p>Не нужно знать всё. Достаточно данных, по которым менеджер сможет начать точный поиск.</p>
       </section>
 
       <section className="requestSection" id="request">
