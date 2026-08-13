@@ -12,6 +12,7 @@ import "./ui-visual-reset-v4-revision.css";
 import "./ui-visual-reset-v5-revision.css";
 import "./ui-visual-reset-v6.css";
 import "./ui-visual-reset-v6-fixes.css";
+import "./ui-v6-fundamentals-refinement.css";
 
 const plexSans = IBM_Plex_Sans({ variable: "--font-plex-sans", subsets: ["latin", "cyrillic"], weight: ["400", "500", "600", "700"], display: "swap" });
 const plexMono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin", "cyrillic"], weight: ["600", "700"], display: "swap" });
