@@ -18,40 +18,74 @@ A compact mark is NOT required to replace the wordmark. It is accepted only if i
 - must remain visually distinct inside circular social-avatar cropping;
 - signal orange may be used as a background/system accent, never as a crutch for recognition.
 
-## Round 1 directions
+## Built candidates
+
+### Baseline — plain S
+Asset: `public/brand-exploration/spline-compact-baseline-s.svg`
+
+Unmodified opening S from the approved wordmark. This is deliberately boring and establishes the minimum acceptable tiny-size performance.
 
 ### A — SP Joint
-Derive a compact monogram from the existing wordmark's most proprietary event: the relationship between S and P. Reduce it to two readable letterforms with one controlled connection/negative-space event.
+Asset: `public/brand-exploration/spline-compact-a-sp-joint.svg`
 
-Why it may win: maximum continuity with the existing wordmark and the name; can communicate `fit / connection` without drawing a literal mechanical component.
+Two original wordmark letterforms with one shared negative-space joint.
 
-Kill if: it reads as `5P`, `SR`, a sports-team monogram, or becomes illegible below 24 px.
+Strengths:
+- strongest continuity with the approved wordmark;
+- preserves real letters instead of inventing an abstract icon;
+- carries the same `fit / connection` idea as the full identity.
 
-### B — Spline S
-Use only the opening S, but make one restrained geometry decision derived from alignment/indexing rather than decorative cuts.
+Risks:
+- wider than a single-letter avatar;
+- at 16 px the SP relationship may compress into visual noise;
+- must avoid sports-team / aftermarket-monogram character.
 
-Why it may win: simplest possible avatar; strongest tiny-size survival.
+### B — Restrained S
+Asset: `public/brand-exploration/spline-compact-b-s.svg`
 
-Kill if: it becomes a generic letter-in-a-circle or cannot be distinguished from hundreds of unrelated S brands.
+Opening S with one small alignment notch.
+
+Strengths:
+- strongest tiny-size silhouette;
+- easiest social-avatar crop;
+- minimal complexity.
+
+Risks:
+- notch does not add enough proprietary value;
+- once reduced, it is functionally close to the plain-S baseline;
+- generic single-letter brand risk remains high.
 
 ### C — SP Negative-Space Block
-Construct a solid compact block where S/P are discovered through negative space rather than outlined as a badge.
+Asset: `public/brand-exploration/spline-compact-c-sp-block.svg`
 
-Why it may win: strongest stamping/label potential and high silhouette recognition.
+Solid square carrying simplified SP forms in negative space.
 
-Kill if: it becomes automotive/tuning aggression, a shield-like emblem, or requires explanation to read.
+Strengths:
+- compact silhouette;
+- potentially strong physical stamp/label behavior.
 
-## Evaluation gate
-Each direction is judged against a deliberately boring baseline: plain `S` from the wordmark centered in a square/circle. A candidate must beat that baseline, not merely look more designed.
+Risks:
+- introduces a new badge/block language not present in the approved identity;
+- strongest tuning/team/emblem association;
+- simplified letter construction is no longer directly derived from the approved wordmark.
 
-Priority order:
-1. instant recognition / reading;
-2. continuity with SPLINE wordmark;
-3. 16–32 px survival;
-4. distinct silhouette;
-5. mechanical credibility without cliché;
-6. social-avatar crop performance;
-7. monochrome reproduction.
+## Gate 1 decision
 
-## Current decision
-Advance A and B first. C remains a controlled high-risk experiment. Do not touch production assets until a candidate clearly beats the plain-S baseline and passes tiny-size testing.
+**C — KILL.** It solves the square-format problem by inventing a second visual language. That is not worth the identity drift.
+
+**B — HOLD / likely kill.** It is usable, but the added notch does not clearly beat the plain-S baseline. If a single-S asset is eventually needed, the unmodified approved S is cleaner than decorating it merely to create novelty.
+
+**A — ADVANCE.** SP Joint is the only candidate with a credible reason to exist beyond convenience. It inherits the approved wordmark geometry and the brand's connection logic.
+
+## Gate 2
+Compare only:
+1. A — SP Joint;
+2. plain-S baseline.
+
+At 48 / 32 / 24 / 16 px and in circular crop, evaluate:
+- does SP read immediately at 24–32 px;
+- does the joint remain open rather than becoming a dark blob;
+- does the mark feel like the same Spline identity, not an aftermarket monogram;
+- does A add enough recognition to justify being wider/more complex than plain S.
+
+Decision rule: if A is not clearly better at 24–32 px, do not approve a custom compact mark. Use the plain approved S only where the full wordmark physically cannot fit.
