@@ -30,6 +30,15 @@ jobs:
       - name: Run mobile release QA
         run: npm run test:e2e
 
+      - name: Upload visual review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-review
+          path: artifacts/visual-review/
+          if-no-files-found: warn
+          retention-days: 14
+
       - name: Upload Playwright report on failure
         if: failure()
         uses: actions/upload-artifact@v4
