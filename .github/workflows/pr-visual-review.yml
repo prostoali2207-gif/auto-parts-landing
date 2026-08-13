@@ -21,22 +21,25 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Build branch
+        run: npm run build
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Wait for Vercel preview
+      - name: Start production build
         run: |
+          npm run start > /tmp/spline-v2.log 2>&1 &
           for i in {1..30}; do
-            if curl -fsS "$PLAYWRIGHT_TEST_BASE_URL" >/dev/null; then exit 0; fi
-            sleep 5
+            if curl -fsS http://127.0.0.1:3000 >/dev/null; then exit 0; fi
+            sleep 2
           done
+          cat /tmp/spline-v2.log
           exit 1
-        env:
-          PLAYWRIGHT_TEST_BASE_URL: https://auto-parts-landing-git-fron-804889-prostoali2207-5636s-projects.vercel.app
 
       - name: Capture V2 mobile and desktop
         env:
-          PLAYWRIGHT_TEST_BASE_URL: https://auto-parts-landing-git-fron-804889-prostoali2207-5636s-projects.vercel.app
+          PLAYWRIGHT_TEST_BASE_URL: http://127.0.0.1:3000
         run: npx playwright test tests/e2e/visual-review.spec.ts --retries=0
 
       - name: Upload V2 visual review screenshots
