@@ -117,7 +117,7 @@ test("recoverable server error preserves entered data and allows retry", async (
   await page.getByLabel("Телефон / WhatsApp / Telegram").fill("+971500000000");
   await page.getByRole("button", { name: "Отправить заявку" }).click();
 
-  await expect(page.getByRole("alert")).toHaveText("Временная ошибка CRM");
+  await expect(page.locator("p.error[role=alert]")).toHaveText("Временная ошибка CRM");
   await expect(page.getByLabel("VIN")).toHaveValue("JT123456789012345");
   await expect(page.getByLabel("Название детали")).toHaveValue("Передняя фара");
   await expect(page.getByLabel("Телефон / WhatsApp / Telegram")).toHaveValue("+971500000000");
