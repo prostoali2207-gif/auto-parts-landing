@@ -162,20 +162,23 @@ export default function Home() {
           </div>
         </div>
 
-        <aside className="packageEvidence" aria-label="Какие данные помогают найти деталь">
-          <div className="packagePlane" aria-hidden="true" />
-          <div className="shippingLabel">
-            <small>PART IDENTIFICATION</small>
-            <strong>Данные для заявки</strong>
-            <dl>
-              <div><dt>VEHICLE</dt><dd>VIN / марка · модель · год</dd></div>
-              <div><dt>PART</dt><dd>фото / название / OEM / описание</dd></div>
-              <div><dt>CONTACT</dt><dd>телефон / мессенджер</dd></div>
-            </dl>
-            <div className="barcode" aria-hidden="true" />
+        <div className="heroObject" aria-hidden="true">
+          <div className="objectHalo" />
+          <div className="explodedObject">
+            <span className="part partBackplate" />
+            <span className="part partBracket" />
+            <span className="part partHousing" />
+            <span className="part partCore" />
+            <span className="part partRing" />
+            <span className="part partLens" />
+            <span className="part partConnector" />
+            <i className="part fastener fastenerA" />
+            <i className="part fastener fastenerB" />
+            <i className="part fastener fastenerC" />
           </div>
-          <div className="packageTape" aria-hidden="true">ROUTE → REQUEST</div>
-        </aside>
+          <span className="objectGuide guideOne" />
+          <span className="objectGuide guideTwo" />
+        </div>
       </section>
 
       <section className="process" aria-labelledby="process-title">
