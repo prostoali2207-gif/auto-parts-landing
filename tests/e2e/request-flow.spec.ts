@@ -64,6 +64,68 @@ test("contact validation happens after vehicle and part are valid", async ({ pag
   await expect(contact).toHaveAttribute("aria-invalid", "true");
 });
 
+test("invalid year is rejected without losing fallback vehicle data", async ({ page }) => {
+  await page.getByLabel("Марка").fill("Toyota");
+  await page.getByLabel("Модель").fill("Camry");
+  await page.getByLabel("Год").fill("1899");
+  await page.getByLabel("Название детали").fill("Передняя фара");
+  await page.getByLabel("Телефон / WhatsApp / Telegram").fill("+971500000000");
+  await page.getByRole("button", { name: "Отправить заявку" }).click();
+
+  const year = page.getByLabel("Год");
+  await expect(page.locator("#year-error")).toHaveText("Проверьте год автомобиля.");
+  await expect(year).toBeFocused();
+  await expect(year).toHaveAttribute("aria-invalid", "true");
+  await expect(page.getByLabel("Марка")).toHaveValue("Toyota");
+  await expect(page.getByLabel("Модель")).toHaveValue("Camry");
+});
+
+test("invalid photo type returns field feedback before submission", async ({ page }) => {
+  await page.getByLabel("VIN").fill("JT123456789012345");
+  await page.locator('input[name="photo"]').setInputFiles({
+    name: "part.txt",
+    mimeType: "text/plain",
+    buffer: Buffer.from("not an image"),
+  });
+  await page.getByRole("button", { name: "Отправить заявку" }).click();
+
+  await expect(page.locator("#photo-error")).toHaveText("Можно загружать только изображения.");
+  await expect(page.locator('input[name="photo"]')).toHaveAttribute("aria-invalid", "true");
+});
+
+test("recoverable server error preserves entered data and allows retry", async ({ page }) => {
+  let attempt = 0;
+  await page.route(endpointPattern, async (route) => {
+    attempt += 1;
+    if (attempt === 1) {
+      await route.fulfill({
+        status: 503,
+        contentType: "application/json",
+        body: JSON.stringify({ ok: false, error: "Временная ошибка CRM" }),
+      });
+      return;
+    }
+    await route.fulfill({
+      status: 201,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true, requestNumber: 1001 }),
+    });
+  });
+
+  await page.getByLabel("VIN").fill("JT123456789012345");
+  await page.getByLabel("Название детали").fill("Передняя фара");
+  await page.getByLabel("Телефон / WhatsApp / Telegram").fill("+971500000000");
+  await page.getByRole("button", { name: "Отправить заявку" }).click();
+
+  await expect(page.getByRole("alert")).toHaveText("Временная ошибка CRM");
+  await expect(page.getByLabel("VIN")).toHaveValue("JT123456789012345");
+  await expect(page.getByLabel("Название детали")).toHaveValue("Передняя фара");
+  await expect(page.getByLabel("Телефон / WhatsApp / Telegram")).toHaveValue("+971500000000");
+
+  await page.getByRole("button", { name: "Отправить заявку" }).click();
+  await expect(page.getByRole("status")).toContainText("Заявка №1001");
+});
+
 test("VIN path reaches confirmed success without creating a real CRM record", async ({ page }) => {
   await mockAcceptedRequest(page, 999);
 
@@ -73,7 +135,7 @@ test("VIN path reaches confirmed success without creating a real CRM record", as
   await page.getByRole("button", { name: "Отправить заявку" }).click();
 
   await expect(page.getByRole("status")).toContainText("Заявка №999");
-  await expect(page.getByRole("status")).toContainText("Spline");
+  await expect(page.getByRole("status")).toContainText("Менеджер продолжит подбор");
 });
 
 test("make model year fallback remains a valid vehicle path", async ({ page }) => {
