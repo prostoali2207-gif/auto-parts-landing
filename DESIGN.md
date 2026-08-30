@@ -1,27 +1,31 @@
 # Spline Landing — Design Contract
 
 ## Current visual thesis
-The approved visual direction is **THE UNBOXING**.
+The approved direction is **V7 — EXPLODED OBJECT**.
 
-Spline should feel like the moment a correctly identified automotive part arrives: physical, precise, satisfying and unmistakably related to parts sourcing. The visitor completes the missing identification information needed to route the request to a manager.
+Spline should feel like an unknown automotive part being opened, separated and made understandable: one sculptural mechanical object in the hero, strong editorial typography, then a calm request surface.
 
-This contract supersedes the previous **Parts Sourcing Workstation** thesis. Do not return to CRM, dashboard, internal-tool, SaaS onboarding, technical workstation or sparse wireframe aesthetics.
+This contract supersedes **THE UNBOXING / V6** and all older CRM/workstation directions.
+
+Do **not** preserve the old beige / black / orange packing system merely because it exists in the current implementation.
+
+Authoritative visual blueprint: `docs/visual-reset-v7-art-direction.md`.
 
 ## Commercial priority
-The visual system must preserve this path:
+Preserve the path:
 
 `arrival → understand offer → trust the process → identify vehicle/part → Request a Part → CRM/manager`
 
-`Find My Part / Request a Part` remains the dominant action. Visual theatre must not delay or weaken the request path.
+`Request a Part` remains the dominant action. Visual theatre must not delay or weaken the request path.
 
 ## Functional integrity
-Do not change the existing request contract for visual reasons.
+Visual work must not change the request contract.
 
-Vehicle identification:
+Vehicle identity:
 - VIN; OR
 - make + model + year.
 
-Part identification requires at least one useful signal:
+Part identity requires at least one useful signal:
 - part name;
 - OEM / Part Number;
 - description;
@@ -29,212 +33,177 @@ Part identification requires at least one useful signal:
 
 Plus required contact data.
 
-Preserve existing validation, analytics, loading/error/success semantics, `create-landing-request`, CRM mapping and confirmed-success behavior.
+Preserve validation, analytics, upload behavior, loading/error/success semantics, `create-landing-request`, CRM mapping and confirmed-success behavior.
 
-## Core visual language
-### Surfaces
-- warm paper / off-white dominant field;
-- near-black ink;
-- one saturated safety/packing orange routing accent;
-- muted corrugated/grey-beige secondary material tone;
-- semantic success/error colors remain separate from brand orange.
+## V7 visual system
+### Palette
+The V6 beige/orange family is removed.
 
-No gradients, glow, glass, metallic effects, neon or multi-accent palettes.
+- deep electric navy `#08111F` — dominant dark field;
+- cold white `#F4F6F8` — primary light surface;
+- graphite `#101419` — text / structure;
+- signal acid `#C8FF2E` — primary action / focal punctuation;
+- electric cobalt `#4F6BFF` — secondary expressive depth;
+- cool-metal greys — decorative exploded-object surfaces;
+- semantic error/success colors remain independent.
 
-### Signature motif
-Use one continuous **routing / packing** grammar:
-- orange tape/route;
-- hard rules;
-- cut/angled edges;
-- label blocks;
-- large serial numerals;
-- restrained identification marks;
-- off-grid crops.
-
-The orange route expresses `unknown part → useful signals → request → dispatch`. It is a continuity device, not decoration on every component.
+Accent is scarce. Acid must not become decoration on every component.
 
 ### Typography
-Typography is primary art-direction material.
+- display: `Unbounded` 600/700 for hero / chapter statements;
+- body and controls: `Manrope` 400–700;
+- mono: IBM Plex Mono only for genuine identifiers and restrained metadata.
 
-Roles:
-- monumental editorial display for hero and major chapter headings;
-- highly legible sans for body and controls;
-- mono only for genuine identifiers or restrained label language such as VIN/OEM/step metadata.
+Typography is compositional. Mobile gets deliberate line breaks and reflow, not a scaled desktop headline.
 
-Requirements:
-- strong scale contrast;
-- authored headline wrapping;
-- readable 16–18px-class body/support copy on desktop;
-- important mobile copy should appear approximately 15–16px minimum;
-- persistent form labels;
-- no tiny low-contrast helper text used to simulate sophistication;
-- no terminal-like mono treatment across the page.
+### Signature object
+Hero owns one abstract **exploded mechanical assembly** built from vector/CSS layers.
+
+It may suggest an automotive lamp / mechanical component through bezel, lens/ring, bracket, connector and fastener-like forms, but it is expressive art direction only.
+
+No fake measurements, model names, stock status, fitment claims or technical evidence.
+
+Pointer hover may separate the pieces slightly further. No essential meaning may depend on hover. Reduced motion freezes the useful exploded pose.
 
 ## Hero
-The hero is a package-front/editorial composition, not a card layout.
+### Desktop
+- deep navy full first chapter;
+- quiet wordmark;
+- left-dominant monumental headline;
+- acid emphasis on the key word / focal phrase without tape or stripe language;
+- large exploded object occupies the right side and crops at the viewport edge;
+- one acid primary CTA;
+- supporting copy remains clearly readable.
 
-It must communicate within seconds:
-- Spline can help source the needed part;
-- VIN, vehicle data, OEM, photo or description can start the request;
-- the primary action is Request a Part.
-
-Keep:
-- oversized left-dominant commercial headline;
-- one monumental abstract packaging/label object;
-- one primary CTA in the first viewport;
-- clear relationship between CTA and orange route;
-- asymmetric edge tension and deliberate crop.
-
-Do not add supercars, fake warehouse imagery, floating UI specimens or a mini form in the hero.
+### Mobile ~390
+- recomposed 3-line display hierarchy;
+- exploded object becomes a large diagonal/cropped visual mass rather than a tiny illustration;
+- primary CTA remains within useful first-screen travel;
+- no tiny utility copy or crowded technical labels.
 
 ## Process
-Process is one routing composition, not three equal cards.
+One editorial composition, not cards and not the V6 orange route.
 
-Desktop:
 - large `01 / 02 / 03` anchors;
-- concise Vehicle / Part / Contact copy grouped tightly with each numeral;
-- one route visibly connecting the three beats;
-- deliberate asymmetry with controlled density.
-
-Mobile:
-- three typographic beats;
-- route changes edge/position intentionally;
+- Vehicle / Part / Contact copy stays concise;
+- continuity comes from alignment, spacing and a restrained connector;
+- deliberate asymmetry on desktop;
+- staggered vertical rhythm on mobile;
 - no boxed feature stack.
 
-## Evidence / quiet interval
-Use a short calm release between process and request.
+## Evidence chapter
+Use one full-width signal-acid field for the truthful statement:
 
-It may reinforce useful input vocabulary such as VIN / OEM / PHOTO / DESCRIPTION, but must not create fake proof, badges, testimonials, partner logos or inventory claims.
+`Не нужно знать точное название детали.`
 
-Whitespace must feel authored rather than empty.
+Supporting explanation remains graphite and readable.
+
+Do not add proof badges, ratings, customers, inventory, supplier marks or pseudo-logistics evidence.
 
 ## Request transition
-The transition should feel like opening the outer package to reveal the work surface.
+Hard cut to deep navy for the request intro, then resolve into a cold-white work surface.
 
-Use a hard cut, diagonal/stepped edge and/or continuation of the orange route so the dark request intro and the form belong to one event rather than separate modules.
+No package-opening metaphor, route tape or CRM shell.
 
 ## Request form
-The form is the commercial core and should feel like a calm manifest / packing-table work surface.
+The form is the commercial core and intentionally calmer than the hero.
 
-Rules:
-- one broad surface;
+- one broad light surface;
 - no nested cards;
-- no giant dark application shell;
 - three clear groups: vehicle, part, contact;
-- hierarchy through typography, whitespace and thin aligned rules;
+- hierarchy through type, whitespace and aligned rules;
 - conventional native controls;
 - practical 48–54px-class single-line controls;
-- readable labels/helper text;
+- square / very small-radius geometry;
+- persistent readable labels/helpers;
 - VIN/OEM mono only where useful;
-- generous but simple photo upload control;
-- explicit optional/required meaning where needed;
-- visible focus, error, disabled, loading and success states.
+- large practical photo control;
+- visible focus, error, disabled, loading and success states;
+- no decorative complexity that slows completion.
 
-The request form must look art-directed at the same level as the hero without becoming decorative or harder to complete.
+## CTA system
+Primary action uses signal acid on dark/graphite surroundings.
 
-## Submit / dispatch
-The submit action is the endpoint of the routing concept.
+- no V6 black hard-shadow block;
+- top, hero and submit actions share one visual grammar;
+- physical press/compression may be subtle;
+- submit remains the sole dominant form action.
 
-- one dominant submit CTA;
-- orange route should terminate at or align decisively with it;
-- mobile submit uses full available width and practical touch height;
-- no competing secondary CTA beside it;
-- loading/disabled states must remain unmistakable.
+## Motion
+Low motion budget:
+- coordinated exploded-object hover movement;
+- restrained CTA press;
+- restrained state transitions.
+
+No scroll-jacking, parallax theatre, WebGL dependency or generic fade-up choreography.
 
 ## Graphic evidence integrity
-Abstract packaging and routing marks are allowed only as expressive art direction.
+Abstract mechanical graphics are art direction only.
 
-Do not fabricate:
+Never fabricate:
 - tracking/order IDs;
-- shipment status;
 - inventory quantities;
+- shipment status;
 - supplier evidence;
 - reviews/ratings;
 - customers/orders;
 - guarantees;
 - locations;
 - delivery times;
-- stock/prices.
-
-Barcode-like decoration must be clearly non-scannable/non-factual.
-
-When real Spline parts/packaging assets become available, real close crops may replace abstract material forms.
+- stock/prices;
+- fitment certainty.
 
 ## Responsive composition
-Mobile is a recomposition, not scaled desktop.
+Mobile is a recomposition.
 
 At ~390px:
-- preserve the hero poster feeling;
-- keep primary CTA within useful first-screen travel;
+- strong first-screen poster feeling;
+- useful CTA position;
 - no horizontal overflow;
-- expressive bleeds cannot clip text or controls;
-- request labels/helpers remain readable;
-- form stays single-column;
-- submit is full width.
+- decorative crops never clip copy/controls;
+- form single-column;
+- submit full width.
 
 At ~1440px:
-- preserve hero asymmetry and package scale;
-- process should feel composed rather than dispersed;
-- evidence should be purposeful release;
-- request intro and form should read as one chapter;
-- form uses enough spatial presence to feel deliberate without becoming a dashboard.
+- hero object has real physical scale;
+- asymmetry remains controlled;
+- process is composed, not dispersed;
+- acid evidence chapter creates a strong rhythm change;
+- request intro and form read as one commercial chapter.
 
-Also verify at least one intermediate width around 768–1024px.
-
-## Visual load budget
-Use emphasis selectively. Borders, hard shadows, mono labels, uppercase text, orange, cut edges and large numbers are limited budget.
-
-Prefer hierarchy through:
-- scale;
-- negative space;
-- placement;
-- value contrast;
-- density changes;
-- one strong motif.
-
-Do not make every group look like a sticker or technical panel.
-
-## Motion
-Motion budget is low.
-
-Allowed:
-- short route/tape reveal;
-- physical CTA press;
-- restrained state transitions.
-
-No scroll hijacking, parallax theatre, 3D package rotation or generic fade-up choreography. Respect `prefers-reduced-motion`.
+Also verify ~768–1024px.
 
 ## Accessibility
-- readable contrast is mandatory;
-- visible focus must survive paper/orange/dark surfaces;
-- no essential text rotated;
-- orange cannot communicate state alone;
+- readable contrast;
+- visible focus;
+- no essential meaning on hover/color alone;
 - practical mobile targets around 44–48px minimum;
 - text resizing/reflow must not break content or controls;
-- no decorative bleed may clip focusable elements.
+- decorative object is `aria-hidden`;
+- reduced-motion state remains complete.
 
 ## Hard anti-patterns
 Do not introduce:
-- dashboard / CRM / workstation aesthetic;
-- SaaS card stacks;
-- generic ecommerce catalogue/cart/account UI;
-- racing/carbon-fibre/HUD language;
-- unrelated supercars;
-- repeated rounded cards;
-- gradients/glow/glass/neon;
-- fake social proof or business imagery;
+- CRM / dashboard / workstation aesthetics;
+- V6 beige paper palette;
+- orange packing tape / shipping-label / barcode grammar;
+- SaaS cards;
+- catalogue/cart/account UI;
+- racing/carbon-fibre/HUD clichés;
+- fake automotive proof imagery;
 - excessive mono labels;
-- decorative technical diagrams presented as evidence;
-- new sections merely to make the page feel richer.
+- random gradients/glow/glass;
+- generic AI decoration;
+- new sections solely to create visual density.
 
-## Current refinement contract
-`docs/v6-fundamentals-refinement.md` is the active refinement specification for typography, CTA mass, process Gestalt, evidence compression, request-transition continuity, manifest-style form composition and submit dispatch treatment.
+## Implementation authority
+`docs/visual-reset-v7-art-direction.md` defines the implementation-ready V7 aesthetic blueprint.
 
-If this file and older V4/V5 documents conflict, this `DESIGN.md`, the V6 art direction and the V6 fundamentals refinement are authoritative for current visual work.
+Older V4/V5/V6 visual documents are historical context only when they conflict with this contract.
 
 ## Release sequence
-For material visual changes:
+For V7:
 
-`Visual direction → Frontend implementation → rendered 390 / intermediate / 1440 review → independent UI Guard → QA → merge`
+`Visual Taste direction → Frontend implementation → rendered 390 / intermediate / 1440 review → independent UI Guard → QA → merge`
 
-Frontend implementation is not final visual approval.
+Source code or CI success alone is not visual approval.
