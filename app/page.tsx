@@ -149,16 +149,16 @@ export default function Home() {
         <a className="brand" href="#top" aria-label="Spline">
           <img src="/spline-wordmark.svg" width="103" height="24" alt="Spline" />
         </a>
-        <a className="topCta" href="#request">Найти деталь</a>
+        <a className="topCta" href="#request">Запросить</a>
       </header>
 
       <section className="hero" id="top">
         <div className="heroCopy">
           <h1>Нужна <span className="routeWord">запчасть?</span> Покажите машину и деталь.</h1>
-          <p className="lead">Отправьте VIN, данные автомобиля, фото или OEM‑номер. Менеджер получит всё в одной заявке и продолжит подбор.</p>
+          <p className="lead">VIN или марка, модель и год — плюс фото, название, OEM‑номер или описание детали. Добавьте контакт — заявка уйдёт менеджеру.</p>
           <div className="heroActions">
             <a className="primary" href="#request">Запросить запчасть</a>
-            <span className="micro">Без каталога и долгого поиска по сайту.</span>
+            <span className="micro">Можно начать без точного названия детали.</span>
           </div>
         </div>
 
@@ -166,10 +166,10 @@ export default function Home() {
           <div className="packagePlane" aria-hidden="true" />
           <div className="shippingLabel">
             <small>PART IDENTIFICATION</small>
-            <strong>Нужен один полезный сигнал</strong>
+            <strong>Данные для заявки</strong>
             <dl>
               <div><dt>VEHICLE</dt><dd>VIN / марка · модель · год</dd></div>
-              <div><dt>PART</dt><dd>OEM / фото / название</dd></div>
+              <div><dt>PART</dt><dd>фото / название / OEM / описание</dd></div>
               <div><dt>CONTACT</dt><dd>телефон / мессенджер</dd></div>
             </dl>
             <div className="barcode" aria-hidden="true" />
@@ -181,7 +181,7 @@ export default function Home() {
       <section className="process" aria-labelledby="process-title">
         <div className="sectionHead compactProcessHead">
           <p className="eyebrow">Как это работает</p>
-          <h2 id="process-title">Три сигнала — одна заявка.</h2>
+          <h2 id="process-title">Три шага — одна заявка.</h2>
         </div>
         <div className="processSequence">
           <article className="processStep stepVehicle">
@@ -201,7 +201,7 @@ export default function Home() {
 
       <section className="evidenceGap" aria-label="Что полезно отправить">
         <span className="evidenceStamp">USE WHAT YOU HAVE<br />VIN · OEM · PHOTO · DESCRIPTION</span>
-        <p>Не нужно знать всё. Достаточно данных, по которым менеджер сможет начать точный поиск.</p>
+        <p>Не нужно знать точное название детали. Фото, OEM‑номер или описание помогут менеджеру начать подбор.</p>
       </section>
 
       <section className="requestSection" id="request">
@@ -217,7 +217,7 @@ export default function Home() {
             <div className="success" role="status">
               <span>REQUEST RECEIVED</span>
               <h2>{requestNumber ? `Заявка №${requestNumber}` : "Заявка принята"}</h2>
-              <p>Она уже находится в рабочей системе Spline.</p>
+              <p>Заявка принята в рабочую систему Spline. Менеджер продолжит подбор и при необходимости уточнит детали по указанному контакту.</p>
               <button className="secondary" onClick={() => { started.current = false; setState("idle"); }}>Отправить ещё одну</button>
             </div>
           ) : (
