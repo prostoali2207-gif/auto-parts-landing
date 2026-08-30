@@ -1,0 +1,26 @@
+/* V7 process collision repair — exact Visual Taste runtime finding only. */
+@media(max-width:600px){
+  .processStep,
+  .processStep:nth-child(1),
+  .processStep:nth-child(2),
+  .processStep:nth-child(3){
+    grid-template-columns:92px minmax(0,1fr)!important;
+    gap:18px!important;
+    padding-left:0!important;
+  }
+
+  .processStep .stepNo,
+  .processStep:nth-child(1) .stepNo,
+  .processStep:nth-child(2) .stepNo,
+  .processStep:nth-child(3) .stepNo{
+    width:92px!important;
+    padding:0 10px 0 0!important;
+    font-size:60px!important;
+    white-space:nowrap!important;
+  }
+
+  .processStep>div{
+    min-width:0!important;
+    max-width:none!important;
+  }
+}
