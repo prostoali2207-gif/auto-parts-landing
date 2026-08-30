@@ -40,8 +40,13 @@ jobs:
             await page.locator('input[name="contact"]').fill('qa-smoke-instagram');
             await page.locator('input[name="clientName"]').fill('QA Instagram Smoke');
             await page.getByRole('button', { name: 'Отправить заявку' }).click();
-            await page.getByText(/Заявка №|Заявка принята/).waitFor({ timeout: 20000 });
-            console.log(await page.locator('[role="status"]').innerText());
+            const status = page.locator('[role="status"]');
+            await status.waitFor({ state: 'visible', timeout: 20000 });
+            const statusText = await status.innerText();
+            if (!/Заявка №\d+|Заявка принята/.test(statusText)) {
+              throw new Error(`Unexpected success state: ${statusText}`);
+            }
+            console.log(statusText);
             await browser.close();
           })().catch((error) => {
             console.error(error);
