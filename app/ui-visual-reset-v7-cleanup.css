@@ -1,0 +1,87 @@
+/* V7 cleanup — neutralize legacy pseudo-elements / high-specificity V6 rules still present in the cascade. */
+.heroActions .primary::before,
+.heroActions .primary::after,
+.requestForm>.submit::before,
+.requestForm>.submit::after,
+.requestBody::before,
+.requestBody::after,
+.evidenceGap::before,
+.evidenceGap::after,
+.process::before,
+.process::after,
+.compactProcessHead::before,
+.compactProcessHead::after,
+.fileControl::before,
+.fileControl::after{
+  display:none!important;
+  content:none!important;
+}
+
+.requestThreshold .requestTitleRow>span{
+  color:var(--v7-acid)!important;
+}
+
+.processStep .stepCode,
+.processStep:nth-child(1) .stepCode,
+.processStep:nth-child(2) .stepCode,
+.processStep:nth-child(3) .stepCode,
+.stepVehicle .stepCode,
+.stepPart .stepCode,
+.stepContact .stepCode{
+  color:var(--v7-muted)!important;
+}
+
+.requestForm>.submit{
+  width:min(440px,100%)!important;
+  min-height:62px!important;
+  font-size:18px!important;
+  box-shadow:none!important;
+  border-color:var(--v7-acid)!important;
+  background:var(--v7-acid)!important;
+  color:var(--v7-ink)!important;
+}
+
+.fileLabel .fileAction{
+  background:var(--v7-acid)!important;
+  color:var(--v7-ink)!important;
+  border:1px solid var(--v7-ink)!important;
+}
+
+@media(max-width:600px){
+  .processStep,
+  .processStep:nth-child(1),
+  .processStep:nth-child(2),
+  .processStep:nth-child(3){
+    display:block!important;
+    grid-template-columns:none!important;
+    gap:0!important;
+    min-height:0!important;
+    margin:0!important;
+    background:transparent!important;
+  }
+  .processStep:nth-child(2){padding-left:14%!important}
+  .processStep:nth-child(3){padding-left:4%!important}
+  .processStep .stepNo,
+  .processStep:nth-child(1) .stepNo,
+  .processStep:nth-child(2) .stepNo,
+  .processStep:nth-child(3) .stepNo{
+    display:block!important;
+    width:auto!important;
+    padding:0!important;
+    background:transparent!important;
+    font-size:94px!important;
+    line-height:.72!important;
+  }
+  .processStep>div{
+    max-width:280px!important;
+    margin-top:0!important;
+    padding:0!important;
+    background:transparent!important;
+  }
+  .processStep h3{font-size:25px!important}
+  .processStep p{font-size:15px!important;color:var(--v7-muted)!important}
+}
+
+@media(max-width:900px){
+  .requestForm>.submit{margin-left:0!important;width:100%!important}
+}
