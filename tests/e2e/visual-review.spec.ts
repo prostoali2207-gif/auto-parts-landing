@@ -24,11 +24,11 @@ async function freezeHeroMotion(page: Page, currentTime: number) {
   }, currentTime);
 }
 
-async function scrollProcessToMidpoint(page: Page) {
+async function scrollProcess(page: Page, topInViewport: number) {
   const top = await page.locator(".process").evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
   const viewportHeight = await page.evaluate(() => window.innerHeight);
-  await page.evaluate((y) => window.scrollTo(0, y), Math.max(0, top - viewportHeight * 0.25));
-  await page.waitForTimeout(80);
+  await page.evaluate(({ y }) => window.scrollTo(0, y), { y: Math.max(0, top - viewportHeight * topInViewport) });
+  await page.waitForTimeout(100);
 }
 
 test.beforeAll(async () => {
@@ -63,24 +63,38 @@ test("capture full landing on desktop", async ({ page }) => {
   await page.screenshot({ path: `${outputDir}/landing-desktop-1440.png`, fullPage: true });
 });
 
-test("capture mobile motion checkpoints", async ({ page }) => {
+test("capture mobile hero motion progression and process route", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 390, height: 844 });
   await openLanding(page);
-  await freezeHeroMotion(page, 330);
+
+  await freezeHeroMotion(page, 150);
+  await page.locator(".hero").screenshot({ path: `${outputDir}/motion-mobile-hero-compact.png` });
+  await freezeHeroMotion(page, 700);
   await page.locator(".hero").screenshot({ path: `${outputDir}/motion-mobile-hero-mid.png` });
-  await freezeHeroMotion(page, 1000);
-  await scrollProcessToMidpoint(page);
-  await page.screenshot({ path: `${outputDir}/motion-mobile-process-mid.png`, fullPage: false });
+  await freezeHeroMotion(page, 1500);
+  await page.locator(".hero").screenshot({ path: `${outputDir}/motion-mobile-hero-final.png` });
+
+  await scrollProcess(page, 0.28);
+  await page.screenshot({ path: `${outputDir}/motion-mobile-process-early.png`, fullPage: false });
+  await scrollProcess(page, 0.02);
+  await page.screenshot({ path: `${outputDir}/motion-mobile-process-late.png`, fullPage: false });
 });
 
-test("capture desktop motion checkpoints", async ({ page }) => {
+test("capture desktop hero motion progression and process route", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 1440, height: 1000 });
   await openLanding(page);
-  await freezeHeroMotion(page, 330);
+
+  await freezeHeroMotion(page, 150);
+  await page.locator(".hero").screenshot({ path: `${outputDir}/motion-desktop-hero-compact.png` });
+  await freezeHeroMotion(page, 700);
   await page.locator(".hero").screenshot({ path: `${outputDir}/motion-desktop-hero-mid.png` });
-  await freezeHeroMotion(page, 1000);
-  await scrollProcessToMidpoint(page);
-  await page.screenshot({ path: `${outputDir}/motion-desktop-process-mid.png`, fullPage: false });
+  await freezeHeroMotion(page, 1500);
+  await page.locator(".hero").screenshot({ path: `${outputDir}/motion-desktop-hero-final.png` });
+
+  await scrollProcess(page, 0.28);
+  await page.screenshot({ path: `${outputDir}/motion-desktop-process-early.png`, fullPage: false });
+  await scrollProcess(page, 0.02);
+  await page.screenshot({ path: `${outputDir}/motion-desktop-process-late.png`, fullPage: false });
 });
