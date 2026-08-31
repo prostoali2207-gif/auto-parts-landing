@@ -1,0 +1,124 @@
+/* V7 purposeful motion/effects refinement.
+   Contract: docs/v7-purposeful-motion-effects-contract.md
+   Scope: motion only. No copy, form, CRM, validation, analytics or request-flow changes. */
+
+@keyframes v7-open-backplate{
+  from{translate:21px -9px 34px}
+  to{translate:0 0 0}
+}
+@keyframes v7-open-bracket{
+  from{translate:10px -5px 15px}
+  to{translate:0 0 0}
+}
+@keyframes v7-open-housing{
+  from{translate:-6px 3px -7px}
+  to{translate:0 0 0}
+}
+@keyframes v7-open-core{
+  from{translate:-21px 13px -32px}
+  to{translate:0 0 0}
+}
+@keyframes v7-open-flange{
+  from{translate:-35px 22px -50px}
+  to{translate:0 0 0}
+}
+@keyframes v7-open-cap{
+  from{translate:-49px 30px -68px}
+  to{translate:0 0 0}
+}
+@keyframes v7-open-connector{
+  from{translate:38px -24px 8px}
+  to{translate:0 0 0}
+}
+
+@keyframes v7-process-route-draw-x{
+  from{clip-path:inset(0 100% 0 0)}
+  to{clip-path:inset(0 0 0 0)}
+}
+@keyframes v7-process-route-draw-y{
+  from{clip-path:inset(0 0 100% 0)}
+  to{clip-path:inset(0 0 0 0)}
+}
+@keyframes v7-process-number-reveal-x{
+  from{clip-path:inset(0 100% 0 0);translate:-10px 0}
+  to{clip-path:inset(0 0 0 0);translate:0 0}
+}
+@keyframes v7-process-number-reveal-y{
+  from{clip-path:inset(0 0 100% 0);translate:0 -8px}
+  to{clip-path:inset(0 0 0 0);translate:0 0}
+}
+
+@media(prefers-reduced-motion:no-preference){
+  /* One coordinated mechanical opening. Individual pieces move only along the
+     already-established assembly axis; final transforms remain unchanged. */
+  .partBackplate{
+    animation:v7-open-backplate 760ms cubic-bezier(.2,.78,.2,1) 0ms 1 both;
+  }
+  .partBracket{
+    animation:v7-open-bracket 760ms cubic-bezier(.2,.78,.2,1) 25ms 1 both;
+  }
+  .partHousing{
+    animation:v7-open-housing 760ms cubic-bezier(.2,.78,.2,1) 45ms 1 both;
+  }
+  .partCore{
+    animation:v7-open-core 760ms cubic-bezier(.2,.78,.2,1) 65ms 1 both;
+  }
+  .partRing{
+    animation:v7-open-flange 760ms cubic-bezier(.2,.78,.2,1) 85ms 1 both;
+  }
+  .partLens{
+    animation:v7-open-cap 760ms cubic-bezier(.2,.78,.2,1) 105ms 1 both;
+  }
+  .partConnector{
+    animation:v7-open-connector 760ms cubic-bezier(.2,.78,.2,1) 20ms 1 both;
+  }
+
+  /* Progressive enhancement: the static process remains complete when view
+     timelines are unsupported. */
+  @supports (animation-timeline:view()){
+    .processSequence{
+      view-timeline-name:--v7-process-sequence;
+      view-timeline-axis:block;
+    }
+
+    .processSequence::before{
+      animation:v7-process-route-draw-x 1ms linear both;
+      animation-timeline:--v7-process-sequence;
+      animation-range:entry 10% cover 46%;
+    }
+
+    .processStep .stepNo{
+      animation:v7-process-number-reveal-x 1ms linear both;
+      animation-timeline:--v7-process-sequence;
+    }
+    .processStep:nth-child(1) .stepNo{animation-range:entry 10% cover 27%}
+    .processStep:nth-child(2) .stepNo{animation-range:entry 22% cover 39%}
+    .processStep:nth-child(3) .stepNo{animation-range:entry 34% cover 51%}
+  }
+}
+
+@media(max-width:700px) and (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline:view()){
+    .processSequence::before{
+      animation-name:v7-process-route-draw-y;
+      animation-range:entry 8% cover 58%;
+    }
+    .processStep .stepNo{animation-name:v7-process-number-reveal-y}
+    .processStep:nth-child(1) .stepNo{animation-range:entry 8% cover 24%}
+    .processStep:nth-child(2) .stepNo{animation-range:entry 26% cover 42%}
+    .processStep:nth-child(3) .stepNo{animation-range:entry 44% cover 60%}
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .heroObject .part{
+    animation:none!important;
+    translate:0 0 0!important;
+  }
+  .processSequence::before,
+  .processStep .stepNo{
+    animation:none!important;
+    clip-path:none!important;
+    translate:0 0!important;
+  }
+}
