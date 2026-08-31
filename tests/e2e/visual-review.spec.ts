@@ -24,15 +24,21 @@ async function freezeHeroMotion(page: Page, currentTime: number) {
   }, currentTime);
 }
 
+async function scrollMobileHeroToVisibleRatio(page: Page, ratio: number) {
+  await page.evaluate((targetRatio) => {
+    const object = document.querySelector<HTMLElement>(".heroObject");
+    if (!object) return;
+    const rect = object.getBoundingClientRect();
+    const absoluteTop = rect.top + window.scrollY;
+    const targetTop = window.innerHeight - rect.height * targetRatio;
+    window.scrollTo(0, Math.max(1, absoluteTop - targetTop));
+  }, ratio);
+}
+
 async function triggerMobileHero(page: Page) {
   const heroObject = page.locator(".heroObject");
   await expect(heroObject).toHaveClass(/heroMobileMotionArmed/);
-  await page.evaluate(() => {
-    const object = document.querySelector<HTMLElement>(".heroObject");
-    if (!object) return;
-    const absoluteTop = object.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo(0, Math.max(1, absoluteTop - window.innerHeight * 0.48));
-  });
+  await scrollMobileHeroToVisibleRatio(page, 0.22);
   await expect(heroObject).toHaveClass(/heroMobileMotionRun/);
 }
 
@@ -98,13 +104,13 @@ test("capture mobile viewport-triggered hero and explicit 01 then 02 then 03 pro
   await openLanding(page);
 
   await expect(page.locator(".heroObject")).toHaveClass(/heroMobileMotionArmed/);
-  await page.locator(".hero").screenshot({ path: `${outputDir}/motion-mobile-hero-compact.png` });
+  await page.screenshot({ path: `${outputDir}/motion-mobile-hero-compact.png`, fullPage: false });
 
   await triggerMobileHero(page);
   await freezeHeroMotion(page, 700);
-  await page.locator(".hero").screenshot({ path: `${outputDir}/motion-mobile-hero-mid.png` });
+  await page.screenshot({ path: `${outputDir}/motion-mobile-hero-mid.png`, fullPage: false });
   await freezeHeroMotion(page, 1500);
-  await page.locator(".hero").screenshot({ path: `${outputDir}/motion-mobile-hero-final.png` });
+  await page.screenshot({ path: `${outputDir}/motion-mobile-hero-final.png`, fullPage: false });
 
   await captureProcessNumberStages(page, "motion-mobile");
 });
