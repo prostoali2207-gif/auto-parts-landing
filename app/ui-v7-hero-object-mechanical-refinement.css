@@ -1,0 +1,333 @@
+/* V7 hero-object mechanical-legibility refinement.
+   Contract: docs/v7-hero-object-refinement-contract.md
+   Scope: hero-object only. No page/request behavior changes. */
+
+.heroObject{
+  filter:drop-shadow(0 28px 34px rgba(0,0,0,.18));
+}
+
+/* Quiet assembly envelope: no orb, glow, HUD or guide-line language. */
+.objectHalo{
+  inset:15% -3% 12% 7%!important;
+  border:1px solid rgba(135,151,169,.22)!important;
+  border-radius:0!important;
+  background:rgba(17,29,43,.22)!important;
+  clip-path:polygon(4% 32%,17% 14%,57% 3%,87% 14%,99% 42%,91% 75%,67% 91%,34% 98%,10% 82%,0 58%)!important;
+  transform:rotate(-7deg)!important;
+  opacity:.72!important;
+}
+.objectHalo::before{
+  inset:9% 8% 10% 7%!important;
+  border:1px solid rgba(191,199,210,.18)!important;
+  border-radius:0!important;
+  background:transparent!important;
+  clip-path:polygon(3% 29%,19% 11%,59% 1%,88% 15%,98% 43%,89% 75%,66% 92%,32% 98%,9% 82%,0 57%)!important;
+}
+.objectHalo::after{
+  display:none!important;
+}
+.objectGuide{
+  display:none!important;
+}
+
+/* Rear cast plate with explicit mounting ears. */
+.partBackplate{
+  width:474px!important;
+  height:326px!important;
+  margin:-163px 0 0 -237px!important;
+  border:1px solid rgba(107,126,148,.42)!important;
+  border-radius:0!important;
+  background:
+    linear-gradient(158deg,rgba(255,255,255,.055) 0 1px,transparent 1px 100%),
+    linear-gradient(145deg,#152333 0%,#0d1825 55%,#202e3d 100%)!important;
+  clip-path:polygon(0 33%,9% 18%,22% 16%,29% 6%,66% 0,83% 8%,89% 17%,98% 21%,100% 46%,94% 66%,86% 70%,78% 88%,60% 91%,52% 100%,25% 91%,17% 80%,6% 78%,0 62%)!important;
+  transform:translate3d(-57px,25px,-92px) rotate(1deg)!important;
+  box-shadow:inset 0 0 0 1px rgba(244,246,248,.035)!important;
+}
+.partBackplate::before,
+.partBackplate::after{
+  content:"";
+  position:absolute;
+  width:54px;
+  height:64px;
+  border:0!important;
+  border-radius:0!important;
+  box-sizing:border-box;
+  background:
+    radial-gradient(circle at 50% 47%,#0a1420 0 8px,#778596 9px 13px,transparent 14px),
+    linear-gradient(145deg,#2a394a,#111d2a)!important;
+  clip-path:polygon(12% 0,88% 7%,100% 34%,83% 100%,19% 92%,0 60%)!important;
+  box-shadow:inset 0 0 0 1px rgba(160,175,190,.32),0 10px 16px rgba(0,0,0,.24)!important;
+}
+.partBackplate::before{left:18px;top:42px;transform:rotate(-12deg)}
+.partBackplate::after{right:12px;bottom:38px;transform:rotate(17deg)}
+
+/* Satin mounting bracket: tabs + ribs rather than decorative surface noise. */
+.partBracket{
+  width:382px!important;
+  height:274px!important;
+  margin:-137px 0 0 -191px!important;
+  border-radius:0!important;
+  background:
+    linear-gradient(155deg,rgba(244,246,248,.24),transparent 24%),
+    linear-gradient(145deg,#aeb8c4 0%,#6f7c8c 35%,#3f4d5e 66%,#8794a3 100%)!important;
+  clip-path:polygon(0 27%,8% 14%,21% 16%,29% 5%,65% 0,74% 9%,92% 12%,100% 31%,95% 54%,88% 57%,83% 88%,70% 88%,63% 100%,35% 94%,28% 83%,10% 82%,3% 64%)!important;
+  transform:translate3d(-25px,12px,-38px) rotate(-3deg)!important;
+  box-shadow:inset 0 0 0 1px rgba(14,26,39,.28),0 20px 26px rgba(0,0,0,.22)!important;
+}
+.partBracket::before{
+  content:"";
+  position:absolute;
+  left:28px;
+  right:38px;
+  bottom:31px;
+  height:62px;
+  background:repeating-linear-gradient(90deg,rgba(12,23,35,.48) 0 5px,transparent 5px 22px)!important;
+  clip-path:polygon(0 24%,100% 0,94% 100%,6% 84%)!important;
+  opacity:.68!important;
+}
+.partBracket::after{
+  content:"";
+  position:absolute;
+  left:54px;
+  top:34px;
+  width:78px;
+  height:48px;
+  background:
+    radial-gradient(circle at 23px 24px,#202d3b 0 6px,#c2cbd4 7px 10px,transparent 11px),
+    linear-gradient(145deg,#7e8b9b,#4a5869)!important;
+  clip-path:polygon(8% 0,100% 12%,91% 100%,0 88%)!important;
+  box-shadow:inset 0 0 0 1px rgba(20,32,45,.34)!important;
+}
+
+/* Main cast housing is the dominant readable mass. */
+.partHousing{
+  width:372px!important;
+  height:238px!important;
+  margin:-119px 0 0 -186px!important;
+  border:1px solid rgba(231,236,241,.18)!important;
+  border-radius:0!important;
+  background:
+    linear-gradient(132deg,rgba(255,255,255,.36) 0 4%,transparent 18%),
+    linear-gradient(145deg,#d7dee5 0%,#a6b1bd 27%,#697687 55%,#465365 72%,#8e9aa7 100%)!important;
+  clip-path:polygon(0 30%,10% 14%,24% 13%,31% 5%,66% 0,77% 8%,93% 12%,100% 34%,94% 63%,84% 70%,78% 88%,57% 96%,48% 100%,20% 90%,13% 81%,4% 76%)!important;
+  transform:translate3d(16px,-8px,18px) rotate(-4deg)!important;
+  box-shadow:inset 0 0 0 1px rgba(17,29,43,.16),0 24px 30px rgba(0,0,0,.25)!important;
+}
+.partHousing::before{
+  content:"";
+  position:absolute;
+  left:40px;
+  top:30px;
+  width:248px;
+  height:22px;
+  background:linear-gradient(90deg,rgba(25,38,52,.14),rgba(25,38,52,.5),rgba(25,38,52,.12))!important;
+  clip-path:polygon(4% 23%,100% 0,95% 70%,0 100%)!important;
+  opacity:.8!important;
+}
+.partHousing::after{
+  content:"";
+  position:absolute;
+  inset:24% 15% 18% 23%!important;
+  border:1px solid rgba(22,35,49,.4)!important;
+  border-radius:0!important;
+  background:linear-gradient(145deg,rgba(20,33,46,.34),rgba(17,29,43,.08))!important;
+  clip-path:polygon(3% 27%,17% 10%,73% 0,97% 23%,90% 73%,72% 93%,28% 100%,4% 78%)!important;
+}
+
+/* Recessed carrier: deliberately non-circular. */
+.partCore{
+  width:204px!important;
+  height:146px!important;
+  margin:-73px 0 0 -102px!important;
+  border:1px solid rgba(202,211,220,.42)!important;
+  border-radius:0!important;
+  background:linear-gradient(145deg,#8794a3 0%,#566475 30%,#1b2837 58%,#0e1a26 100%)!important;
+  clip-path:polygon(6% 25%,17% 8%,70% 0,91% 13%,100% 42%,91% 81%,72% 100%,26% 93%,5% 74%,0 45%)!important;
+  box-shadow:inset 0 0 0 1px rgba(244,246,248,.08),0 18px 24px rgba(0,0,0,.24)!important;
+  transform:translate3d(42px,-27px,72px) rotate(-4deg)!important;
+}
+.partCore::before{
+  content:"";
+  position:absolute;
+  left:34px;
+  top:31px;
+  width:119px;
+  height:76px;
+  border:1px solid rgba(180,191,202,.28)!important;
+  border-radius:0!important;
+  background:linear-gradient(145deg,#0d1824,#253344)!important;
+  clip-path:polygon(8% 16%,83% 0,100% 24%,90% 86%,14% 100%,0 71%)!important;
+}
+.partCore::after{
+  content:"";
+  position:absolute;
+  left:54px;
+  top:55px;
+  width:79px;
+  height:12px;
+  border:0!important;
+  border-radius:0!important;
+  background:repeating-linear-gradient(90deg,#7d8997 0 8px,#283645 8px 15px)!important;
+  box-shadow:none!important;
+  opacity:.92!important;
+}
+
+/* Machined flange with keyed opening and bolt pattern — no perfect camera ring. */
+.partRing{
+  width:230px!important;
+  height:180px!important;
+  margin:-90px 0 0 -115px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:
+    radial-gradient(circle at 19% 28%,#273543 0 7px,#c4cdd6 8px 11px,transparent 12px),
+    radial-gradient(circle at 80% 22%,#273543 0 7px,#c4cdd6 8px 11px,transparent 12px),
+    radial-gradient(circle at 83% 75%,#273543 0 7px,#c4cdd6 8px 11px,transparent 12px),
+    radial-gradient(circle at 22% 80%,#273543 0 7px,#c4cdd6 8px 11px,transparent 12px),
+    linear-gradient(145deg,#d2dae2 0%,#8b98a7 32%,#596678 64%,#aab5c0 100%)!important;
+  clip-path:polygon(9% 22%,20% 7%,65% 0,86% 11%,100% 35%,93% 71%,76% 92%,39% 100%,14% 88%,0 61%)!important;
+  box-sizing:border-box!important;
+  box-shadow:inset 0 0 0 1px rgba(17,29,43,.22),0 18px 22px rgba(0,0,0,.25)!important;
+  transform:translate3d(76px,-46px,118px) rotate(-6deg)!important;
+}
+.partRing::before{
+  content:"";
+  position:absolute;
+  left:42px;
+  right:39px;
+  top:37px;
+  bottom:34px;
+  height:auto!important;
+  border:1px solid rgba(186,197,207,.24)!important;
+  background:linear-gradient(145deg,#162433,#0d1824)!important;
+  clip-path:polygon(8% 18%,75% 0,100% 27%,90% 82%,61% 100%,11% 91%,0 57%)!important;
+  transform:none!important;
+  opacity:1!important;
+}
+.partRing::after{
+  content:"";
+  position:absolute;
+  left:76px;
+  top:65px;
+  width:76px;
+  height:46px;
+  background:#334252!important;
+  clip-path:polygon(0 20%,78% 0,100% 29%,90% 100%,13% 89%)!important;
+  box-shadow:inset 0 0 0 1px rgba(211,220,228,.18)!important;
+}
+
+/* Front cap: shallow metal/polymer cover, not translucent glass. */
+.partLens{
+  width:164px!important;
+  height:124px!important;
+  margin:-62px 0 0 -82px!important;
+  border:1px solid rgba(215,224,232,.46)!important;
+  border-radius:0!important;
+  background:linear-gradient(145deg,#a7b2be 0%,#687586 38%,#2e3c4c 70%,#8592a0 100%)!important;
+  clip-path:polygon(8% 18%,73% 0,94% 13%,100% 43%,89% 82%,63% 100%,17% 91%,0 63%)!important;
+  box-shadow:inset 0 0 0 1px rgba(16,28,41,.2),0 16px 20px rgba(0,0,0,.24)!important;
+  backdrop-filter:none!important;
+  transform:translate3d(112px,-68px,166px) rotate(-6deg)!important;
+}
+.partLens::before{
+  content:"";
+  position:absolute;
+  left:30px;
+  top:27px;
+  width:97px;
+  height:53px;
+  background:linear-gradient(145deg,#1b2938,#101b28)!important;
+  clip-path:polygon(6% 16%,83% 0,100% 24%,90% 86%,16% 100%,0 66%)!important;
+  box-shadow:inset 0 0 0 1px rgba(206,216,225,.18)!important;
+}
+.partLens::after{
+  content:"";
+  position:absolute;
+  left:46px;
+  top:42px;
+  width:62px;
+  height:24px;
+  background:repeating-linear-gradient(90deg,#778494 0 6px,#263544 6px 12px)!important;
+  clip-path:polygon(0 18%,100% 0,92% 100%,7% 86%)!important;
+}
+
+/* Connector remains visibly attached to the rear housing family. */
+.partConnector{
+  width:122px!important;
+  height:78px!important;
+  margin:-39px 0 0 -61px!important;
+  border:1px solid rgba(126,143,161,.58)!important;
+  border-radius:0!important;
+  background:linear-gradient(145deg,#354558,#1b2938 58%,#101c29)!important;
+  clip-path:polygon(0 21%,69% 0,100% 23%,94% 82%,80% 100%,14% 90%)!important;
+  transform:translate3d(-188px,118px,-26px) rotate(11deg)!important;
+  box-shadow:0 14px 18px rgba(0,0,0,.22)!important;
+}
+.partConnector::before,
+.partConnector::after{
+  top:26px!important;
+  width:13px!important;
+  height:24px!important;
+  border:1px solid #9eabba!important;
+  background:#657386!important;
+}
+.partConnector::before{left:32px!important}
+.partConnector::after{left:54px!important}
+
+/* Fasteners are attached-looking bolt heads, not floating optical nodes. */
+.fastener{
+  width:22px!important;
+  height:22px!important;
+  margin:-11px 0 0 -11px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:linear-gradient(145deg,#d2dae1,#768391)!important;
+  clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%)!important;
+  box-shadow:inset 0 0 0 2px rgba(26,39,53,.34),0 8px 10px rgba(0,0,0,.24)!important;
+}
+.fastener::after{
+  content:"";
+  position:absolute;
+  inset:7px;
+  background:#243241;
+  border-radius:50%;
+}
+.fastenerA{transform:translate3d(-176px,-101px,56px)!important}
+.fastenerB{transform:translate3d(169px,91px,80px)!important}
+.fastenerC{transform:translate3d(-104px,136px,31px)!important}
+
+/* One assembly axis: hover only increases separation; part orientation stays stable. */
+@media(hover:hover) and (pointer:fine){
+  .heroObject:hover .partBackplate{transform:translate3d(-72px,34px,-108px) rotate(1deg)!important}
+  .heroObject:hover .partBracket{transform:translate3d(-39px,20px,-52px) rotate(-3deg)!important}
+  .heroObject:hover .partHousing{transform:translate3d(30px,-16px,31px) rotate(-4deg)!important}
+  .heroObject:hover .partCore{transform:translate3d(58px,-38px,88px) rotate(-4deg)!important}
+  .heroObject:hover .partRing{transform:translate3d(96px,-60px,138px) rotate(-6deg)!important}
+  .heroObject:hover .partLens{transform:translate3d(136px,-83px,190px) rotate(-6deg)!important}
+  .heroObject:hover .partConnector{transform:translate3d(-207px,132px,-38px) rotate(11deg)!important}
+  .heroObject:hover .fastenerA{transform:translate3d(-190px,-111px,69px)!important}
+  .heroObject:hover .fastenerB{transform:translate3d(184px,101px,94px)!important}
+  .heroObject:hover .fastenerC{transform:translate3d(-116px,150px,43px)!important}
+}
+
+@media(max-width:700px){
+  .heroObject{
+    right:-82px!important;
+    bottom:-72px!important;
+    transform:scale(.70) rotate(-1deg)!important;
+  }
+  .objectHalo{inset:15% -2% 12% 7%!important}
+}
+
+@media(max-width:390px){
+  .heroObject{
+    right:-96px!important;
+    bottom:-76px!important;
+    transform:scale(.67) rotate(-1deg)!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .heroObject .part{transition:none!important}
+}
