@@ -27,7 +27,7 @@ async function freezeHeroMotion(page: Page, currentTime: number) {
 async function scrollProcessToMidpoint(page: Page) {
   const top = await page.locator(".process").evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
   const viewportHeight = await page.evaluate(() => window.innerHeight);
-  await page.evaluate((y) => window.scrollTo(0, y), Math.max(0, top - viewportHeight * 0.58));
+  await page.evaluate((y) => window.scrollTo(0, y), Math.max(0, top - viewportHeight * 0.25));
   await page.waitForTimeout(80);
 }
 
