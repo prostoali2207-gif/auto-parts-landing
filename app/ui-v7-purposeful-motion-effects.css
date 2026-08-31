@@ -1,33 +1,37 @@
 /* V7 purposeful motion/effects refinement.
-   Contract: docs/v7-purposeful-motion-effects-contract.md
+   Repair contract: docs/v7-purposeful-motion-repair-contract.md
    Scope: motion only. No copy, form, CRM, validation, analytics or request-flow changes. */
 
+/* The first pass technically animated the assembly but the real mobile recording
+   showed too little silhouette change to read as an opening. These starts nearly
+   cancel the existing exploded transforms, so the object begins as one compact
+   mechanical mass and then resolves into the already-approved final pose. */
 @keyframes v7-open-backplate{
-  from{translate:21px -9px 34px}
+  from{translate:48px -21px 78px}
   to{translate:0 0 0}
 }
 @keyframes v7-open-bracket{
-  from{translate:10px -5px 15px}
+  from{translate:19px -9px 29px}
   to{translate:0 0 0}
 }
 @keyframes v7-open-housing{
-  from{translate:-6px 3px -7px}
+  from{translate:-14px 7px -16px}
   to{translate:0 0 0}
 }
 @keyframes v7-open-core{
-  from{translate:-21px 13px -32px}
+  from{translate:-50px 32px -77px}
   to{translate:0 0 0}
 }
 @keyframes v7-open-flange{
-  from{translate:-35px 22px -50px}
+  from{translate:-84px 53px -122px}
   to{translate:0 0 0}
 }
 @keyframes v7-open-cap{
-  from{translate:-49px 30px -68px}
+  from{translate:-120px 74px -164px}
   to{translate:0 0 0}
 }
 @keyframes v7-open-connector{
-  from{translate:38px -24px 8px}
+  from{translate:150px -92px 20px}
   to{translate:0 0 0}
 }
 
@@ -40,41 +44,42 @@
   to{clip-path:inset(0 0 0 0)}
 }
 @keyframes v7-process-number-reveal-x{
-  from{clip-path:inset(0 100% 0 0);translate:-10px 0}
+  from{clip-path:inset(0 100% 0 0);translate:-26px 0}
   to{clip-path:inset(0 0 0 0);translate:0 0}
 }
 @keyframes v7-process-number-reveal-y{
-  from{clip-path:inset(0 0 100% 0);translate:0 -8px}
+  from{clip-path:inset(0 0 100% 0);translate:0 -18px}
   to{clip-path:inset(0 0 0 0);translate:0 0}
 }
 
-@media(prefers-reduced-motion:no-preference){
-  /* One coordinated mechanical opening. Individual pieces move only along the
-     already-established assembly axis; final transforms remain unchanged. */
-  .partBackplate{
-    animation:v7-open-backplate 760ms cubic-bezier(.2,.78,.2,1) 0ms 1 both;
-  }
-  .partBracket{
-    animation:v7-open-bracket 760ms cubic-bezier(.2,.78,.2,1) 25ms 1 both;
-  }
-  .partHousing{
-    animation:v7-open-housing 760ms cubic-bezier(.2,.78,.2,1) 45ms 1 both;
-  }
-  .partCore{
-    animation:v7-open-core 760ms cubic-bezier(.2,.78,.2,1) 65ms 1 both;
-  }
-  .partRing{
-    animation:v7-open-flange 760ms cubic-bezier(.2,.78,.2,1) 85ms 1 both;
-  }
-  .partLens{
-    animation:v7-open-cap 760ms cubic-bezier(.2,.78,.2,1) 105ms 1 both;
-  }
-  .partConnector{
-    animation:v7-open-connector 760ms cubic-bezier(.2,.78,.2,1) 20ms 1 both;
-  }
+/* A short brand-accent tracer makes the route direction perceptible in normal
+   scrolling, then disappears and leaves the existing cobalt construction line. */
+@keyframes v7-process-tracer-x{
+  0%{clip-path:inset(0 100% 0 0);opacity:0}
+  10%{opacity:1}
+  78%{clip-path:inset(0 0 0 0);opacity:1}
+  100%{clip-path:inset(0 0 0 0);opacity:0}
+}
+@keyframes v7-process-tracer-y{
+  0%{clip-path:inset(0 0 100% 0);opacity:0}
+  10%{opacity:1}
+  78%{clip-path:inset(0 0 0 0);opacity:1}
+  100%{clip-path:inset(0 0 0 0);opacity:0}
+}
 
-  /* Progressive enhancement: the static process remains complete when view
-     timelines are unsupported. */
+@media(prefers-reduced-motion:no-preference){
+  /* One coordinated mechanical opening. The 120–220ms hold prevents the event
+     from finishing before the first meaningful paint, while the CTA stays live. */
+  .partBackplate{animation:v7-open-backplate 1180ms cubic-bezier(.16,.82,.18,1) 120ms 1 both}
+  .partBracket{animation:v7-open-bracket 1180ms cubic-bezier(.16,.82,.18,1) 140ms 1 both}
+  .partHousing{animation:v7-open-housing 1180ms cubic-bezier(.16,.82,.18,1) 160ms 1 both}
+  .partCore{animation:v7-open-core 1180ms cubic-bezier(.16,.82,.18,1) 175ms 1 both}
+  .partRing{animation:v7-open-flange 1180ms cubic-bezier(.16,.82,.18,1) 190ms 1 both}
+  .partLens{animation:v7-open-cap 1180ms cubic-bezier(.16,.82,.18,1) 205ms 1 both}
+  .partConnector{animation:v7-open-connector 1180ms cubic-bezier(.16,.82,.18,1) 135ms 1 both}
+
+  /* Progressive enhancement: unsupported scroll-animation browsers keep the
+     complete static process. */
   @supports (animation-timeline:view()){
     .processSequence{
       view-timeline-name:--v7-process-sequence;
@@ -84,29 +89,59 @@
     .processSequence::before{
       animation:v7-process-route-draw-x 1ms linear both;
       animation-timeline:--v7-process-sequence;
-      animation-range:entry 10% cover 46%;
+      animation-range:entry 4% cover 58%;
+    }
+
+    .processSequence::after{
+      content:"";
+      position:absolute;
+      left:4%;
+      right:4%;
+      top:49%;
+      height:2px;
+      background:var(--v7-acid);
+      transform:rotate(-2.2deg);
+      transform-origin:left center;
+      pointer-events:none;
+      opacity:0;
+      animation:v7-process-tracer-x 1ms linear both;
+      animation-timeline:--v7-process-sequence;
+      animation-range:entry 2% cover 60%;
     }
 
     .processStep .stepNo{
       animation:v7-process-number-reveal-x 1ms linear both;
       animation-timeline:--v7-process-sequence;
     }
-    .processStep:nth-child(1) .stepNo{animation-range:entry 10% cover 27%}
-    .processStep:nth-child(2) .stepNo{animation-range:entry 22% cover 39%}
-    .processStep:nth-child(3) .stepNo{animation-range:entry 34% cover 51%}
+    .processStep:nth-child(1) .stepNo{animation-range:entry 8% cover 25%}
+    .processStep:nth-child(2) .stepNo{animation-range:entry 23% cover 40%}
+    .processStep:nth-child(3) .stepNo{animation-range:entry 38% cover 55%}
   }
 }
 
-@media(max-width:700px) and (prefers-reduced-motion:no-preference){
+/* Match the actual mobile process recomposition breakpoint. */
+@media(max-width:600px) and (prefers-reduced-motion:no-preference){
   @supports (animation-timeline:view()){
     .processSequence::before{
       animation-name:v7-process-route-draw-y;
-      animation-range:entry 8% cover 58%;
+      animation-range:entry 4% cover 64%;
+    }
+    .processSequence::after{
+      left:42px;
+      right:auto;
+      top:34px;
+      bottom:38px;
+      width:2px;
+      height:auto;
+      transform:none;
+      transform-origin:center top;
+      animation-name:v7-process-tracer-y;
+      animation-range:entry 2% cover 66%;
     }
     .processStep .stepNo{animation-name:v7-process-number-reveal-y}
-    .processStep:nth-child(1) .stepNo{animation-range:entry 8% cover 24%}
-    .processStep:nth-child(2) .stepNo{animation-range:entry 26% cover 42%}
-    .processStep:nth-child(3) .stepNo{animation-range:entry 44% cover 60%}
+    .processStep:nth-child(1) .stepNo{animation-range:entry 5% cover 23%}
+    .processStep:nth-child(2) .stepNo{animation-range:entry 27% cover 45%}
+    .processStep:nth-child(3) .stepNo{animation-range:entry 49% cover 67%}
   }
 }
 
@@ -120,5 +155,9 @@
     animation:none!important;
     clip-path:none!important;
     translate:0 0!important;
+  }
+  .processSequence::after{
+    content:none!important;
+    animation:none!important;
   }
 }
