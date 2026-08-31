@@ -41,12 +41,12 @@
   to{clip-path:inset(0 0 0 0)}
 }
 @keyframes v7-process-number-reveal-x{
-  from{opacity:0;clip-path:inset(0 100% 0 0);transform:translateX(-26px)}
-  to{opacity:1;clip-path:inset(0 0 0 0);transform:translateX(0)}
+  from{clip-path:inset(0 100% 0 0);transform:translateX(-26px)}
+  to{clip-path:inset(0 0 0 0);transform:translateX(0)}
 }
 @keyframes v7-process-number-reveal-y{
-  from{opacity:0;clip-path:inset(0 0 100% 0);transform:translateY(-18px)}
-  to{opacity:1;clip-path:inset(0 0 0 0);transform:translateY(0)}
+  from{clip-path:inset(0 0 100% 0);transform:translateY(-18px)}
+  to{clip-path:inset(0 0 0 0);transform:translateY(0)}
 }
 @keyframes v7-process-tracer-x{
   0%{clip-path:inset(0 100% 0 0);opacity:0}
@@ -98,14 +98,16 @@
     animation:v7-process-tracer-x 1320ms linear 40ms 1 both;
   }
 
-  /* Numbers are armed separately from the route. The trigger releases one step
-     at a time only after real user scrolling reaches the first process step. */
+  /* ui-v7-refinement.css intentionally sets stepNo opacity:1!important.
+     These explicit state overrides therefore also use !important so unreleased
+     02/03 are actually invisible until their JS state is released. */
   .processStep.processStepPending .stepNo{
-    opacity:0;
+    opacity:0!important;
     clip-path:inset(0 100% 0 0);
     transform:translateX(-26px);
   }
   .processStep.processStepVisible .stepNo{
+    opacity:1!important;
     animation:v7-process-number-reveal-x 520ms cubic-bezier(.18,.78,.2,1) 1 both;
   }
 }
