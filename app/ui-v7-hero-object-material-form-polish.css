@@ -1,0 +1,240 @@
+/* V7 hero-object material/form polish.
+   Contract: docs/v7-hero-object-material-form-polish-contract.md
+   Scope: hero object only. Preserve all page/request behavior. */
+
+.heroObject{
+  filter:drop-shadow(0 30px 36px rgba(0,0,0,.20))!important;
+}
+
+/* Backing contour remains quiet: construction envelope, not glow. */
+.objectHalo{
+  opacity:.52!important;
+  background:linear-gradient(145deg,rgba(23,36,51,.18),rgba(10,20,31,.06))!important;
+  border-color:rgba(145,160,176,.18)!important;
+}
+.objectHalo::before{
+  border-color:rgba(191,199,210,.13)!important;
+}
+
+/* Rear shell: consistent top-left highlight, dark lower/right thickness. */
+.partBackplate{
+  background:
+    linear-gradient(146deg,rgba(239,244,248,.055) 0 12%,transparent 30%),
+    linear-gradient(145deg,#1d2c3c 0%,#142333 30%,#0c1723 67%,#172536 100%)!important;
+  border-color:rgba(108,126,146,.36)!important;
+  box-shadow:
+    inset 1px 1px 0 rgba(244,246,248,.055),
+    inset -10px -12px 24px rgba(4,10,17,.24),
+    0 22px 30px rgba(0,0,0,.20)!important;
+}
+.partBackplate::before,
+.partBackplate::after{
+  filter:saturate(.82) brightness(.92)!important;
+  box-shadow:
+    inset 1px 1px 0 rgba(230,236,242,.12),
+    inset -5px -6px 10px rgba(7,15,23,.25),
+    0 8px 12px rgba(0,0,0,.20)!important;
+}
+
+/* Structural bracket: fewer decorative facets, stronger rib / thickness read. */
+.partBracket{
+  background:
+    linear-gradient(145deg,rgba(250,252,254,.24) 0 10%,transparent 28%),
+    linear-gradient(145deg,#b8c2cc 0%,#8794a2 30%,#596777 61%,#3f4d5c 82%,#71808f 100%)!important;
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,.22),
+    inset -9px -11px 20px rgba(18,30,42,.22),
+    0 18px 24px rgba(0,0,0,.20)!important;
+}
+.partBracket::before{
+  left:34px!important;
+  right:43px!important;
+  bottom:34px!important;
+  height:58px!important;
+  background:
+    linear-gradient(90deg,
+      transparent 0 7%,rgba(19,32,45,.40) 7% 10%,transparent 10% 27%,
+      rgba(19,32,45,.38) 27% 30%,transparent 30% 48%,
+      rgba(19,32,45,.34) 48% 51%,transparent 51% 69%,
+      rgba(19,32,45,.30) 69% 72%,transparent 72% 100%)!important;
+  clip-path:polygon(0 28%,100% 0,94% 100%,6% 84%)!important;
+  opacity:.82!important;
+}
+.partBracket::after{
+  filter:brightness(.94) saturate(.84)!important;
+}
+
+/* Dominant cast housing: shell lip + recessed pocket, not paper-cut stacking. */
+.partHousing{
+  background:
+    linear-gradient(144deg,rgba(255,255,255,.34) 0 8%,transparent 22%),
+    linear-gradient(145deg,#d6dde4 0%,#b2bdc7 24%,#8693a0 46%,#667383 66%,#4b5969 83%,#7d8997 100%)!important;
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,.24),
+    inset -10px -13px 24px rgba(24,37,50,.20),
+    0 22px 28px rgba(0,0,0,.22)!important;
+}
+.partHousing::before{
+  left:39px!important;
+  top:31px!important;
+  width:254px!important;
+  height:28px!important;
+  background:
+    linear-gradient(180deg,rgba(244,246,248,.28),rgba(36,50,64,.20)),
+    repeating-linear-gradient(90deg,transparent 0 45px,rgba(38,53,68,.22) 45px 49px)!important;
+  clip-path:polygon(3% 28%,100% 0,95% 74%,0 100%)!important;
+  box-shadow:inset 0 -1px 0 rgba(24,38,52,.20)!important;
+  opacity:.72!important;
+}
+.partHousing::after{
+  inset:25% 16% 19% 24%!important;
+  border-color:rgba(28,42,56,.38)!important;
+  background:
+    linear-gradient(145deg,rgba(26,40,54,.28),rgba(13,25,37,.10))!important;
+  box-shadow:
+    inset 3px 3px 9px rgba(17,28,40,.18),
+    inset -1px -1px 0 rgba(222,229,235,.10)!important;
+}
+
+/* Carrier moves visibly forward on the same axis and reads as a recessed subassembly. */
+.partCore{
+  background:
+    linear-gradient(145deg,rgba(220,228,235,.10),transparent 24%),
+    linear-gradient(145deg,#7d8997 0%,#566474 28%,#263545 58%,#111e2b 100%)!important;
+  box-shadow:
+    inset 1px 1px 0 rgba(239,243,247,.11),
+    inset -8px -9px 16px rgba(4,11,18,.24),
+    0 19px 24px rgba(0,0,0,.23)!important;
+  transform:translate3d(56px,-36px,86px) rotate(-4deg)!important;
+}
+.partCore::before{
+  background:linear-gradient(145deg,#152333,#0d1925)!important;
+  box-shadow:
+    inset 3px 3px 8px rgba(3,9,15,.28),
+    inset -1px -1px 0 rgba(179,191,202,.10)!important;
+}
+.partCore::after{
+  opacity:.78!important;
+  filter:saturate(.72)!important;
+}
+
+/* Machined flange: clear lip and opening, separated from the carrier. */
+.partRing{
+  background:
+    radial-gradient(circle at 19% 28%,#273543 0 6px,#b8c2cc 7px 10px,transparent 11px),
+    radial-gradient(circle at 80% 22%,#273543 0 6px,#b8c2cc 7px 10px,transparent 11px),
+    radial-gradient(circle at 83% 75%,#273543 0 6px,#b8c2cc 7px 10px,transparent 11px),
+    radial-gradient(circle at 22% 80%,#273543 0 6px,#b8c2cc 7px 10px,transparent 11px),
+    linear-gradient(145deg,rgba(250,252,254,.26) 0 8%,transparent 24%),
+    linear-gradient(145deg,#d5dce3 0%,#a7b2bd 27%,#7b8897 54%,#596777 77%,#8f9ba8 100%)!important;
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,.30),
+    inset -8px -10px 18px rgba(29,42,55,.22),
+    0 18px 23px rgba(0,0,0,.24)!important;
+  transform:translate3d(94px,-59px,136px) rotate(-6deg)!important;
+}
+.partRing::before{
+  background:linear-gradient(145deg,#182636,#0b1723)!important;
+  box-shadow:
+    inset 4px 4px 11px rgba(2,8,14,.30),
+    inset -1px -1px 0 rgba(197,207,216,.10)!important;
+}
+.partRing::after{
+  background:linear-gradient(145deg,#425160,#2c3b4a)!important;
+  box-shadow:inset 1px 1px 0 rgba(222,229,235,.14)!important;
+}
+
+/* Front cap: same material family, quieter insert, larger physical gap. */
+.partLens{
+  width:158px!important;
+  height:120px!important;
+  margin:-60px 0 0 -79px!important;
+  background:
+    linear-gradient(145deg,rgba(249,251,253,.22) 0 10%,transparent 27%),
+    linear-gradient(145deg,#aeb8c2 0%,#8895a3 34%,#606e7e 66%,#778593 100%)!important;
+  border-color:rgba(213,222,230,.34)!important;
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,.22),
+    inset -7px -9px 15px rgba(27,40,53,.20),
+    0 15px 20px rgba(0,0,0,.22)!important;
+  transform:translate3d(132px,-82px,184px) rotate(-6deg)!important;
+}
+.partLens::before{
+  left:34px!important;
+  top:30px!important;
+  width:84px!important;
+  height:45px!important;
+  background:linear-gradient(145deg,#253544,#172533)!important;
+  box-shadow:
+    inset 2px 2px 7px rgba(3,9,15,.24),
+    inset -1px -1px 0 rgba(206,216,225,.10)!important;
+}
+.partLens::after{
+  left:49px!important;
+  top:44px!important;
+  width:54px!important;
+  height:19px!important;
+  background:repeating-linear-gradient(90deg,#748190 0 5px,#344353 5px 10px)!important;
+  opacity:.82!important;
+}
+
+/* Connector stays part of the rear housing family and does not compete with the cap. */
+.partConnector{
+  filter:brightness(.92) saturate(.82)!important;
+  box-shadow:
+    inset 1px 1px 0 rgba(206,216,225,.08),
+    0 13px 18px rgba(0,0,0,.20)!important;
+}
+
+/* Bolt heads sit on the mounting structure rather than orbiting it. */
+.fastener{
+  width:18px!important;
+  height:18px!important;
+  margin:-9px 0 0 -9px!important;
+  background:linear-gradient(145deg,#bcc6cf,#778492)!important;
+  box-shadow:
+    inset 0 0 0 2px rgba(29,42,54,.32),
+    0 5px 7px rgba(0,0,0,.18)!important;
+  filter:saturate(.72) brightness(.92)!important;
+}
+.fastener::after{
+  inset:6px!important;
+  background:#2f3e4c!important;
+}
+.fastenerA{transform:translate3d(-156px,-89px,50px)!important}
+.fastenerB{transform:translate3d(151px,76px,70px)!important}
+.fastenerC{transform:translate3d(-94px,119px,27px)!important}
+
+/* One assembly axis: hover only extends the already-established separation. */
+@media(hover:hover) and (pointer:fine){
+  .heroObject:hover .partBackplate{transform:translate3d(-70px,33px,-106px) rotate(1deg)!important}
+  .heroObject:hover .partBracket{transform:translate3d(-38px,19px,-51px) rotate(-3deg)!important}
+  .heroObject:hover .partHousing{transform:translate3d(28px,-15px,29px) rotate(-4deg)!important}
+  .heroObject:hover .partCore{transform:translate3d(75px,-48px,104px) rotate(-4deg)!important}
+  .heroObject:hover .partRing{transform:translate3d(118px,-74px,160px) rotate(-6deg)!important}
+  .heroObject:hover .partLens{transform:translate3d(158px,-99px,211px) rotate(-6deg)!important}
+  .heroObject:hover .partConnector{transform:translate3d(-207px,132px,-38px) rotate(11deg)!important}
+  .heroObject:hover .fastenerA{transform:translate3d(-163px,-94px,57px)!important}
+  .heroObject:hover .fastenerB{transform:translate3d(158px,80px,77px)!important}
+  .heroObject:hover .fastenerC{transform:translate3d(-99px,125px,33px)!important}
+}
+
+@media(max-width:700px){
+  .heroObject{
+    right:-78px!important;
+    bottom:-72px!important;
+    transform:scale(.70) rotate(-1deg)!important;
+  }
+}
+
+@media(max-width:390px){
+  .heroObject{
+    right:-90px!important;
+    bottom:-76px!important;
+    transform:scale(.67) rotate(-1deg)!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .heroObject .part{transition:none!important}
+}
