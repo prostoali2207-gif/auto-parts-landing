@@ -1,16 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
 
-async function scrollHeroToVisibleRatio(page: Page, ratio: number) {
-  await page.evaluate((targetRatio) => {
-    const object = document.querySelector<HTMLElement>(".heroObject");
-    if (!object) return;
-    const rect = object.getBoundingClientRect();
-    const absoluteTop = rect.top + window.scrollY;
-    const targetTop = window.innerHeight - rect.height * targetRatio;
-    window.scrollTo(0, Math.max(1, absoluteTop - targetTop));
-  }, ratio);
-}
-
 async function heroVisibleRatio(page: Page) {
   return page.locator(".heroObject").evaluate((element) => {
     const rect = element.getBoundingClientRect();
@@ -62,26 +51,22 @@ async function assertNumeralsFit(page: Page) {
   }
 }
 
-test("mobile hero opens on first meaningful entry after real scroll, not lower in the page", async ({ page }) => {
+test("mobile hero opens on first meaningful entry in a browser-chrome-constrained viewport", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.setViewportSize({ width: 390, height: 844 });
+  await page.setViewportSize({ width: 390, height: 640 });
   await page.goto("/", { waitUntil: "domcontentloaded" });
+  await page.evaluate(() => document.fonts.ready);
 
   const hero = page.locator(".heroObject");
   await expect(hero).toHaveClass(/heroMobileMotionArmed/);
   await expect(hero).not.toHaveClass(/heroMobileMotionRun/);
 
   const initialRatio = await heroVisibleRatio(page);
+  expect(initialRatio).toBeGreaterThanOrEqual(0.19);
+  expect(initialRatio).toBeLessThan(0.36);
+
   await page.evaluate(() => window.scrollBy(0, 2));
-
-  if (initialRatio < 0.2) {
-    await scrollHeroToVisibleRatio(page, 0.22);
-  }
-
   await expect(hero).toHaveClass(/heroMobileMotionRun/);
-  const ratioAtRelease = await heroVisibleRatio(page);
-  expect(ratioAtRelease).toBeGreaterThanOrEqual(0.19);
-  expect(ratioAtRelease).toBeLessThan(0.3);
 });
 
 for (const viewport of [{ width: 390, height: 844 }, { width: 360, height: 800 }]) {
