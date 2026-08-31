@@ -24,11 +24,11 @@ async function freezeHeroMotion(page: Page, currentTime: number) {
   }, currentTime);
 }
 
-async function scrollProcess(page: Page, topInViewport: number) {
-  const top = await page.locator(".process").evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
-  const viewportHeight = await page.evaluate(() => window.innerHeight);
-  await page.evaluate(({ y }) => window.scrollTo(0, y), { y: Math.max(0, top - viewportHeight * topInViewport) });
-  await page.waitForTimeout(100);
+async function triggerProcess(page: Page) {
+  const sequence = page.locator(".processSequence");
+  await expect(sequence).toHaveClass(/processMotionArmed/);
+  await sequence.scrollIntoViewIfNeeded();
+  await expect(sequence).toHaveClass(/processMotionRun/);
 }
 
 test.beforeAll(async () => {
@@ -63,7 +63,7 @@ test("capture full landing on desktop", async ({ page }) => {
   await page.screenshot({ path: `${outputDir}/landing-desktop-1440.png`, fullPage: true });
 });
 
-test("capture mobile hero motion progression and process route", async ({ page }) => {
+test("capture mobile hero motion progression and triggered process route", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 390, height: 844 });
   await openLanding(page);
@@ -75,13 +75,14 @@ test("capture mobile hero motion progression and process route", async ({ page }
   await freezeHeroMotion(page, 1500);
   await page.locator(".hero").screenshot({ path: `${outputDir}/motion-mobile-hero-final.png` });
 
-  await scrollProcess(page, 0.28);
+  await triggerProcess(page);
+  await page.waitForTimeout(220);
   await page.screenshot({ path: `${outputDir}/motion-mobile-process-early.png`, fullPage: false });
-  await scrollProcess(page, 0.02);
+  await page.waitForTimeout(900);
   await page.screenshot({ path: `${outputDir}/motion-mobile-process-late.png`, fullPage: false });
 });
 
-test("capture desktop hero motion progression and process route", async ({ page }) => {
+test("capture desktop hero motion progression and triggered process route", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 1440, height: 1000 });
   await openLanding(page);
@@ -93,8 +94,9 @@ test("capture desktop hero motion progression and process route", async ({ page 
   await freezeHeroMotion(page, 1500);
   await page.locator(".hero").screenshot({ path: `${outputDir}/motion-desktop-hero-final.png` });
 
-  await scrollProcess(page, 0.28);
+  await triggerProcess(page);
+  await page.waitForTimeout(220);
   await page.screenshot({ path: `${outputDir}/motion-desktop-process-early.png`, fullPage: false });
-  await scrollProcess(page, 0.02);
+  await page.waitForTimeout(900);
   await page.screenshot({ path: `${outputDir}/motion-desktop-process-late.png`, fullPage: false });
 });

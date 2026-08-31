@@ -1,7 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-test("purposeful motion has readable hero timing without blocking the primary CTA", async ({ page }) => {
+test("purposeful motion has readable hero timing and process motion triggers on viewport entry", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/", { waitUntil: "domcontentloaded" });
 
   const hero = await page.locator(".partCore").evaluate((element) => {
@@ -16,17 +17,48 @@ test("purposeful motion has readable hero timing without blocking the primary CT
   expect(hero.animationDuration).toBe("1.18s");
   expect(Number.parseFloat(hero.animationDelay)).toBeGreaterThanOrEqual(0.17);
 
-  const supportsViewTimeline = await page.evaluate(() => CSS.supports("animation-timeline: view()"));
-  if (supportsViewTimeline) {
-    const process = await page.locator(".processSequence").evaluate((element) => {
-      const route = getComputedStyle(element, "::before");
-      const tracer = getComputedStyle(element, "::after");
-      return { routeAnimation: route.animationName, tracerAnimation: tracer.animationName, tracerContent: tracer.content };
+  const sequence = page.locator(".processSequence");
+  await expect(sequence).toHaveClass(/processMotionArmed/);
+
+  await sequence.scrollIntoViewIfNeeded();
+  await expect(sequence).toHaveClass(/processMotionRun/);
+
+  const process = await sequence.evaluate((element) => {
+    const route = getComputedStyle(element, "::before");
+    const tracer = getComputedStyle(element, "::after");
+    const numbers = Array.from(element.querySelectorAll<HTMLElement>(".stepNo")).map((number) => {
+      const style = getComputedStyle(number);
+      return { animationName: style.animationName, animationDelay: style.animationDelay };
     });
-    expect(process.routeAnimation).toContain("v7-process-route-draw");
-    expect(process.tracerAnimation).toContain("v7-process-tracer");
-    expect(process.tracerContent).not.toBe("none");
-  }
+    return {
+      routeAnimation: route.animationName,
+      tracerAnimation: tracer.animationName,
+      tracerContent: tracer.content,
+      numbers,
+    };
+  });
+
+  expect(process.routeAnimation).toContain("v7-process-route-draw-y");
+  expect(process.tracerAnimation).toContain("v7-process-tracer-y");
+  expect(process.tracerContent).not.toBe("none");
+  expect(process.numbers.map((item) => item.animationName)).toEqual([
+    "v7-process-number-reveal-y",
+    "v7-process-number-reveal-y",
+    "v7-process-number-reveal-y",
+  ]);
+  expect(process.numbers.map((item) => item.animationDelay)).toEqual(["0.12s", "0.47s", "0.82s"]);
+
+  await page.waitForTimeout(1500);
+  const settled = await sequence.evaluate((element) => {
+    const tracer = getComputedStyle(element, "::after");
+    const lastNumber = getComputedStyle(element.querySelectorAll<HTMLElement>(".stepNo")[2]);
+    return {
+      tracerOpacity: tracer.opacity,
+      lastNumberClip: lastNumber.clipPath,
+    };
+  });
+  expect(settled.tracerOpacity).toBe("0");
+  expect(settled.lastNumberClip).not.toContain("100%");
 
   const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   expect(hasOverflow).toBe(false);
@@ -36,8 +68,9 @@ test("purposeful motion has readable hero timing without blocking the primary CT
   await expect(page.locator("#request")).toBeInViewport();
 });
 
-test("reduced motion exposes the same final composition without animation or tracer", async ({ page }) => {
+test("reduced motion keeps the complete static process and never arms the trigger", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/", { waitUntil: "domcontentloaded" });
 
   const hero = await page.locator(".partCore").evaluate((element) => {
@@ -47,7 +80,11 @@ test("reduced motion exposes the same final composition without animation or tra
   expect(hero.animationName).toBe("none");
   expect(hero.translate === "none" || hero.translate === "0px" || hero.translate.startsWith("0px 0px")).toBe(true);
 
-  const process = await page.locator(".processSequence").evaluate((element) => {
+  const sequence = page.locator(".processSequence");
+  await sequence.scrollIntoViewIfNeeded();
+  await expect(sequence).not.toHaveClass(/processMotionArmed|processMotionRun/);
+
+  const process = await sequence.evaluate((element) => {
     const line = getComputedStyle(element, "::before");
     const tracer = getComputedStyle(element, "::after");
     const number = getComputedStyle(element.querySelector(".stepNo") as HTMLElement);
