@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, Manrope, Unbounded } from "next/font/google";
+import HeroMobileMotionTrigger from "./hero-mobile-motion-trigger";
 import ProcessMotionTrigger from "./process-motion-trigger";
 import "./globals.css";
 import "./brand.css";
@@ -40,5 +41,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ru" className={`${plexSans.variable} ${plexMono.variable} ${manrope.variable} ${unbounded.variable}`}><body>{children}<ProcessMotionTrigger /></body></html>;
+  return <html lang="ru" className={`${plexSans.variable} ${plexMono.variable} ${manrope.variable} ${unbounded.variable}`}><body>{children}<HeroMobileMotionTrigger /><ProcessMotionTrigger /></body></html>;
 }
