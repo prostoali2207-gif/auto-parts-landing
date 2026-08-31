@@ -48,6 +48,18 @@ test("purposeful motion has readable hero timing and process motion triggers on 
   ]);
   expect(process.numbers.map((item) => item.animationDelay)).toEqual(["0.12s", "0.47s", "0.82s"]);
 
+  await page.waitForTimeout(1500);
+  const settled = await sequence.evaluate((element) => {
+    const tracer = getComputedStyle(element, "::after");
+    const lastNumber = getComputedStyle(element.querySelectorAll<HTMLElement>(".stepNo")[2]);
+    return {
+      tracerOpacity: tracer.opacity,
+      lastNumberClip: lastNumber.clipPath,
+    };
+  });
+  expect(settled.tracerOpacity).toBe("0");
+  expect(settled.lastNumberClip === "none" || settled.lastNumberClip === "inset(0px)").toBe(true);
+
   const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   expect(hasOverflow).toBe(false);
 
