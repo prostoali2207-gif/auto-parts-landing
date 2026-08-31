@@ -1,0 +1,301 @@
+/* V7 product-specific refinement.
+   Contract source: fresh provider-backed Visual Taste runtime on exact main 572cd2e.
+   Scope: automotive-read hero object + request-surface continuity only. */
+
+/* HERO OBJECT — retain exploded projector concept, but anchor it in an unmistakable
+   asymmetric headlamp housing / mounting-bracket silhouette rather than orbital optics. */
+.heroObject{
+  filter:drop-shadow(0 26px 38px rgba(0,0,0,.16));
+}
+.objectHalo{
+  inset:14% -7% 11% 5%!important;
+  border:0!important;
+  border-radius:0!important;
+  background:
+    linear-gradient(135deg,rgba(79,107,255,.20),rgba(79,107,255,.035) 48%,rgba(200,255,46,.08))!important;
+  clip-path:polygon(2% 32%,18% 12%,61% 2%,91% 17%,100% 49%,86% 79%,48% 98%,13% 84%,0 58%)!important;
+  transform:rotate(-8deg)!important;
+  opacity:.92!important;
+}
+.objectHalo::before{
+  inset:8% 7% 9% 8%!important;
+  border:1px solid rgba(191,199,210,.26)!important;
+  border-radius:0!important;
+  clip-path:polygon(1% 31%,19% 11%,61% 1%,91% 17%,99% 49%,85% 78%,48% 99%,13% 84%,0 58%)!important;
+  background:transparent!important;
+}
+.objectHalo::after{
+  inset:auto 8% 18% auto!important;
+  width:46%!important;
+  height:27%!important;
+  border:0!important;
+  border-radius:0!important;
+  background:repeating-linear-gradient(90deg,rgba(191,199,210,.22) 0 2px,transparent 2px 14px)!important;
+  clip-path:polygon(0 18%,100% 0,92% 100%,6% 83%)!important;
+  transform:rotate(-7deg)!important;
+}
+
+.partBackplate{
+  width:466px!important;
+  height:326px!important;
+  margin:-163px 0 0 -233px!important;
+  background:linear-gradient(145deg,#111e2c 0%,#0d1724 56%,#1c2938 100%)!important;
+  clip-path:polygon(0 34%,10% 18%,29% 14%,35% 5%,70% 0,91% 16%,100% 37%,94% 69%,82% 72%,75% 91%,47% 100%,19% 88%,11% 76%,0 71%)!important;
+  transform:translate3d(-54px,22px,-92px) rotate(2deg)!important;
+  box-shadow:inset 0 0 0 1px rgba(120,139,160,.4)!important;
+}
+.partBackplate::before,
+.partBackplate::after{
+  content:"";
+  position:absolute;
+  width:30px;
+  height:30px;
+  border:7px solid #7a8797;
+  border-radius:50%;
+  background:#0a1420;
+  box-sizing:border-box;
+  box-shadow:inset 0 0 0 2px rgba(244,246,248,.12),0 6px 12px rgba(0,0,0,.28);
+}
+.partBackplate::before{left:32px;top:54px}
+.partBackplate::after{right:25px;bottom:51px}
+
+.partBracket{
+  width:370px!important;
+  height:282px!important;
+  margin:-141px 0 0 -185px!important;
+  background:
+    repeating-linear-gradient(165deg,rgba(255,255,255,.11) 0 2px,transparent 2px 28px),
+    linear-gradient(145deg,#9aa6b5 0%,#556274 44%,#273444 100%)!important;
+  clip-path:polygon(0 24%,9% 13%,24% 16%,31% 5%,69% 0,78% 10%,96% 17%,100% 40%,91% 88%,72% 89%,64% 100%,33% 94%,25% 84%,8% 82%,2% 61%)!important;
+  transform:translate3d(-24px,10px,-38px) rotate(-3deg)!important;
+}
+.partBracket::before{
+  content:"";
+  position:absolute;
+  left:25px;
+  right:42px;
+  bottom:35px;
+  height:54px;
+  background:repeating-linear-gradient(90deg,rgba(8,17,31,.46) 0 5px,transparent 5px 18px);
+  clip-path:polygon(0 20%,100% 0,95% 100%,5% 84%);
+  opacity:.58;
+}
+
+.partHousing{
+  width:348px!important;
+  height:230px!important;
+  margin:-115px 0 0 -174px!important;
+  background:linear-gradient(132deg,#dce3ea 0%,#9ba8b8 30%,#4a586b 63%,#cbd3dc 100%)!important;
+  clip-path:polygon(1% 27%,11% 12%,56% 0,88% 11%,100% 37%,91% 76%,68% 93%,47% 100%,16% 87%,4% 68%)!important;
+  transform:translate3d(18px,-8px,18px) rotate(-5deg)!important;
+}
+.partHousing::after{
+  content:"";
+  position:absolute;
+  inset:20% 13% 16% 20%;
+  border:1px solid rgba(8,17,31,.42);
+  clip-path:polygon(5% 20%,61% 0,96% 23%,88% 78%,55% 100%,3% 79%);
+}
+
+.partCore{
+  width:166px!important;
+  height:166px!important;
+  margin:-83px 0 0 -83px!important;
+  background:radial-gradient(circle at 42% 38%,#dfe5ec 0 8%,#929ead 9% 22%,#1b2736 23% 52%,#0a121c 53% 68%,#657285 69% 80%,#aeb8c4 81% 100%)!important;
+}
+.partCore::before{
+  content:"";
+  position:absolute;
+  left:18%;right:18%;top:51%;
+  height:10%;
+  background:#121d2a;
+  border-top:2px solid rgba(244,246,248,.38);
+  transform:rotate(-3deg);
+  border-radius:50% 50% 30% 30%;
+}
+.partCore::after{
+  content:"";
+  position:absolute;
+  width:18px;height:18px;
+  left:15%;top:17%;
+  border-radius:50%;
+  background:#c8ff2e;
+  opacity:.32;
+  box-shadow:0 0 0 5px rgba(200,255,46,.05);
+}
+
+.partRing{
+  width:214px!important;
+  height:214px!important;
+  margin:-107px 0 0 -107px!important;
+  border-width:16px!important;
+  border-color:#788596!important;
+  border-left-color:#d7dee6!important;
+  border-right-color:#354255!important;
+  transform:translate3d(54px,-33px,112px) rotate(-9deg)!important;
+}
+.partRing::before{
+  content:"";
+  position:absolute;
+  left:-30px;right:-30px;top:47%;
+  height:7px;
+  background:linear-gradient(90deg,transparent 0 8%,#515f72 8% 92%,transparent 92%);
+  transform:rotate(-3deg);
+  opacity:.8;
+}
+.partLens{
+  width:168px!important;
+  height:168px!important;
+  margin:-84px 0 0 -84px!important;
+  background:radial-gradient(circle at 34% 27%,rgba(255,255,255,.76),rgba(185,196,208,.37) 23%,rgba(79,107,255,.31) 50%,rgba(8,17,31,.74) 78%)!important;
+  border:2px solid rgba(220,227,235,.72)!important;
+  transform:translate3d(94px,-51px,166px) rotate(2deg)!important;
+}
+.partConnector{
+  width:116px!important;
+  height:74px!important;
+  background:linear-gradient(145deg,#29384b,#172434)!important;
+  clip-path:polygon(0 18%,70% 0,100% 22%,94% 86%,78% 100%,14% 88%)!important;
+  transform:translate3d(-183px,120px,-24px) rotate(12deg)!important;
+}
+.partConnector::before,
+.partConnector::after{
+  content:"";
+  position:absolute;
+  top:24px;
+  width:14px;height:22px;
+  background:#718094;
+  border:2px solid #a9b4c0;
+}
+.partConnector::before{left:29px}
+.partConnector::after{left:52px}
+
+.guideOne{width:38%!important;left:2%!important;top:29%!important;transform:rotate(-19deg)!important;opacity:.55!important}
+.guideTwo{width:29%!important;right:1%!important;bottom:21%!important;transform:rotate(28deg)!important;opacity:.42!important}
+
+@media(hover:hover) and (pointer:fine){
+  .heroObject:hover .partBackplate{transform:translate3d(-73px,31px,-112px) rotate(4deg)!important}
+  .heroObject:hover .partBracket{transform:translate3d(-39px,18px,-54px) rotate(-5deg)!important}
+  .heroObject:hover .partHousing{transform:translate3d(29px,-14px,30px) rotate(-6deg)!important}
+  .heroObject:hover .partCore{transform:translate3d(41px,-28px,90px) rotate(8deg)!important}
+  .heroObject:hover .partRing{transform:translate3d(74px,-44px,139px) rotate(-11deg)!important}
+  .heroObject:hover .partLens{transform:translate3d(117px,-65px,198px) rotate(4deg)!important}
+  .heroObject:hover .partConnector{transform:translate3d(-208px,137px,-36px) rotate(15deg)!important}
+}
+
+/* REQUEST SURFACE — one continuous V7 dark work surface, not a CRM/dashboard shell. */
+.requestSection{
+  background:#101419!important;
+  color:var(--v7-paper)!important;
+}
+.requestBody{
+  max-width:none!important;
+  padding-top:70px!important;
+  padding-bottom:112px!important;
+  padding-left:max(clamp(20px,4.2vw,68px),calc((100vw - 1440px)/2 + 68px))!important;
+  padding-right:max(clamp(20px,4.2vw,68px),calc((100vw - 1440px)/2 + 68px))!important;
+  background:
+    linear-gradient(90deg,rgba(79,107,255,.72) 0 72px,rgba(126,139,154,.32) 72px 100%) top left/100% 1px no-repeat,
+    #101419!important;
+}
+.requestForm{
+  width:min(100%,1120px)!important;
+  margin:0 auto!important;
+  background:transparent!important;
+  color:var(--v7-paper)!important;
+}
+.formGroup,
+.formGroup:last-of-type{
+  border-bottom-color:#394452!important;
+  background:
+    linear-gradient(90deg,var(--v7-cobalt) 0 72px,#394452 72px 100%) top left/100% 1px no-repeat!important;
+}
+.formGroup legend b{color:var(--v7-paper)!important}
+.formGroup>.fieldNote{color:#9ca8b6!important}
+.requestForm label{color:#e8edf2!important}
+.requestForm label>span:not(.fileControl):not(.fileLabelText){color:#8f9aa8!important}
+.requestForm input,
+.requestForm textarea{
+  background:#151c25!important;
+  border-color:#677485!important;
+  color:#f4f6f8!important;
+  caret-color:var(--v7-acid)!important;
+  box-shadow:none!important;
+}
+.requestForm input:hover,
+.requestForm textarea:hover{border-color:#98a4b2!important}
+.requestForm input:focus-visible,
+.requestForm textarea:focus-visible{
+  outline:0!important;
+  border-color:#b8c3cf!important;
+  box-shadow:0 0 0 2px rgba(79,107,255,.44)!important;
+  background:#18212c!important;
+}
+.requestForm input::placeholder,
+.requestForm textarea::placeholder{color:#7f8b99!important}
+.or span{color:#8d99a7!important}
+.fileControl{
+  background:#171f29!important;
+  border-color:#657284!important;
+}
+.fileName{color:#9ba7b4!important}
+.fieldError{
+  color:#ffd2cd!important;
+  background:rgba(169,50,35,.18)!important;
+  border-left-color:#ff7464!important;
+}
+.error{
+  color:#ffd2cd!important;
+  background:rgba(169,50,35,.18)!important;
+  border-color:#5b3433!important;
+}
+.requestForm>.submit{
+  color:var(--v7-ink)!important;
+  background:var(--v7-acid)!important;
+  border-color:var(--v7-acid)!important;
+}
+.success{
+  width:min(100%,880px)!important;
+  margin:0 auto!important;
+  color:var(--v7-paper)!important;
+  background:transparent!important;
+}
+.success>span{color:#91a4ff!important}
+.success h2{color:var(--v7-paper)!important}
+.success p{color:#a8b2bf!important}
+.success .secondary{
+  color:var(--v7-paper)!important;
+  border-color:#8995a4!important;
+}
+
+@media(max-width:700px){
+  .heroObject{
+    right:-104px!important;
+    bottom:-67px!important;
+    transform:scale(.72) rotate(1deg)!important;
+  }
+  .objectHalo{inset:14% -2% 10% 5%!important}
+
+  .requestBody{
+    padding:34px 14px 80px!important;
+    background:
+      linear-gradient(90deg,var(--v7-cobalt) 0 54px,#394452 54px 100%) top left/100% 1px no-repeat,
+      #101419!important;
+  }
+  .formGroup,
+  .formGroup:last-of-type{
+    background:
+      linear-gradient(90deg,var(--v7-cobalt) 0 54px,#394452 54px 100%) top left/100% 1px no-repeat!important;
+  }
+  .requestForm input,
+  .requestForm textarea{min-height:52px!important}
+  .fileControl{min-height:66px!important}
+}
+
+@media(max-width:390px){
+  .heroObject{right:-125px!important;bottom:-73px!important;transform:scale(.68) rotate(1deg)!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .heroObject .part{transition:none!important}
+}
