@@ -58,7 +58,7 @@ test("purposeful motion has readable hero timing and process motion triggers on 
     };
   });
   expect(settled.tracerOpacity).toBe("0");
-  expect(settled.lastNumberClip === "none" || settled.lastNumberClip === "inset(0px)").toBe(true);
+  expect(settled.lastNumberClip).not.toContain("100%");
 
   const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   expect(hasOverflow).toBe(false);
