@@ -27,12 +27,7 @@ async function freezeHeroMotion(page: Page, currentTime: number) {
 async function triggerMobileHero(page: Page) {
   const heroObject = page.locator(".heroObject");
   await expect(heroObject).toHaveClass(/heroMobileMotionArmed/);
-  await page.evaluate(() => {
-    const object = document.querySelector<HTMLElement>(".heroObject");
-    if (!object) return;
-    const absoluteTop = object.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo(0, Math.max(1, absoluteTop - window.innerHeight * 0.48));
-  });
+  await page.evaluate(() => window.scrollBy(0, 2));
   await expect(heroObject).toHaveClass(/heroMobileMotionRun/);
 }
 
@@ -92,20 +87,21 @@ test("capture full landing on desktop", async ({ page }) => {
   await page.screenshot({ path: `${outputDir}/landing-desktop-1440.png`, fullPage: true });
 });
 
-test("capture mobile viewport-triggered hero and explicit 01 then 02 then 03 process stages", async ({ page }) => {
+test("capture mobile browser-chrome hero timing and explicit 01 then 02 then 03 process stages", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.setViewportSize({ width: 390, height: 844 });
+  await page.setViewportSize({ width: 390, height: 640 });
   await openLanding(page);
 
   await expect(page.locator(".heroObject")).toHaveClass(/heroMobileMotionArmed/);
-  await page.locator(".hero").screenshot({ path: `${outputDir}/motion-mobile-hero-compact.png` });
+  await page.screenshot({ path: `${outputDir}/motion-mobile-hero-compact.png`, fullPage: false });
 
   await triggerMobileHero(page);
   await freezeHeroMotion(page, 700);
-  await page.locator(".hero").screenshot({ path: `${outputDir}/motion-mobile-hero-mid.png` });
+  await page.screenshot({ path: `${outputDir}/motion-mobile-hero-mid.png`, fullPage: false });
   await freezeHeroMotion(page, 1500);
-  await page.locator(".hero").screenshot({ path: `${outputDir}/motion-mobile-hero-final.png` });
+  await page.screenshot({ path: `${outputDir}/motion-mobile-hero-final.png`, fullPage: false });
 
+  await page.setViewportSize({ width: 390, height: 844 });
   await captureProcessNumberStages(page, "motion-mobile");
 });
 
