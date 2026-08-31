@@ -1,6 +1,7 @@
 /* V7 purposeful motion/effects refinement.
-   Repair: process sequence now uses a broadly compatible viewport trigger instead
-   of depending on CSS view timelines. Scope remains motion only. */
+   Process route uses a broadly compatible viewport trigger. Number sequencing is
+   now armed independently so 01 -> 02 -> 03 cannot complete before the user
+   actually scrolls into the first process step. Scope remains motion only. */
 
 @keyframes v7-open-backplate{
   from{translate:48px -21px 78px}
@@ -70,15 +71,9 @@
   .partLens{animation:v7-open-cap 1180ms cubic-bezier(.16,.82,.18,1) 205ms 1 both}
   .partConnector{animation:v7-open-connector 1180ms cubic-bezier(.16,.82,.18,1) 135ms 1 both}
 
-  /* Default HTML/CSS remains fully static. The client trigger adds Armed only
-     when JS is available and motion is allowed, then Run once the sequence enters
-     the viewport. This avoids a browser-support-dependent invisible effect. */
+  /* Existing route/tracer behavior is intentionally unchanged. */
   .processSequence.processMotionArmed::before{
     clip-path:inset(0 100% 0 0);
-  }
-  .processSequence.processMotionArmed .stepNo{
-    clip-path:inset(0 100% 0 0);
-    transform:translateX(-26px);
   }
 
   .processSequence.processMotionArmed::after,
@@ -102,21 +97,24 @@
   .processSequence.processMotionRun::after{
     animation:v7-process-tracer-x 1320ms linear 40ms 1 both;
   }
-  .processSequence.processMotionRun .stepNo{
-    animation:v7-process-number-reveal-x 420ms cubic-bezier(.18,.78,.2,1) 1 both;
+
+  /* ui-v7-refinement.css intentionally sets stepNo opacity:1!important.
+     These explicit state overrides therefore also use !important so unreleased
+     02/03 are actually invisible until their JS state is released. */
+  .processStep.processStepPending .stepNo{
+    opacity:0!important;
+    clip-path:inset(0 100% 0 0);
+    transform:translateX(-26px);
   }
-  .processSequence.processMotionRun .processStep:nth-child(1) .stepNo{animation-delay:120ms}
-  .processSequence.processMotionRun .processStep:nth-child(2) .stepNo{animation-delay:470ms}
-  .processSequence.processMotionRun .processStep:nth-child(3) .stepNo{animation-delay:820ms}
+  .processStep.processStepVisible .stepNo{
+    opacity:1!important;
+    animation:v7-process-number-reveal-x 520ms cubic-bezier(.18,.78,.2,1) 1 both;
+  }
 }
 
 @media(max-width:600px) and (prefers-reduced-motion:no-preference){
   .processSequence.processMotionArmed::before{
     clip-path:inset(0 0 100% 0);
-  }
-  .processSequence.processMotionArmed .stepNo{
-    clip-path:inset(0 0 100% 0);
-    transform:translateY(-18px);
   }
 
   .processSequence.processMotionArmed::after,
@@ -137,7 +135,12 @@
   .processSequence.processMotionRun::after{
     animation-name:v7-process-tracer-y;
   }
-  .processSequence.processMotionRun .stepNo{
+
+  .processStep.processStepPending .stepNo{
+    clip-path:inset(0 0 100% 0);
+    transform:translateY(-18px);
+  }
+  .processStep.processStepVisible .stepNo{
     animation-name:v7-process-number-reveal-y;
   }
 }
@@ -152,6 +155,7 @@
     animation:none!important;
     clip-path:none!important;
     transform:none!important;
+    opacity:1!important;
   }
   .processSequence::after{
     content:none!important;

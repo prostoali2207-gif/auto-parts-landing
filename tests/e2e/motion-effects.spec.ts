@@ -1,6 +1,76 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
-test("purposeful motion has readable hero timing and process motion triggers on viewport entry", async ({ page }) => {
+async function scrollFirstProcessStepIntoTriggerZone(page: Page) {
+  await page.evaluate(() => {
+    const step = document.querySelector<HTMLElement>(".processStep");
+    if (!step) return;
+    const absoluteTop = step.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo(0, Math.max(0, absoluteTop - window.innerHeight * 0.52));
+  });
+}
+
+async function assertNumberSequence(page: Page, width: number, height: number) {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width, height });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+
+  const sequence = page.locator(".processSequence");
+  const steps = page.locator(".processStep");
+
+  await expect(sequence).toHaveClass(/processMotionArmed|processMotionRun/);
+  await expect(steps.nth(0)).toHaveClass(/processStepPending/);
+  await expect(steps.nth(1)).toHaveClass(/processStepPending/);
+  await expect(steps.nth(2)).toHaveClass(/processStepPending/);
+  await expect(steps.nth(0)).not.toHaveClass(/processStepVisible/);
+  await expect(steps.nth(1)).not.toHaveClass(/processStepVisible/);
+  await expect(steps.nth(2)).not.toHaveClass(/processStepVisible/);
+
+  await scrollFirstProcessStepIntoTriggerZone(page);
+
+  await expect(steps.nth(0)).toHaveClass(/processStepVisible/);
+  await expect(steps.nth(1)).toHaveClass(/processStepPending/);
+  await expect(steps.nth(2)).toHaveClass(/processStepPending/);
+
+  const firstStage = await steps.evaluateAll((items) =>
+    items.map((item) => Number.parseFloat(getComputedStyle(item.querySelector(".stepNo") as HTMLElement).opacity)),
+  );
+  expect(firstStage[0]).toBeGreaterThanOrEqual(0);
+  expect(firstStage[1]).toBe(0);
+  expect(firstStage[2]).toBe(0);
+
+  await page.waitForTimeout(680);
+  await expect(steps.nth(1)).toHaveClass(/processStepVisible/);
+  await expect(steps.nth(2)).toHaveClass(/processStepPending/);
+
+  const secondStage = await steps.evaluateAll((items) =>
+    items.map((item) => Number.parseFloat(getComputedStyle(item.querySelector(".stepNo") as HTMLElement).opacity)),
+  );
+  expect(secondStage[0]).toBeGreaterThan(0.5);
+  expect(secondStage[2]).toBe(0);
+
+  await page.waitForTimeout(680);
+  await expect(steps.nth(2)).toHaveClass(/processStepVisible/);
+
+  const finalStage = await steps.evaluateAll((items) =>
+    items.map((item) => Number.parseFloat(getComputedStyle(item.querySelector(".stepNo") as HTMLElement).opacity)),
+  );
+  expect(finalStage[0]).toBeGreaterThan(0.9);
+  expect(finalStage[1]).toBeGreaterThan(0.9);
+  expect(finalStage[2]).toBeGreaterThan(0);
+
+  const tracer = await sequence.evaluate((element) => getComputedStyle(element, "::after").animationName);
+  expect(tracer).toContain(width <= 600 ? "v7-process-tracer-y" : "v7-process-tracer-x");
+}
+
+test("mobile process numbers visibly stage 01 then 02 then 03 after real scroll", async ({ page }) => {
+  await assertNumberSequence(page, 390, 844);
+});
+
+test("desktop process numbers visibly stage 01 then 02 then 03 after real scroll", async ({ page }) => {
+  await assertNumberSequence(page, 1440, 1000);
+});
+
+test("hero timing remains unchanged and primary CTA stays usable", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/", { waitUntil: "domcontentloaded" });
@@ -17,49 +87,6 @@ test("purposeful motion has readable hero timing and process motion triggers on 
   expect(hero.animationDuration).toBe("1.18s");
   expect(Number.parseFloat(hero.animationDelay)).toBeGreaterThanOrEqual(0.17);
 
-  const sequence = page.locator(".processSequence");
-  await expect(sequence).toHaveClass(/processMotionArmed/);
-
-  await sequence.scrollIntoViewIfNeeded();
-  await expect(sequence).toHaveClass(/processMotionRun/);
-
-  const process = await sequence.evaluate((element) => {
-    const route = getComputedStyle(element, "::before");
-    const tracer = getComputedStyle(element, "::after");
-    const numbers = Array.from(element.querySelectorAll<HTMLElement>(".stepNo")).map((number) => {
-      const style = getComputedStyle(number);
-      return { animationName: style.animationName, animationDelay: style.animationDelay };
-    });
-    return {
-      routeAnimation: route.animationName,
-      tracerAnimation: tracer.animationName,
-      tracerContent: tracer.content,
-      numbers,
-    };
-  });
-
-  expect(process.routeAnimation).toContain("v7-process-route-draw-y");
-  expect(process.tracerAnimation).toContain("v7-process-tracer-y");
-  expect(process.tracerContent).not.toBe("none");
-  expect(process.numbers.map((item) => item.animationName)).toEqual([
-    "v7-process-number-reveal-y",
-    "v7-process-number-reveal-y",
-    "v7-process-number-reveal-y",
-  ]);
-  expect(process.numbers.map((item) => item.animationDelay)).toEqual(["0.12s", "0.47s", "0.82s"]);
-
-  await page.waitForTimeout(1500);
-  const settled = await sequence.evaluate((element) => {
-    const tracer = getComputedStyle(element, "::after");
-    const lastNumber = getComputedStyle(element.querySelectorAll<HTMLElement>(".stepNo")[2]);
-    return {
-      tracerOpacity: tracer.opacity,
-      lastNumberClip: lastNumber.clipPath,
-    };
-  });
-  expect(settled.tracerOpacity).toBe("0");
-  expect(settled.lastNumberClip).not.toContain("100%");
-
   const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   expect(hasOverflow).toBe(false);
 
@@ -68,7 +95,7 @@ test("purposeful motion has readable hero timing and process motion triggers on 
   await expect(page.locator("#request")).toBeInViewport();
 });
 
-test("reduced motion keeps the complete static process and never arms the trigger", async ({ page }) => {
+test("reduced motion keeps the complete static process and never arms number staging", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/", { waitUntil: "domcontentloaded" });
@@ -81,29 +108,22 @@ test("reduced motion keeps the complete static process and never arms the trigge
   expect(hero.translate === "none" || hero.translate === "0px" || hero.translate.startsWith("0px 0px")).toBe(true);
 
   const sequence = page.locator(".processSequence");
-  await sequence.scrollIntoViewIfNeeded();
+  const steps = page.locator(".processStep");
+  await scrollFirstProcessStepIntoTriggerZone(page);
   await expect(sequence).not.toHaveClass(/processMotionArmed|processMotionRun/);
+  await expect(steps.nth(0)).not.toHaveClass(/processStepPending|processStepVisible/);
+  await expect(steps.nth(1)).not.toHaveClass(/processStepPending|processStepVisible/);
+  await expect(steps.nth(2)).not.toHaveClass(/processStepPending|processStepVisible/);
 
-  const process = await sequence.evaluate((element) => {
-    const line = getComputedStyle(element, "::before");
-    const tracer = getComputedStyle(element, "::after");
-    const number = getComputedStyle(element.querySelector(".stepNo") as HTMLElement);
-    return {
-      lineAnimation: line.animationName,
-      lineClip: line.clipPath,
-      tracerContent: tracer.content,
-      tracerAnimation: tracer.animationName,
-      numberAnimation: number.animationName,
-      numberClip: number.clipPath,
-    };
-  });
-
-  expect(process.lineAnimation).toBe("none");
-  expect(process.numberAnimation).toBe("none");
-  expect(process.tracerAnimation).toBe("none");
-  expect(process.tracerContent === "none" || process.tracerContent === "normal").toBe(true);
-  expect(process.lineClip === "none" || process.lineClip === "inset(0px)").toBe(true);
-  expect(process.numberClip === "none" || process.numberClip === "inset(0px)").toBe(true);
+  const numbers = await steps.evaluateAll((items) =>
+    items.map((item) => {
+      const style = getComputedStyle(item.querySelector(".stepNo") as HTMLElement);
+      return { animationName: style.animationName, opacity: style.opacity, clipPath: style.clipPath };
+    }),
+  );
+  expect(numbers.every((item) => item.animationName === "none")).toBe(true);
+  expect(numbers.every((item) => item.opacity === "1")).toBe(true);
+  expect(numbers.every((item) => item.clipPath === "none" || item.clipPath === "inset(0px)")).toBe(true);
 
   await expect(page.getByRole("link", { name: "Запросить запчасть" })).toBeVisible();
 });
