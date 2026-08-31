@@ -9,6 +9,15 @@ async function scrollFirstProcessStepIntoTriggerZone(page: Page) {
   });
 }
 
+async function scrollMobileHeroIntoTriggerZone(page: Page) {
+  await page.evaluate(() => {
+    const object = document.querySelector<HTMLElement>(".heroObject");
+    if (!object) return;
+    const absoluteTop = object.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo(0, Math.max(1, absoluteTop - window.innerHeight * 0.48));
+  });
+}
+
 async function assertNumberSequence(page: Page, width: number, height: number) {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width, height });
@@ -70,10 +79,59 @@ test("desktop process numbers visibly stage 01 then 02 then 03 after real scroll
   await assertNumberSequence(page, 1440, 1000);
 });
 
-test("hero timing remains unchanged and primary CTA stays usable", async ({ page }) => {
+test("mobile hero opening waits for real scroll and starts when the object is visible", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/", { waitUntil: "domcontentloaded" });
+
+  const heroObject = page.locator(".heroObject");
+  const core = page.locator(".partCore");
+
+  await expect(heroObject).toHaveClass(/heroMobileMotionArmed/);
+  await expect(heroObject).not.toHaveClass(/heroMobileMotionRun/);
+
+  const armed = await core.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { animationName: style.animationName, translate: style.translate };
+  });
+  expect(armed.animationName).toBe("none");
+  expect(armed.translate === "none" || armed.translate.startsWith("0px 0px")).toBe(false);
+
+  await scrollMobileHeroIntoTriggerZone(page);
+  await expect(heroObject).toHaveClass(/heroMobileMotionRun/);
+  await expect(heroObject).not.toHaveClass(/heroMobileMotionArmed/);
+
+  const running = await core.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      animationName: style.animationName,
+      animationDuration: style.animationDuration,
+      animationDelay: style.animationDelay,
+    };
+  });
+  expect(running.animationName).toContain("v7-open-core");
+  expect(running.animationDuration).toBe("1.18s");
+  expect(Number.parseFloat(running.animationDelay)).toBeGreaterThanOrEqual(0.17);
+
+  await page.waitForTimeout(1550);
+  const settled = await core.evaluate((element) => getComputedStyle(element).translate);
+  expect(settled === "none" || settled === "0px" || settled.startsWith("0px 0px")).toBe(true);
+
+  const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+  expect(hasOverflow).toBe(false);
+
+  await page.getByRole("link", { name: "Запросить запчасть" }).click();
+  await expect(page).toHaveURL(/#request$/);
+  await expect(page.locator("#request")).toBeInViewport();
+});
+
+test("desktop hero keeps the approved load-time opening", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+
+  const heroObject = page.locator(".heroObject");
+  await expect(heroObject).not.toHaveClass(/heroMobileMotionArmed|heroMobileMotionRun/);
 
   const hero = await page.locator(".partCore").evaluate((element) => {
     const style = getComputedStyle(element);
@@ -86,19 +144,15 @@ test("hero timing remains unchanged and primary CTA stays usable", async ({ page
   expect(hero.animationName).toContain("v7-open-core");
   expect(hero.animationDuration).toBe("1.18s");
   expect(Number.parseFloat(hero.animationDelay)).toBeGreaterThanOrEqual(0.17);
-
-  const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
-  expect(hasOverflow).toBe(false);
-
-  await page.getByRole("link", { name: "Запросить запчасть" }).click();
-  await expect(page).toHaveURL(/#request$/);
-  await expect(page.locator("#request")).toBeInViewport();
 });
 
-test("reduced motion keeps the complete static process and never arms number staging", async ({ page }) => {
+test("reduced motion keeps the complete static hero/process and never arms staging", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/", { waitUntil: "domcontentloaded" });
+
+  const heroObject = page.locator(".heroObject");
+  await expect(heroObject).not.toHaveClass(/heroMobileMotionArmed|heroMobileMotionRun/);
 
   const hero = await page.locator(".partCore").evaluate((element) => {
     const style = getComputedStyle(element);
