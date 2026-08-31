@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 const MOBILE_QUERY = "(max-width: 600px)";
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
-const MIN_VISIBLE_RATIO = 0.36;
+const MIN_VISIBLE_RATIO = 0.2;
 
 export default function HeroMobileMotionTrigger() {
   useEffect(() => {
@@ -39,8 +39,8 @@ export default function HeroMobileMotionTrigger() {
       return (
         userScrolled &&
         visibleRatio() >= MIN_VISIBLE_RATIO &&
-        rect.top < window.innerHeight * 0.78 &&
-        rect.bottom > window.innerHeight * 0.16
+        rect.top < window.innerHeight * 0.9 &&
+        rect.bottom > window.innerHeight * 0.1
       );
     };
 
@@ -57,8 +57,8 @@ export default function HeroMobileMotionTrigger() {
           observer?.disconnect();
         },
         {
-          threshold: [MIN_VISIBLE_RATIO, 0.5],
-          rootMargin: "0px 0px -6% 0px",
+          threshold: [MIN_VISIBLE_RATIO, 0.35],
+          rootMargin: "0px 0px -2% 0px",
         },
       );
       observer.observe(heroObject);
