@@ -20,6 +20,7 @@ import "./ui-v7-refinement.css";
 import "./ui-v7-process-collision-fix.css";
 import "./ui-v7-product-specific-refinement.css";
 import "./ui-v7-hero-object-mechanical-refinement.css";
+import "./ui-v7-hero-object-material-form-polish.css";
 
 const plexSans = IBM_Plex_Sans({ variable: "--font-plex-sans", subsets: ["latin", "cyrillic"], weight: ["400", "500", "600", "700"], display: "swap" });
 const plexMono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin", "cyrillic"], weight: ["600", "700"], display: "swap" });
