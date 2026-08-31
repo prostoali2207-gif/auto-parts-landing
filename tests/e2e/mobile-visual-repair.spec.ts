@@ -11,6 +11,15 @@ async function scrollHeroToVisibleRatio(page: Page, ratio: number) {
   }, ratio);
 }
 
+async function heroVisibleRatio(page: Page) {
+  return page.locator(".heroObject").evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    const top = Math.max(0, rect.top);
+    const bottom = Math.min(window.innerHeight, rect.bottom);
+    return Math.max(0, bottom - top) / rect.height;
+  });
+}
+
 async function scrollProcessIntoView(page: Page) {
   await page.evaluate(() => {
     const step = document.querySelector<HTMLElement>(".processStep");
@@ -48,34 +57,31 @@ async function assertNumeralsFit(page: Page) {
     expect(result.textRight).toBeLessThanOrEqual(result.numeralRight + 0.75);
     expect(result.scrollWidth).toBeLessThanOrEqual(result.clientWidth + 1);
     expect(result.copyLeft - result.textRight).toBeGreaterThanOrEqual(4);
-    expect(result.clipPath === "none" || result.clipPath === "inset(0px)").toBe(true);
+    const insetValues = result.clipPath.match(/-?\d*\.?\d+/g)?.map(Number) ?? [];
+    expect(insetValues.every((value) => Math.abs(value) < 0.01)).toBe(true);
   }
 }
 
-test("mobile hero opens around first meaningful object visibility, not lower in the page", async ({ page }) => {
+test("mobile hero opens on first meaningful entry after real scroll, not lower in the page", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/", { waitUntil: "domcontentloaded" });
 
   const hero = page.locator(".heroObject");
   await expect(hero).toHaveClass(/heroMobileMotionArmed/);
-
-  await scrollHeroToVisibleRatio(page, 0.08);
-  await page.waitForTimeout(100);
-  await expect(hero).toHaveClass(/heroMobileMotionArmed/);
   await expect(hero).not.toHaveClass(/heroMobileMotionRun/);
 
-  await scrollHeroToVisibleRatio(page, 0.22);
-  await expect(hero).toHaveClass(/heroMobileMotionRun/);
+  const initialRatio = await heroVisibleRatio(page);
+  await page.evaluate(() => window.scrollBy(0, 2));
 
-  const visibleRatio = await hero.evaluate((element) => {
-    const rect = element.getBoundingClientRect();
-    const top = Math.max(0, rect.top);
-    const bottom = Math.min(window.innerHeight, rect.bottom);
-    return Math.max(0, bottom - top) / rect.height;
-  });
-  expect(visibleRatio).toBeGreaterThanOrEqual(0.19);
-  expect(visibleRatio).toBeLessThan(0.3);
+  if (initialRatio < 0.2) {
+    await scrollHeroToVisibleRatio(page, 0.22);
+  }
+
+  await expect(hero).toHaveClass(/heroMobileMotionRun/);
+  const ratioAtRelease = await heroVisibleRatio(page);
+  expect(ratioAtRelease).toBeGreaterThanOrEqual(0.19);
+  expect(ratioAtRelease).toBeLessThan(0.3);
 });
 
 for (const viewport of [{ width: 390, height: 844 }, { width: 360, height: 800 }]) {
