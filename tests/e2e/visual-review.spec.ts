@@ -24,6 +24,18 @@ async function freezeHeroMotion(page: Page, currentTime: number) {
   }, currentTime);
 }
 
+async function triggerMobileHero(page: Page) {
+  const heroObject = page.locator(".heroObject");
+  await expect(heroObject).toHaveClass(/heroMobileMotionArmed/);
+  await page.evaluate(() => {
+    const object = document.querySelector<HTMLElement>(".heroObject");
+    if (!object) return;
+    const absoluteTop = object.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo(0, Math.max(1, absoluteTop - window.innerHeight * 0.48));
+  });
+  await expect(heroObject).toHaveClass(/heroMobileMotionRun/);
+}
+
 async function triggerProcessAtFirstStep(page: Page) {
   const sequence = page.locator(".processSequence");
   const steps = page.locator(".processStep");
@@ -80,13 +92,15 @@ test("capture full landing on desktop", async ({ page }) => {
   await page.screenshot({ path: `${outputDir}/landing-desktop-1440.png`, fullPage: true });
 });
 
-test("capture mobile hero and explicit 01 then 02 then 03 process stages", async ({ page }) => {
+test("capture mobile viewport-triggered hero and explicit 01 then 02 then 03 process stages", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 390, height: 844 });
   await openLanding(page);
 
-  await freezeHeroMotion(page, 150);
+  await expect(page.locator(".heroObject")).toHaveClass(/heroMobileMotionArmed/);
   await page.locator(".hero").screenshot({ path: `${outputDir}/motion-mobile-hero-compact.png` });
+
+  await triggerMobileHero(page);
   await freezeHeroMotion(page, 700);
   await page.locator(".hero").screenshot({ path: `${outputDir}/motion-mobile-hero-mid.png` });
   await freezeHeroMotion(page, 1500);

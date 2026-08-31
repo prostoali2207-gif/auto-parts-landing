@@ -1,7 +1,7 @@
 /* V7 purposeful motion/effects refinement.
-   Process route uses a broadly compatible viewport trigger. Number sequencing is
-   now armed independently so 01 -> 02 -> 03 cannot complete before the user
-   actually scrolls into the first process step. Scope remains motion only. */
+   Desktop keeps the approved load-time hero opening. Mobile arms the same
+   mechanical opening until the object becomes meaningfully visible after real
+   user scroll. Process sequencing remains independent and unchanged. */
 
 @keyframes v7-open-backplate{
   from{translate:48px -21px 78px}
@@ -62,7 +62,7 @@
 }
 
 @media(prefers-reduced-motion:no-preference){
-  /* Hero: unchanged approved mechanical opening. */
+  /* Desktop/tablet default: approved load-time mechanical opening. */
   .partBackplate{animation:v7-open-backplate 1180ms cubic-bezier(.16,.82,.18,1) 120ms 1 both}
   .partBracket{animation:v7-open-bracket 1180ms cubic-bezier(.16,.82,.18,1) 140ms 1 both}
   .partHousing{animation:v7-open-housing 1180ms cubic-bezier(.16,.82,.18,1) 160ms 1 both}
@@ -113,6 +113,35 @@
 }
 
 @media(max-width:600px) and (prefers-reduced-motion:no-preference){
+  /* Default mobile/no-JS state is the complete approved object. Once JS arms
+     the off-focus object, hold the existing compact assembly until real scroll
+     makes the object worth watching. */
+  .heroObject .partBackplate,
+  .heroObject .partBracket,
+  .heroObject .partHousing,
+  .heroObject .partCore,
+  .heroObject .partRing,
+  .heroObject .partLens,
+  .heroObject .partConnector{
+    animation:none;
+  }
+
+  .heroObject.heroMobileMotionArmed .partBackplate{translate:48px -21px 78px}
+  .heroObject.heroMobileMotionArmed .partBracket{translate:19px -9px 29px}
+  .heroObject.heroMobileMotionArmed .partHousing{translate:-14px 7px -16px}
+  .heroObject.heroMobileMotionArmed .partCore{translate:-50px 32px -77px}
+  .heroObject.heroMobileMotionArmed .partRing{translate:-84px 53px -122px}
+  .heroObject.heroMobileMotionArmed .partLens{translate:-120px 74px -164px}
+  .heroObject.heroMobileMotionArmed .partConnector{translate:150px -92px 20px}
+
+  .heroObject.heroMobileMotionRun .partBackplate{animation:v7-open-backplate 1180ms cubic-bezier(.16,.82,.18,1) 120ms 1 both}
+  .heroObject.heroMobileMotionRun .partBracket{animation:v7-open-bracket 1180ms cubic-bezier(.16,.82,.18,1) 140ms 1 both}
+  .heroObject.heroMobileMotionRun .partHousing{animation:v7-open-housing 1180ms cubic-bezier(.16,.82,.18,1) 160ms 1 both}
+  .heroObject.heroMobileMotionRun .partCore{animation:v7-open-core 1180ms cubic-bezier(.16,.82,.18,1) 175ms 1 both}
+  .heroObject.heroMobileMotionRun .partRing{animation:v7-open-flange 1180ms cubic-bezier(.16,.82,.18,1) 190ms 1 both}
+  .heroObject.heroMobileMotionRun .partLens{animation:v7-open-cap 1180ms cubic-bezier(.16,.82,.18,1) 205ms 1 both}
+  .heroObject.heroMobileMotionRun .partConnector{animation:v7-open-connector 1180ms cubic-bezier(.16,.82,.18,1) 135ms 1 both}
+
   .processSequence.processMotionArmed::before{
     clip-path:inset(0 0 100% 0);
   }
