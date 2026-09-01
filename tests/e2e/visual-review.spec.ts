@@ -13,6 +13,19 @@ async function openLanding(page: Page) {
   await page.evaluate(() => document.fonts.ready);
 }
 
+async function waitForTrustMedia(page: Page) {
+  const trust = page.locator(".trustProof");
+  await trust.scrollIntoViewIfNeeded();
+  await expect(trust).toBeVisible();
+  const image = trust.locator(".trustMediaPhotoFrame img");
+  await expect.poll(() => image.evaluate((node) => {
+    const element = node as HTMLImageElement;
+    return element.complete && element.naturalWidth > 0 && element.naturalHeight > 0;
+  })).toBe(true);
+  await expect(trust.locator(".trustProofVideo")).toBeAttached();
+  await page.waitForTimeout(300);
+}
+
 async function freezeHeroMotion(page: Page, currentTime: number) {
   await page.evaluate((time) => {
     document.querySelectorAll<HTMLElement>(".heroObject .part").forEach((element) => {
@@ -85,6 +98,21 @@ test("capture full landing on desktop", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await openLanding(page);
   await page.screenshot({ path: `${outputDir}/landing-desktop-1440.png`, fullPage: true });
+});
+
+test("capture loaded trust proof at all release widths", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const [width, height, label] of [
+    [360, 800, "mobile-360"],
+    [390, 844, "mobile-390"],
+    [768, 960, "intermediate-768"],
+    [1440, 1000, "desktop-1440"],
+  ] as const) {
+    await page.setViewportSize({ width, height });
+    await openLanding(page);
+    await waitForTrustMedia(page);
+    await page.locator(".trustProof").screenshot({ path: `${outputDir}/trust-${label}.png` });
+  }
 });
 
 test("capture mobile browser-chrome hero timing and explicit 01 then 02 then 03 process stages", async ({ page }) => {
