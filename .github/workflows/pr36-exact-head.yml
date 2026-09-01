@@ -12,7 +12,7 @@ jobs:
       - name: Checkout exact PR head
         uses: actions/checkout@v4
         with:
-          ref: 006a70c9936e156742859fc4e66567edec294f96
+          ref: f94d27209123e5d279ca3c1ccc162777f2783e20
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -49,7 +49,7 @@ jobs:
         if: always()
         run: |
           mkdir -p artifacts/visual-review
-          printf '%s\n' '006a70c9936e156742859fc4e66567edec294f96' > artifacts/visual-review/source-commit.txt
+          printf '%s\n' 'f94d27209123e5d279ca3c1ccc162777f2783e20' > artifacts/visual-review/source-commit.txt
 
       - name: Upload exact-head visual review
         if: always()
