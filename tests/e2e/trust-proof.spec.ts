@@ -1,5 +1,12 @@
 import { test, expect } from "@playwright/test";
 
+const proofAssets = [
+  ["/proof/supplier-walkthrough-8s.mp4", "video/mp4"],
+  ["/proof/supplier-walkthrough-poster.jpg", "image/jpeg"],
+  ["/proof/supplier-environment-desktop.webp", "image/webp"],
+  ["/proof/supplier-environment-mobile.webp", "image/webp"],
+] as const;
+
 test("renders only the approved verified trust facts and real supplier media", async ({ page }) => {
   await page.goto("/");
 
@@ -20,13 +27,22 @@ test("renders only the approved verified trust facts and real supplier media", a
   await expect(media).toBeVisible();
   await expect(media).toContainText("Снято у поставщиков в ОАЭ, где ищем детали.");
   const video = media.locator("video");
-  await expect(video).toHaveAttribute("src", "/proof/video");
-  await expect(video).toHaveAttribute("poster", "/proof/poster");
+  await expect(video).toHaveAttribute("src", "/proof/supplier-walkthrough-8s.mp4");
+  await expect(video).toHaveAttribute("poster", "/proof/supplier-walkthrough-poster.jpg");
   expect(await video.evaluate((node) => {
     const element = node as HTMLVideoElement;
     return element.muted && element.loop && element.playsInline;
   })).toBe(true);
-  await expect(media.locator("img")).toHaveAttribute("src", "/proof/photo-desktop");
+  await expect(media.locator("img")).toHaveAttribute("src", "/proof/supplier-environment-desktop.webp");
+  await expect(media.locator("source")).toHaveAttribute("srcset", "/proof/supplier-environment-mobile.webp");
+});
+
+test("serves every selected proof asset with the expected media type", async ({ request }) => {
+  for (const [path, type] of proofAssets) {
+    const response = await request.get(path);
+    expect(response.ok(), `${path} should resolve`).toBe(true);
+    expect(response.headers()["content-type"] ?? "").toContain(type);
+  }
 });
 
 test("reduced motion keeps supplier video paused on its poster", async ({ page }) => {
