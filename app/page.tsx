@@ -155,7 +155,7 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="heroCopy">
           <h1>Нужна <span className="routeWord">запчасть?</span> Покажите машину и деталь.</h1>
-          <p className="lead">VIN или марка, модель и год — плюс фото, название, OEM‑номер или описание детали. Добавьте контакт — заявка уйдёт менеджеру.</p>
+          <p className="lead">Из ОАЭ в Россию и страны СНГ. VIN или марка, модель и год — плюс фото, название, OEM‑номер или описание детали. Добавьте контакт — менеджер продолжит подбор.</p>
           <div className="heroActions">
             <a className="primary" href="#request">Запросить запчасть</a>
             <span className="micro">Можно начать без точного названия детали.</span>
@@ -205,6 +205,41 @@ export default function Home() {
       <section className="evidenceGap" aria-label="Что полезно отправить">
         <span className="evidenceStamp">USE WHAT YOU HAVE<br />VIN · OEM · PHOTO · DESCRIPTION</span>
         <p>Не нужно знать точное название детали. Фото, OEM‑номер или описание помогут менеджеру начать подбор.</p>
+      </section>
+
+      <section className="trustProof" aria-labelledby="trust-title">
+        <div className="trustProofInner">
+          <div className="trustProofHead">
+            <div>
+              <p className="eyebrow">До выкупа</p>
+              <h2 id="trust-title">Сначала покажем деталь. Потом выкупим.</h2>
+            </div>
+            <p className="trustProofLead">Перед покупкой отправим фото и видео детали: состояние, маркировку и заметные особенности. Вы подтверждаете — после этого выкупаем.</p>
+          </div>
+
+          <dl className="trustFacts">
+            <div className="trustFact">
+              <span className="trustFactNo" aria-hidden="true">01</span>
+              <dt>Запчасти</dt>
+              <dd>Новые оригинальные, б/у оригинальные и новые аналоги.</dd>
+            </div>
+            <div className="trustFact">
+              <span className="trustFactNo" aria-hidden="true">02</span>
+              <dt>Срок поиска</dt>
+              <dd>Обычно 1–3 дня.<span className="trustFactNote">Это срок поиска детали, не доставки.</span></dd>
+            </div>
+            <div className="trustFact">
+              <span className="trustFactNo" aria-hidden="true">03</span>
+              <dt>Отправка</dt>
+              <dd>Из ОАЭ в Россию и страны СНГ.</dd>
+            </div>
+            <div className="trustFact">
+              <span className="trustFactNo" aria-hidden="true">04</span>
+              <dt>Доп. гарантия</dt>
+              <dd>По желанию — 14 дней с момента получения, +10% к стоимости детали.<span className="trustFactNote">Условия согласуем до выкупа.</span></dd>
+            </div>
+          </dl>
+        </div>
       </section>
 
       <section className="requestSection" id="request">
