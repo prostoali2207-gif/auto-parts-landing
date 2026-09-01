@@ -1,0 +1,137 @@
+/* V7 verified trust-proof refinement.
+   Contract: docs/v7-trust-proof-refinement-contract.md
+   Scope: one calm editorial proof chapter before the request transition. */
+
+.trustProof{
+  background:var(--v7-paper,#F4F6F8);
+  color:var(--v7-ink,#101419);
+  padding:clamp(72px,8vw,124px) max(clamp(20px,4.2vw,68px),calc((100vw - 1440px)/2 + 68px));
+}
+
+.trustProofInner{
+  width:100%;
+  max-width:1240px;
+  margin:0 auto;
+}
+
+.trustProofHead{
+  display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(300px,.62fr);
+  gap:clamp(36px,7vw,108px);
+  align-items:end;
+  padding-bottom:clamp(42px,5vw,70px);
+}
+
+.trustProof .eyebrow{
+  margin:0;
+  color:var(--v7-cobalt,#4F6BFF);
+}
+
+.trustProof h2{
+  max-width:900px;
+  margin:10px 0 0;
+  font-family:var(--font-v7-display),sans-serif;
+  font-size:clamp(40px,5.1vw,72px);
+  font-weight:600;
+  line-height:.98;
+  letter-spacing:-.055em;
+}
+
+.trustProofLead{
+  max-width:520px;
+  margin:0;
+  color:#48515c;
+  font-size:clamp(16px,1.45vw,20px);
+  line-height:1.55;
+}
+
+.trustFacts{
+  margin:0;
+  border-top:1px solid #bcc5cf;
+}
+
+.trustFact{
+  display:grid;
+  grid-template-columns:72px 190px minmax(0,1fr);
+  gap:clamp(16px,2.6vw,38px);
+  align-items:start;
+  padding:24px 0 26px;
+  border-bottom:1px solid #cbd2d9;
+}
+
+.trustFactNo{
+  padding-top:6px;
+  color:var(--v7-cobalt,#4F6BFF);
+  font-family:var(--font-plex-mono),monospace;
+  font-size:11px;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:.16em;
+}
+
+.trustFact dt{
+  padding-top:2px;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.4;
+}
+
+.trustFact dd{
+  max-width:850px;
+  margin:0;
+  font-size:clamp(19px,2vw,27px);
+  font-weight:600;
+  line-height:1.28;
+}
+
+.trustFactNote{
+  display:block;
+  margin-top:7px;
+  color:#5c6671;
+  font-size:13px;
+  font-weight:500;
+  line-height:1.5;
+}
+
+@media(max-width:700px){
+  .trustProof{
+    padding:64px 16px 70px;
+  }
+
+  .trustProofHead{
+    grid-template-columns:1fr;
+    gap:24px;
+    padding-bottom:38px;
+  }
+
+  .trustProof h2{
+    font-size:clamp(30px,9.3vw,40px);
+    line-height:1.02;
+    letter-spacing:-.045em;
+  }
+
+  .trustProofLead{
+    font-size:15px;
+    line-height:1.55;
+  }
+
+  .trustFact{
+    grid-template-columns:42px minmax(0,1fr);
+    gap:8px 12px;
+    padding:20px 0 22px;
+  }
+
+  .trustFactNo{
+    grid-row:1 / span 2;
+  }
+
+  .trustFact dt,
+  .trustFact dd{
+    grid-column:2;
+  }
+
+  .trustFact dd{
+    font-size:18px;
+    line-height:1.34;
+  }
+}
