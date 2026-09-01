@@ -1,0 +1,69 @@
+name: PR36 exact-head verification
+
+on:
+  push:
+    branches: [ci/pr36-exact-head]
+
+jobs:
+  exact-head:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: 006a70c9936e156742859fc4e66567edec294f96
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start exact head
+        run: |
+          npm start > /tmp/spline-next.log 2>&1 &
+          for attempt in {1..30}; do
+            if curl --fail --silent --show-error http://127.0.0.1:3000/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/spline-next.log
+          exit 1
+
+      - name: Run full QA and exact rendered review
+        env:
+          PLAYWRIGHT_TEST_BASE_URL: http://127.0.0.1:3000
+        run: npm run test:e2e -- --retries=0
+
+      - name: Record verified source commit
+        if: always()
+        run: |
+          mkdir -p artifacts/visual-review
+          printf '%s\n' '006a70c9936e156742859fc4e66567edec294f96' > artifacts/visual-review/source-commit.txt
+
+      - name: Upload exact-head visual review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr36-exact-head-visual-review
+          path: artifacts/visual-review/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr36-playwright-report
+          path: playwright-report/
+          retention-days: 7
