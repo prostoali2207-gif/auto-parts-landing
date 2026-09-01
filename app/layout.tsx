@@ -24,6 +24,7 @@ import "./ui-v7-product-specific-refinement.css";
 import "./ui-v7-hero-object-mechanical-refinement.css";
 import "./ui-v7-hero-object-material-form-polish.css";
 import "./ui-v7-purposeful-motion-effects.css";
+import "./ui-v7-trust-proof-refinement.css";
 
 const plexSans = IBM_Plex_Sans({ variable: "--font-plex-sans", subsets: ["latin", "cyrillic"], weight: ["400", "500", "600", "700"], display: "swap" });
 const plexMono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin", "cyrillic"], weight: ["600", "700"], display: "swap" });
@@ -33,11 +34,11 @@ const SITE_URL = "https://auto-parts-landing-five.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Spline — автозапчасти в ОАЭ",
-  description: "Запросите автозапчасть в ОАЭ по VIN, данным автомобиля, фото или OEM / Part Number.",
+  title: "Spline — автозапчасти из ОАЭ в Россию и СНГ",
+  description: "Запросите автозапчасть из ОАЭ для отправки в Россию и страны СНГ по VIN, данным автомобиля, фото или OEM / Part Number.",
   alternates: { canonical: "/" },
-  openGraph: { type: "website", url: "/", title: "Spline — автозапчасти в ОАЭ", description: "Запросите автозапчасть по VIN, данным автомобиля, фото или OEM / Part Number.", siteName: "Spline", locale: "ru_AE" },
-  twitter: { card: "summary", title: "Spline — автозапчасти в ОАЭ", description: "Запросите автозапчасть по VIN, данным автомобиля, фото или OEM / Part Number." },
+  openGraph: { type: "website", url: "/", title: "Spline — автозапчасти из ОАЭ в Россию и СНГ", description: "Запросите автозапчасть из ОАЭ для отправки в Россию и страны СНГ по VIN, данным автомобиля, фото или OEM / Part Number.", siteName: "Spline", locale: "ru_AE" },
+  twitter: { card: "summary", title: "Spline — автозапчасти из ОАЭ в Россию и СНГ", description: "Запросите автозапчасть из ОАЭ для отправки в Россию и страны СНГ по VIN, данным автомобиля, фото или OEM / Part Number." },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
