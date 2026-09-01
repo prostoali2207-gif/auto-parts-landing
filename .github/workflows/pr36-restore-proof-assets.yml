@@ -1,0 +1,53 @@
+name: PR36 restore proof assets
+
+on:
+  push:
+    paths:
+      - ".proof-upload/READY"
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/v7-real-visual-proof
+          fetch-depth: 0
+
+      - name: Rebuild and verify proof archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .proof-upload/chunk-* | tr -d '\n\r' | base64 -d > /tmp/proof-assets.zip
+          unzip -t /tmp/proof-assets.zip
+          rm -rf /tmp/proof-assets
+          mkdir -p /tmp/proof-assets
+          unzip -o /tmp/proof-assets.zip -d /tmp/proof-assets
+          test "$(stat -c%s /tmp/proof-assets/supplier-environment-desktop.webp)" -eq 43380
+          test "$(stat -c%s /tmp/proof-assets/supplier-walkthrough-8s.mp4)" -eq 125288
+          test "$(stat -c%s /tmp/proof-assets/supplier-walkthrough-poster.jpg)" -eq 15156
+          file /tmp/proof-assets/*
+
+      - name: Restore binaries and remove staging bridge
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp /tmp/proof-assets/supplier-environment-desktop.webp public/proof/supplier-environment-desktop.webp
+          cp /tmp/proof-assets/supplier-environment-desktop.webp public/proof/supplier-environment-mobile.webp
+          cp /tmp/proof-assets/supplier-walkthrough-8s.mp4 public/proof/supplier-walkthrough-8s.mp4
+          cp /tmp/proof-assets/supplier-walkthrough-poster.jpg public/proof/supplier-walkthrough-poster.jpg
+          test "$(stat -c%s public/proof/supplier-environment-desktop.webp)" -eq 43380
+          test "$(stat -c%s public/proof/supplier-environment-mobile.webp)" -eq 43380
+          test "$(stat -c%s public/proof/supplier-walkthrough-8s.mp4)" -eq 125288
+          test "$(stat -c%s public/proof/supplier-walkthrough-poster.jpg)" -eq 15156
+          git rm -r .proof-upload
+          git rm .github/workflows/pr36-restore-proof-assets.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/proof
+          git commit -m "Restore real supplier proof binaries"
+          git push origin HEAD:feat/v7-real-visual-proof
