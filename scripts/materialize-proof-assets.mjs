@@ -9,13 +9,13 @@ const OUTPUT_DIR = path.join(process.cwd(), "public", "proof");
 const assets = {
   "supplier-environment-desktop.webp": {
     prefix: "supplier-environment-desktop.webp",
-    bytes: 41396,
-    sha256: "6d4566dd2234e8de87c907665957f2fa7ff49b40ce66697e4da25b209ea49729",
+    bytes: 19784,
+    sha256: "433ea550d67c6b3406f0c310fac122e6bfbdb348fbd2e8cb6d79b2871d849960",
   },
   "supplier-environment-mobile.webp": {
     prefix: "supplier-environment-mobile.webp",
-    bytes: 39662,
-    sha256: "f6f096a0c397ee74a6f61c27dc0ee2d06599dafff0f2d724499ef39a134c9351",
+    bytes: 22698,
+    sha256: "532aff9c09651da7b1d631d7d40d973d1fa125af5dd787cf4c805d28ed28b77c",
   },
   "supplier-walkthrough-8s.mp4": {
     prefix: "supplier-walkthrough-8s.mp4",
