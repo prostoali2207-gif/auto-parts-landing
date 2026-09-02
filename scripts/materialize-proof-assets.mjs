@@ -18,8 +18,8 @@ const assets = {
   },
   "supplier-walkthrough-poster.jpg": {
     prefix: "supplier-walkthrough-poster.jpg",
-    bytes: 21948,
-    sha256: "89140de9db778d78e4e4fe497c66fde73a41b2347cbdd7d6a4237f1b7e5b5381",
+    bytes: 16994,
+    sha256: "343d253c22ae04b8d735089484097559169dacee96bddd6ed1bfee94295d3364",
   },
   "supplier-walkthrough-8s.mp4": {
     prefix: "supplier-walkthrough-8s.mp4",
