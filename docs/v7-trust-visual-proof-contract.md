@@ -48,8 +48,7 @@ Only bounded documentary finishing is allowed:
 
 - crop/reframe;
 - resolution/codec optimization;
-- restrained exposure/contrast/saturation correction;
-- poster-frame extraction.
+- restrained exposure/contrast/saturation correction.
 
 No generative object removal/addition, fake cleanup, synthetic stock expansion or content alteration is allowed for proof-bearing media.
 
@@ -87,7 +86,7 @@ This wording is intentionally scoped to the verified provenance above and must n
 - source audio is omitted;
 - no custom cinematic transitions or speed ramps;
 - playback begins only when reduced motion is not requested;
-- `prefers-reduced-motion: reduce` keeps the video paused on the real poster frame;
+- `prefers-reduced-motion: reduce` keeps the video paused and uses the verified mobile crop of the selected supplier still as the poster fallback;
 - non-critical media is served from bounded cached asset endpoints and must not change hero loading behavior.
 
 ## Must preserve
