@@ -5,18 +5,9 @@ import path from "node:path";
 const SOURCE_DIR = path.join(process.cwd(), ".proof-assets");
 const OUTPUT_DIR = path.join(process.cwd(), "public", "proof");
 
-// Proof-bearing binaries are reconstructed from text chunks and integrity-checked before every dev/build.
+// Proof-bearing video is reconstructed from text chunks and integrity-checked before every dev/build.
+// Supplier environment photos are committed directly under public/proof.
 const assets = {
-  "supplier-environment-desktop.webp": {
-    prefix: "supplier-environment-desktop.webp",
-    bytes: 41396,
-    sha256: "6d4566dd2234e8de87c907665957f2fa7ff49b40ce66697e4da25b209ea49729",
-  },
-  "supplier-environment-mobile.webp": {
-    prefix: "supplier-environment-mobile.webp",
-    bytes: 39662,
-    sha256: "f6f096a0c397ee74a6f61c27dc0ee2d06599dafff0f2d724499ef39a134c9351",
-  },
   "supplier-walkthrough-8s.mp4": {
     prefix: "supplier-walkthrough-8s.mp4",
     bytes: 122522,
