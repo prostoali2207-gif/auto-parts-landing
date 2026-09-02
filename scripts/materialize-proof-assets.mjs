@@ -18,8 +18,8 @@ const assets = {
   },
   "supplier-walkthrough-8s.mp4": {
     prefix: "supplier-walkthrough-8s.mp4",
-    bytes: 125288,
-    sha256: "01444f1cab9e71b4c89980067bd07c8a5562700df0353aa3fc30bacc0ee2f586",
+    bytes: 122522,
+    sha256: "9d9a6cc73cab95b4aaf290c60c0c64f2d81e6a8f56d4ddf050996a90c42bd4e7",
   },
 };
 
