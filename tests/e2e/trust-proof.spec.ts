@@ -33,6 +33,26 @@ test("renders only the approved verified trust facts and real supplier media", a
     const element = node as HTMLVideoElement;
     return element.muted && element.loop && element.playsInline;
   })).toBe(true);
+  const duration = await video.evaluate(async (node) => {
+    const element = node as HTMLVideoElement;
+    if (element.readyState < 1) {
+      await new Promise<void>((resolve, reject) => {
+        const timer = window.setTimeout(() => reject(new Error("supplier proof video metadata timeout")), 5000);
+        element.addEventListener("loadedmetadata", () => {
+          window.clearTimeout(timer);
+          resolve();
+        }, { once: true });
+        element.addEventListener("error", () => {
+          window.clearTimeout(timer);
+          reject(new Error("supplier proof video failed to decode"));
+        }, { once: true });
+        element.load();
+      });
+    }
+    return element.duration;
+  });
+  expect(duration).toBeGreaterThan(5);
+  expect(duration).toBeLessThanOrEqual(10.5);
   await expect(media.locator("img")).toHaveAttribute("src", "/proof/photo-desktop");
   await expect(media.locator("source")).toHaveAttribute("srcset", "/proof/photo-mobile");
 });
