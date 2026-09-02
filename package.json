@@ -3,7 +3,9 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
+    "predev": "node scripts/materialize-proof-assets.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/materialize-proof-assets.mjs",
     "build": "next build",
     "start": "next start",
     "test:e2e": "playwright test"
