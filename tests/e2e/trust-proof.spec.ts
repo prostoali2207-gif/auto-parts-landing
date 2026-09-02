@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 const proofAssets = [
   ["/proof/video", "video/mp4"],
-  ["/proof/poster", "image/jpeg"],
+  ["/proof/poster", "image/webp"],
   ["/proof/photo-desktop", "image/webp"],
   ["/proof/photo-mobile", "image/webp"],
 ] as const;
