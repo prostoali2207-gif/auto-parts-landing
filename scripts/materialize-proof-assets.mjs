@@ -5,6 +5,7 @@ import path from "node:path";
 const SOURCE_DIR = path.join(process.cwd(), ".proof-assets");
 const OUTPUT_DIR = path.join(process.cwd(), "public", "proof");
 
+// Proof-bearing binaries are reconstructed from text chunks and integrity-checked before every dev/build.
 const assets = {
   "supplier-environment-desktop.webp": {
     prefix: "supplier-environment-desktop.webp",
