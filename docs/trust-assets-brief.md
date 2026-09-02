@@ -30,9 +30,9 @@ Purpose: replace generic visual trust with real evidence from the business. Do n
 Verified by the business owner as real supplier locations used for sourcing, with permission to publish.
 
 - primary motion proof: `public/proof/supplier-walkthrough-8s.mp4` — selected 8-second excerpt from the uploaded supplier walkthrough;
-- motion poster: `public/proof/supplier-walkthrough-poster.jpg`;
 - supporting environment photo, desktop: `public/proof/supplier-environment-desktop.webp`;
-- supporting environment photo, mobile: `public/proof/supplier-environment-mobile.webp`.
+- supporting environment photo, mobile: `public/proof/supplier-environment-mobile.webp`;
+- reduced-motion/video poster fallback reuses the verified mobile environment photo rather than carrying a separate proof-bearing poster asset.
 
 Use exactly one video + one supporting photo in the existing trust chapter. Do not turn this into a gallery, carousel, catalogue, inventory browser or hero replacement.
 
