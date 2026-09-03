@@ -5,8 +5,8 @@ import path from "node:path";
 const SOURCE_DIR = path.join(process.cwd(), ".proof-assets");
 const OUTPUT_DIR = path.join(process.cwd(), "public", "proof");
 
-// Proof-bearing binaries are reconstructed from text chunks and integrity-checked before every dev/build.
-const assets = {
+// Proof-bearing images are reconstructed from text chunks and integrity-checked before every dev/build.
+const chunkedAssets = {
   "supplier-environment-desktop.webp": {
     prefix: "supplier-environment-desktop.webp",
     bytes: 19784,
@@ -17,17 +17,20 @@ const assets = {
     bytes: 22698,
     sha256: "532aff9c09651da7b1d631d7d40d973d1fa125af5dd787cf4c805d28ed28b77c",
   },
+};
+
+// The walkthrough is committed directly because the quality-preserving web derivative is binary and substantially larger.
+const directAssets = {
   "supplier-walkthrough-8s.mp4": {
-    prefix: "supplier-walkthrough-8s.mp4",
-    bytes: 122522,
-    sha256: "9d9a6cc73cab95b4aaf290c60c0c64f2d81e6a8f56d4ddf050996a90c42bd4e7",
+    bytes: 9301355,
+    sha256: "c3c9b63b2f6529399c9e36377158ec62741fdde3640a18eb96402e34290bfa8d",
   },
 };
 
 await mkdir(OUTPUT_DIR, { recursive: true });
 const entries = await readdir(SOURCE_DIR);
 
-for (const [filename, expected] of Object.entries(assets)) {
+for (const [filename, expected] of Object.entries(chunkedAssets)) {
   const chunks = entries
     .filter((entry) => entry.startsWith(`${expected.prefix}.`) && entry.endsWith(".b64"))
     .sort();
@@ -47,4 +50,14 @@ for (const [filename, expected] of Object.entries(assets)) {
 
   await writeFile(path.join(OUTPUT_DIR, filename), bytes);
   console.log(`materialized ${filename} (${bytes.length} bytes)`);
+}
+
+for (const [filename, expected] of Object.entries(directAssets)) {
+  const bytes = await readFile(path.join(OUTPUT_DIR, filename));
+  const digest = createHash("sha256").update(bytes).digest("hex");
+  if (bytes.length !== expected.bytes || digest !== expected.sha256) {
+    throw new Error(`Proof asset integrity mismatch for ${filename}: ${bytes.length} bytes / ${digest}`);
+  }
+
+  console.log(`verified ${filename} (${bytes.length} bytes)`);
 }
