@@ -164,8 +164,8 @@ export default function Home() {
   return (
     <main>
       <header className="topbar">
-        <a className="brand" href="#top" aria-label="Spline">
-          <img src="/spline-wordmark.svg" width="103" height="24" alt="Spline" />
+        <a className="brand" href="#top" aria-label="Das Motors">
+          <span className="brandText">DasMotors</span>
         </a>
         <a className="topCta" href="#request">Запросить</a>
       </header>
@@ -304,7 +304,7 @@ export default function Home() {
             <div className="success" role="status">
               <span>REQUEST RECEIVED</span>
               <h2>{requestNumber ? `Заявка №${requestNumber}` : "Заявка принята"}</h2>
-              <p>Заявка принята в рабочую систему Spline. Менеджер продолжит подбор и при необходимости уточнит детали по указанному контакту.</p>
+              <p>Заявка принята. Менеджер продолжит подбор и при необходимости уточнит детали по указанному контакту.</p>
               <button className="secondary" onClick={() => { started.current = false; setState("idle"); }}>Отправить ещё одну</button>
             </div>
           ) : (
