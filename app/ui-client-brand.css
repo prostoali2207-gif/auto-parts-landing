@@ -1,0 +1,14 @@
+/* Temporary client identity until a final Das Motors logo is approved. */
+.brandText{
+  color:var(--v7-paper);
+  font-family:var(--font-v7-display),sans-serif;
+  font-size:18px;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:-.045em;
+  white-space:nowrap;
+}
+
+@media(max-width:520px){
+  .brandText{font-size:17px}
+}
