@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
     return [
       { source: "/proof/video", destination: "/proof/supplier-walkthrough-8s.mp4" },
       { source: "/proof/poster", destination: "/proof/supplier-environment-mobile.webp" },
-      { source: "/proof/photo-desktop", destination: "/proof/supplier-environment-desktop.webp" },
-      { source: "/proof/photo-mobile", destination: "/proof/supplier-environment-mobile.webp" },
+      { source: "/proof/photo-desktop", destination: "/proof/supplier-components-detail-4x5.webp" },
+      { source: "/proof/photo-mobile", destination: "/proof/supplier-components-detail-4x5.webp" },
     ];
   },
 };
