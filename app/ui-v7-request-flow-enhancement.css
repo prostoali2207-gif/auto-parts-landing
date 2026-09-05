@@ -31,8 +31,22 @@ main{
   outline-offset:3px!important;
 }
 
+.managerContactLinks{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px 14px;
+  margin-top:-2px;
+  color:rgba(244,246,248,.58);
+  font-size:13px;
+  line-height:1.4;
+}
+
+.managerContactLinks>span{
+  font-weight:500;
+}
+
 .managerContactLink{
-  flex-basis:100%;
   width:fit-content;
   color:rgba(244,246,248,.76);
   font-size:13px;
@@ -324,8 +338,12 @@ main{
     justify-content:center;
   }
 
+  .managerContactLinks{
+    gap:7px 12px;
+    font-size:12.5px;
+  }
+
   .managerContactLink{
-    margin-top:-2px;
     font-size:12.5px;
   }
 }
