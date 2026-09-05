@@ -100,6 +100,26 @@ test("capture full landing on desktop", async ({ page }) => {
   await page.screenshot({ path: `${outputDir}/landing-desktop-1440.png`, fullPage: true });
 });
 
+test("capture mobile request steps with sticky header", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openLanding(page);
+
+  const form = page.locator("#request-form");
+  await form.scrollIntoViewIfNeeded();
+  await expect(page.locator(".topbar")).toBeVisible();
+  await page.screenshot({ path: outputDir + "/request-mobile-step-01.png", fullPage: false });
+
+  await page.getByLabel("VIN").fill("JT123456789012345");
+  await page.getByRole("button", { name: "Далее →" }).click();
+  await expect(page.locator('[data-form-step="2"]')).toHaveAttribute("data-active", "true");
+  await page.screenshot({ path: outputDir + "/request-mobile-step-02.png", fullPage: false });
+
+  await page.getByLabel("Название детали").fill("Передняя фара");
+  await page.getByRole("button", { name: "Далее →" }).click();
+  await expect(page.locator('[data-form-step="3"]')).toHaveAttribute("data-active", "true");
+  await page.screenshot({ path: outputDir + "/request-mobile-step-03.png", fullPage: false });
+});
 test("capture loaded trust proof at all release widths", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   for (const [width, height, label] of [
