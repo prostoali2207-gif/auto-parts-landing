@@ -27,6 +27,7 @@ import "./ui-v7-purposeful-motion-effects.css";
 import "./ui-v7-trust-proof-refinement.css";
 import "./ui-client-brand.css";
 import "./ui-v7-request-flow-enhancement.css";
+import "./ui-v7-hero-craft-mobile-repair.css";
 
 const plexSans = IBM_Plex_Sans({ variable: "--font-plex-sans", subsets: ["latin", "cyrillic"], weight: ["400", "500", "600", "700"], display: "swap" });
 const plexMono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin", "cyrillic"], weight: ["600", "700"], display: "swap" });
