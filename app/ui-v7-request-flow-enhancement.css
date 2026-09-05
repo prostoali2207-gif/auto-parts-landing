@@ -36,7 +36,7 @@ main{
   width:fit-content;
   color:rgba(244,246,248,.76);
   font-size:13px;
-  font-weight:650;
+  font-weight:600;
   line-height:1.4;
   text-decoration:underline;
   text-decoration-color:rgba(244,246,248,.34);
@@ -90,7 +90,7 @@ main{
   color:var(--v7-ink);
   font-family:var(--font-v7-body),sans-serif;
   font-size:17px;
-  font-weight:800;
+  font-weight:700;
   line-height:1.2;
   letter-spacing:-.02em;
 }
@@ -102,7 +102,7 @@ main{
   min-height:44px;
   border-radius:2px;
   font-family:var(--font-v7-body),sans-serif;
-  font-weight:750;
+  font-weight:700;
   cursor:pointer;
 }
 
@@ -217,7 +217,7 @@ main{
     display:block;
     overflow:hidden;
     font-size:12px;
-    font-weight:750;
+    font-weight:700;
     line-height:1.2;
     text-overflow:ellipsis;
     white-space:nowrap;
