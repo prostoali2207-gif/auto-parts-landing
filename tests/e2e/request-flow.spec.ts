@@ -74,8 +74,12 @@ test("desktop keeps all three request groups visible without wizard controls", a
   await expect(page.getByRole("button", { name: "Отправить заявку" })).toBeVisible();
 });
 
-test("unverified manager contact destination is not rendered as a dead link", async ({ page }) => {
-  await expect(page.getByRole("link", { name: "Есть вопрос? Связаться с менеджером" })).toHaveCount(0);
+test("verified manager contact links point to Das Motors WhatsApp and Telegram", async ({ page }) => {
+  const whatsapp = page.getByRole("link", { name: "WhatsApp" });
+  const telegram = page.getByRole("link", { name: "Telegram" });
+
+  await expect(whatsapp).toHaveAttribute("href", "https://wa.me/971544550149");
+  await expect(telegram).toHaveAttribute("href", "https://t.me/dasmotors_dxb");
 });
 
 test("vehicle step blocks progress and returns focus to VIN when vehicle identity is missing", async ({ page }) => {
