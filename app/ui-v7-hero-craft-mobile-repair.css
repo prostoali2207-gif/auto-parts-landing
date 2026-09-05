@@ -375,6 +375,18 @@
   background-blend-mode:soft-light,normal,normal!important;
 }
 
+/* Physical depth: the existing translateZ values were previously viewed almost front-on.
+   A restrained shared 3D tilt makes the one-axis exploded stack read spatially without
+   changing any part geometry or introducing independent rotations. */
+.explodedObject{
+  transform:rotateX(7deg) rotateY(-10deg) rotateZ(-8deg)!important;
+  transform-origin:52% 50%;
+  transform-style:preserve-3d;
+}
+.heroObject .part{
+  backface-visibility:hidden;
+}
+
 /* Mobile first-screen repair: preserve the poster composition but remove avoidable vertical
    waste so the headline and primary request action remain fully reachable with browser chrome. */
 @media(max-width:700px){
