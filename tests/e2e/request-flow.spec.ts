@@ -64,6 +64,16 @@ test("mobile first screen keeps offer clear and sticky request CTA remains avail
   await expect(page.getByRole("link", { name: "Запросить", exact: true })).toBeVisible();
 });
 
+test("desktop keeps all three request groups visible without wizard controls", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await expect(page.locator('[data-form-step="1"]')).toBeVisible();
+  await expect(page.locator('[data-form-step="2"]')).toBeVisible();
+  await expect(page.locator('[data-form-step="3"]')).toBeVisible();
+  await expect(page.locator(".formProgress")).toBeHidden();
+  await expect(page.locator(".formStepActions")).toBeHidden();
+  await expect(page.getByRole("button", { name: "Отправить заявку" })).toBeVisible();
+});
+
 test("unverified manager contact destination is not rendered as a dead link", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Есть вопрос? Связаться с менеджером" })).toHaveCount(0);
 });
