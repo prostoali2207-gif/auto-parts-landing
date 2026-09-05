@@ -1,6 +1,6 @@
 # V7 Request Flow Enhancement Contract
 
-Status: ACTIVE bounded product/UX refinement  
+Status: VERIFIED — ready for merge  
 Base main: `9fe3eec17bb6d813fa9076f0ebf244efee48d31b`
 
 ## Why this contract exists
@@ -171,4 +171,4 @@ Before merge:
 7. mobile request-step captures for 01 / 02 / 03;
 8. independent UI Guard PASS;
 9. independent QA PASS for mocked request paths;
-10. manager-contact destinations are verified; live CRM HTTP submission remains to be verified safely against the active BayerCRM project.
+10. manager-contact destinations are verified; live BayerCRM multi-part submission was verified on 2026-09-05 with one HTTP smoke request producing one request and two request_items. The QA record was then removed and the request-number counter safely restored.
