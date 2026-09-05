@@ -1,0 +1,343 @@
+/* V7 request-flow enhancement.
+   Contract: docs/v7-request-flow-enhancement-contract.md
+   Final override layer for sticky CTA, multi-part entries, and mobile progressive disclosure. */
+
+html{
+  scroll-padding-top:90px;
+}
+
+body{
+  overflow-x:clip;
+}
+
+main{
+  overflow:visible!important;
+}
+
+.topbar{
+  position:sticky!important;
+  top:0!important;
+  z-index:100!important;
+  border-bottom:1px solid rgba(244,246,248,.12)!important;
+}
+
+.topCta:focus-visible,
+.managerContactLink:focus-visible,
+.addPartButton:focus-visible,
+.removePartButton:focus-visible,
+.stepBack:focus-visible,
+.stepNext:focus-visible{
+  outline:3px solid var(--v7-cobalt)!important;
+  outline-offset:3px!important;
+}
+
+.managerContactLink{
+  flex-basis:100%;
+  width:fit-content;
+  color:rgba(244,246,248,.76);
+  font-size:13px;
+  font-weight:650;
+  line-height:1.4;
+  text-decoration:underline;
+  text-decoration-color:rgba(244,246,248,.34);
+  text-underline-offset:4px;
+}
+
+.managerContactLink:hover{
+  color:var(--v7-paper);
+  text-decoration-color:var(--v7-acid);
+}
+
+.requestForm{
+  scroll-margin-top:96px;
+}
+
+.formProgress,
+.formStepActions{
+  display:none;
+}
+
+.partEntries{
+  display:grid;
+  gap:0;
+}
+
+.partEntry{
+  min-width:0;
+  padding:22px 0 28px;
+}
+
+.partEntry:first-child{
+  padding-top:8px;
+}
+
+.partEntry + .partEntry{
+  margin-top:28px;
+  padding-top:32px;
+  border-top:1px solid #cbd2da;
+}
+
+.partEntryHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:18px;
+}
+
+.partEntryHead h4{
+  margin:0;
+  color:var(--v7-ink);
+  font-family:var(--font-v7-body),sans-serif;
+  font-size:17px;
+  font-weight:800;
+  line-height:1.2;
+  letter-spacing:-.02em;
+}
+
+.removePartButton,
+.addPartButton,
+.stepBack,
+.stepNext{
+  min-height:44px;
+  border-radius:2px;
+  font-family:var(--font-v7-body),sans-serif;
+  font-weight:750;
+  cursor:pointer;
+}
+
+.removePartButton{
+  padding:0 4px;
+  border:0;
+  background:transparent;
+  color:#66717d;
+  font-size:13px;
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+
+.removePartButton:hover{
+  color:#a93223;
+}
+
+.addPartButton{
+  min-height:48px;
+  margin-top:20px;
+  padding:0 16px;
+  border:1px solid #778390;
+  background:transparent;
+  color:var(--v7-ink);
+  font-size:14px;
+}
+
+.addPartButton:hover{
+  border-color:var(--v7-cobalt);
+  background:#eef1f8;
+}
+
+.requestForm input[name^="part-"][name$="-number"]{
+  font-family:var(--font-plex-mono),monospace!important;
+}
+
+@keyframes v7RequestStepForward{
+  from{opacity:0;transform:translateX(22px)}
+  to{opacity:1;transform:translateX(0)}
+}
+
+@keyframes v7RequestStepBack{
+  from{opacity:0;transform:translateX(-22px)}
+  to{opacity:1;transform:translateX(0)}
+}
+
+@media(max-width:700px){
+  html{
+    scroll-padding-top:82px;
+  }
+
+  .topbar{
+    min-height:72px!important;
+    padding-top:12px!important;
+    padding-bottom:12px!important;
+  }
+
+  .requestBody{
+    padding-top:26px!important;
+  }
+
+  .requestForm{
+    scroll-margin-top:84px;
+  }
+
+  .formProgress{
+    display:block!important;
+    margin:0 0 8px;
+    padding:0 0 20px;
+    border-bottom:1px solid #cbd2da;
+  }
+
+  .formProgress ol{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+    margin:0;
+    padding:0;
+    list-style:none;
+  }
+
+  .formProgress li{
+    min-width:0;
+    padding-top:9px;
+    border-top:2px solid #cbd2da;
+    color:#68727e;
+  }
+
+  .formProgress li[data-complete="true"]{
+    border-top-color:var(--v7-cobalt);
+    color:#35404c;
+  }
+
+  .formProgress li[data-current="true"]{
+    border-top-color:var(--v7-acid);
+    color:var(--v7-ink);
+  }
+
+  .formProgress li span{
+    display:block;
+    margin-bottom:5px;
+    color:var(--v7-cobalt);
+    font:700 10px/1 var(--font-plex-mono),monospace;
+    letter-spacing:.1em;
+  }
+
+  .formProgress li[data-current="true"] span{
+    color:var(--v7-ink);
+  }
+
+  .formProgress li b{
+    display:block;
+    overflow:hidden;
+    font-size:12px;
+    font-weight:750;
+    line-height:1.2;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
+  .formProgress>p{
+    margin:13px 0 0;
+    color:#68727e;
+    font-size:12px;
+    font-weight:650;
+    line-height:1.3;
+  }
+
+  .formGroup[data-form-step]{
+    display:none!important;
+  }
+
+  .formGroup[data-form-step][data-active="true"]{
+    display:block!important;
+    min-height:0!important;
+    scroll-margin-top:86px;
+    animation:v7RequestStepForward 220ms cubic-bezier(.2,.72,.2,1) both;
+  }
+
+  .requestForm[data-step-direction="back"] .formGroup[data-form-step][data-active="true"]{
+    animation-name:v7RequestStepBack;
+  }
+
+  .formGroup[data-form-step="1"][data-active="true"],
+  .formGroup[data-form-step="2"][data-active="true"],
+  .formGroup[data-form-step="3"][data-active="true"]{
+    padding-top:30px!important;
+  }
+
+  .partEntry{
+    padding:12px 0 22px;
+  }
+
+  .partEntry:first-child{
+    padding-top:2px;
+  }
+
+  .partEntry + .partEntry{
+    margin-top:24px;
+    padding-top:28px;
+  }
+
+  .partEntryHead{
+    margin-bottom:8px;
+  }
+
+  .partEntryHead h4{
+    font-size:16px;
+  }
+
+  .removePartButton{
+    min-height:44px;
+  }
+
+  .addPartButton{
+    width:100%;
+    margin-top:14px;
+  }
+
+  .formStepActions{
+    display:flex!important;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding-top:24px;
+  }
+
+  .stepBack,
+  .stepNext{
+    padding:0 16px;
+    font-size:14px;
+  }
+
+  .stepBack{
+    border:1px solid #8e99a5;
+    background:transparent;
+    color:var(--v7-ink);
+  }
+
+  .stepNext{
+    margin-left:auto;
+    border:1px solid var(--v7-ink);
+    background:var(--v7-acid);
+    color:var(--v7-ink);
+  }
+
+  .requestForm[data-active-step="1"]>.submit,
+  .requestForm[data-active-step="2"]>.submit{
+    display:none!important;
+  }
+
+  .requestForm[data-active-step="3"]>.submit{
+    display:inline-flex!important;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .managerContactLink{
+    margin-top:-2px;
+    font-size:12.5px;
+  }
+}
+
+@media(max-width:390px){
+  .formProgress li b{
+    font-size:11px;
+  }
+
+  .formProgress ol{
+    gap:6px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .formGroup[data-form-step][data-active="true"]{
+    animation:none!important;
+  }
+}
