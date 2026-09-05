@@ -5,10 +5,15 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 const ENDPOINT = "https://ybjoayhahbifcrrrykln.supabase.co/functions/v1/create-landing-request";
 const ANALYTICS_ENDPOINT = "https://ybjoayhahbifcrrrykln.supabase.co/functions/v1/track-landing-event";
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024;
+const WHATSAPP_URL = "https://wa.me/971544550149";
+const TELEGRAM_URL = "https://t.me/dasmotors_dxb";
 
 type SubmitState = "idle" | "loading" | "success" | "error";
 type FieldErrors = Partial<Record<"vehicle" | "year" | "part" | "photo" | "contact", string>>;
 type FunnelEvent = "landing_view" | "request_start" | "request_submit" | "request_error";
+type FormStep = 1 | 2 | 3;
+type StepDirection = "forward" | "back";
+type PartEntry = { id: number; photoName: string };
 
 function attribution() {
   const p = new URLSearchParams(window.location.search);
@@ -27,10 +32,15 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [requestNumber, setRequestNumber] = useState<number | null>(null);
-  const [photoName, setPhotoName] = useState("");
+  const [activeStep, setActiveStep] = useState<FormStep>(1);
+  const [stepDirection, setStepDirection] = useState<StepDirection>("forward");
+  const [parts, setParts] = useState<PartEntry[]>([{ id: 0, photoName: "" }]);
+  const [partErrorId, setPartErrorId] = useState<number | null>(null);
   const sessionId = useRef("");
   const started = useRef(false);
+  const nextPartId = useRef(1);
   const trustVideo = useRef<HTMLVideoElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   function track(eventName: FunnelEvent) {
     if (!sessionId.current) return;
@@ -78,11 +88,153 @@ export default function Home() {
     }
   }
 
-  function failField(form: HTMLFormElement, errors: FieldErrors, name: string) {
+  function formText(v: FormData, name: string) {
+    return String(v.get(name) ?? "").trim();
+  }
+
+  function collectParts(v: FormData) {
+    return parts.map((entry, index) => {
+      const prefix = `part-${entry.id}`;
+      const partName = formText(v, `${prefix}-name`);
+      const partNumber = formText(v, `${prefix}-number`);
+      const description = formText(v, `${prefix}-description`);
+      const photo = v.get(`${prefix}-photo`);
+      const hasPhoto = photo instanceof File && photo.size > 0;
+      const photoKeys = hasPhoto ? [`part-${index}-photo-0`] : [];
+      return { entry, partName, partNumber, description, photo, hasPhoto, photoKeys };
+    });
+  }
+
+  function failField(
+    form: HTMLFormElement,
+    errors: FieldErrors,
+    name: string,
+    step: FormStep,
+    failedPartId: number | null = null,
+  ) {
     setFieldErrors(errors);
+    setPartErrorId(failedPartId);
     setState("error");
     setMessage("");
-    requestAnimationFrame(() => focusField(form, name));
+    setStepDirection(step < activeStep ? "back" : "forward");
+    setActiveStep(step);
+    requestAnimationFrame(() => requestAnimationFrame(() => focusField(form, name)));
+  }
+
+  function validateVehicle(form: HTMLFormElement, v: FormData) {
+    const vin = formText(v, "vin");
+    const carMake = formText(v, "carMake");
+    const carModel = formText(v, "carModel");
+    const carYear = formText(v, "carYear");
+
+    if (!vin && !(carMake && carModel && carYear)) {
+      failField(form, { vehicle: "Укажите VIN или марку, модель и год автомобиля." }, "vin", 1);
+      return false;
+    }
+    if (carYear) {
+      const y = Number(carYear);
+      if (!Number.isInteger(y) || y < 1950 || y > 2100) {
+        failField(form, { year: "Проверьте год автомобиля." }, "carYear", 1);
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function validateParts(form: HTMLFormElement, v: FormData) {
+    for (const part of collectParts(v)) {
+      const name = `part-${part.entry.id}-name`;
+      const photoName = `part-${part.entry.id}-photo`;
+
+      if (!part.partName && !part.partNumber && !part.description && !part.hasPhoto) {
+        failField(
+          form,
+          { part: "Добавьте название, OEM/Part Number, описание или фото детали — либо удалите пустую деталь." },
+          name,
+          2,
+          part.entry.id,
+        );
+        return false;
+      }
+
+      if (part.hasPhoto && part.photo instanceof File) {
+        if (!part.photo.type.startsWith("image/")) {
+          failField(form, { photo: "Можно загружать только изображения." }, photoName, 2, part.entry.id);
+          return false;
+        }
+        if (part.photo.size > MAX_PHOTO_BYTES) {
+          failField(form, { photo: "Фотография слишком большая. Максимум 8 МБ." }, photoName, 2, part.entry.id);
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  function focusStep(step: FormStep) {
+    const form = formRef.current;
+    if (!form) return;
+    const target = step === 1 ? "vin" : step === 2 ? `part-${parts[0].id}-name` : "contact";
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const field = form.elements.namedItem(target);
+      if (field instanceof HTMLElement) field.focus({ preventScroll: true });
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      form.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+    }));
+  }
+
+  function moveToStep(step: FormStep, direction: StepDirection) {
+    setStepDirection(direction);
+    setActiveStep(step);
+    focusStep(step);
+  }
+
+  function goNext() {
+    const form = formRef.current;
+    if (!form || activeStep === 3) return;
+    const v = new FormData(form);
+    setFieldErrors({});
+    setPartErrorId(null);
+    setMessage("");
+    if (state === "error") setState("idle");
+
+    if (activeStep === 1 && !validateVehicle(form, v)) return;
+    if (activeStep === 2 && !validateParts(form, v)) return;
+
+    moveToStep((activeStep + 1) as FormStep, "forward");
+  }
+
+  function goBack() {
+    if (activeStep === 1) return;
+    setFieldErrors({});
+    setPartErrorId(null);
+    setMessage("");
+    if (state === "error") setState("idle");
+    moveToStep((activeStep - 1) as FormStep, "back");
+  }
+
+  function addPart() {
+    const id = nextPartId.current++;
+    setParts((current) => [...current, { id, photoName: "" }]);
+    setFieldErrors({});
+    setPartErrorId(null);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const form = formRef.current;
+      if (form) focusField(form, `part-${id}-name`);
+    }));
+  }
+
+  function removePart(id: number) {
+    if (parts.length === 1) return;
+    setParts((current) => current.filter((part) => part.id !== id));
+    if (partErrorId === id) {
+      setFieldErrors({});
+      setPartErrorId(null);
+    }
+  }
+
+  function setPartPhotoName(id: number, photoName: string) {
+    setParts((current) => current.map((part) => part.id === id ? { ...part, photoName } : part));
   }
 
   async function submitRequest(event: FormEvent<HTMLFormElement>) {
@@ -90,59 +242,36 @@ export default function Home() {
     if (state === "loading") return;
     const form = event.currentTarget;
     const v = new FormData(form);
-    const text = (n: string) => String(v.get(n) ?? "").trim();
-    const contact = text("contact");
-    const vin = text("vin");
-    const carMake = text("carMake");
-    const carModel = text("carModel");
-    const carYear = text("carYear");
-    const partName = text("partName");
-    const partNumber = text("partNumber");
-    const description = text("description");
-    const photo = v.get("photo");
-    const hasPhoto = photo instanceof File && photo.size > 0;
     setFieldErrors({});
+    setPartErrorId(null);
     setMessage("");
 
-    if (!vin && !(carMake && carModel && carYear)) {
-      failField(form, { vehicle: "Укажите VIN или марку, модель и год автомобиля." }, "vin");
-      return;
-    }
-    if (carYear) {
-      const y = Number(carYear);
-      if (!Number.isInteger(y) || y < 1950 || y > 2100) {
-        failField(form, { year: "Проверьте год автомобиля." }, "carYear");
-        return;
-      }
-    }
-    if (!partName && !partNumber && !description && !hasPhoto) {
-      failField(form, { part: "Добавьте название, OEM/Part Number, описание или фото детали." }, "partName");
-      return;
-    }
-    if (hasPhoto && photo instanceof File) {
-      if (!photo.type.startsWith("image/")) {
-        failField(form, { photo: "Можно загружать только изображения." }, "photo");
-        return;
-      }
-      if (photo.size > MAX_PHOTO_BYTES) {
-        failField(form, { photo: "Фотография слишком большая. Максимум 8 МБ." }, "photo");
-        return;
-      }
-    }
+    if (!validateVehicle(form, v)) return;
+    if (!validateParts(form, v)) return;
+
+    const contact = formText(v, "contact");
     if (!contact) {
-      failField(form, { contact: "Укажите телефон, WhatsApp или Telegram." }, "contact");
+      failField(form, { contact: "Укажите телефон, WhatsApp или Telegram." }, "contact", 3);
       return;
     }
 
-    const photoKeys = hasPhoto ? ["part-0-photo-0"] : [];
+    const collectedParts = collectParts(v);
     const body = new FormData();
     for (const key of ["contact", "clientName", "vin", "carMake", "carModel", "carYear", "website"]) {
       const value = v.get(key);
       if (typeof value === "string") body.set(key, value);
     }
     body.set("analyticsSession", sessionId.current);
-    body.set("parts", JSON.stringify([{ partName, partNumber, description, photoKeys }]));
-    if (photoKeys.length && photo instanceof File) body.set(photoKeys[0], photo);
+    body.set("parts", JSON.stringify(collectedParts.map(({ partName, partNumber, description, photoKeys }) => ({
+      partName,
+      partNumber,
+      description,
+      photoKeys,
+    }))));
+    for (const part of collectedParts) {
+      if (part.photoKeys.length && part.photo instanceof File) body.set(part.photoKeys[0], part.photo);
+    }
+
     setState("loading");
     track("request_submit");
 
@@ -152,7 +281,11 @@ export default function Home() {
       if (!response.ok || !data.ok) throw new Error(data.error || "Не удалось отправить заявку");
       setRequestNumber(data.requestNumber ?? null);
       setState("success");
-      setPhotoName("");
+      setActiveStep(1);
+      setStepDirection("forward");
+      setParts([{ id: 0, photoName: "" }]);
+      setPartErrorId(null);
+      nextPartId.current = 1;
       form.reset();
     } catch (error) {
       track("request_error");
@@ -177,6 +310,11 @@ export default function Home() {
           <div className="heroActions">
             <a className="primary" href="#request">Запросить запчасть</a>
             <span className="micro">Можно начать без точного названия детали.</span>
+            <div className="managerContactLinks" aria-label="Связаться с менеджером">
+              <span>Есть вопрос?</span>
+              <a className="managerContactLink" href={WHATSAPP_URL}>WhatsApp</a>
+              <a className="managerContactLink" href={TELEGRAM_URL}>Telegram</a>
+            </div>
           </div>
         </div>
 
@@ -308,10 +446,34 @@ export default function Home() {
               <button className="secondary" onClick={() => { started.current = false; setState("idle"); }}>Отправить ещё одну</button>
             </div>
           ) : (
-            <form onSubmit={submitRequest} onFocusCapture={markRequestStart} onChange={markRequestStart} className="requestForm" noValidate>
+            <form
+              ref={formRef}
+              id="request-form"
+              onSubmit={submitRequest}
+              onFocusCapture={markRequestStart}
+              onChange={markRequestStart}
+              className="requestForm"
+              noValidate
+              data-active-step={activeStep}
+              data-step-direction={stepDirection}
+            >
               <input className="honeypot" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
 
-              <fieldset className="formGroup" aria-describedby={fieldErrors.vehicle ? "vehicle-error" : undefined}>
+              <nav className="formProgress" aria-label="Шаги заявки">
+                <ol>
+                  <li aria-current={activeStep === 1 ? "step" : undefined} data-current={activeStep === 1 ? "true" : "false"} data-complete={activeStep > 1 ? "true" : "false"}><span>01</span><b>Авто</b></li>
+                  <li aria-current={activeStep === 2 ? "step" : undefined} data-current={activeStep === 2 ? "true" : "false"} data-complete={activeStep > 2 ? "true" : "false"}><span>02</span><b>Детали</b></li>
+                  <li aria-current={activeStep === 3 ? "step" : undefined} data-current={activeStep === 3 ? "true" : "false"}><span>03</span><b>Контакт</b></li>
+                </ol>
+                <p>Шаг {activeStep} из 3</p>
+              </nav>
+
+              <fieldset
+                className="formGroup"
+                data-form-step="1"
+                data-active={activeStep === 1 ? "true" : "false"}
+                aria-describedby={fieldErrors.vehicle ? "vehicle-error" : undefined}
+              >
                 <legend><span>01</span><b>Автомобиль</b></legend>
                 <p className="fieldNote">Нет VIN? Укажите марку, модель и год.</p>
                 <label>VIN<input name="vin" placeholder="Например: JT..." autoCapitalize="characters" aria-invalid={fieldErrors.vehicle ? "true" : undefined} /></label>
@@ -325,33 +487,100 @@ export default function Home() {
                 {fieldErrors.year && <p className="fieldError" id="year-error" role="alert">{fieldErrors.year}</p>}
               </fieldset>
 
-              <fieldset className="formGroup" aria-describedby={fieldErrors.part ? "part-error" : undefined}>
-                <legend><span>02</span><b>Деталь</b></legend>
-                <p className="fieldNote">Не знаете OEM? Фото, название или описание тоже подходят.</p>
-                <div className="partGrid">
-                  <label>Название детали<input name="partName" placeholder="Например: передняя фара" aria-invalid={fieldErrors.part ? "true" : undefined} /></label>
-                  <label>OEM / Part Number<input name="partNumber" placeholder="Если известен" /></label>
+              <fieldset
+                className="formGroup"
+                data-form-step="2"
+                data-active={activeStep === 2 ? "true" : "false"}
+                aria-describedby={partErrorId !== null && fieldErrors.part ? `part-${partErrorId}-error` : undefined}
+              >
+                <legend><span>02</span><b>Детали</b></legend>
+                <p className="fieldNote">Для одного автомобиля можно добавить несколько деталей. Не знаете OEM? Фото, название или описание тоже подходят.</p>
+
+                <div className="partEntries">
+                  {parts.map((part, index) => {
+                    const partInvalid = partErrorId === part.id && Boolean(fieldErrors.part);
+                    const photoInvalid = partErrorId === part.id && Boolean(fieldErrors.photo);
+                    return (
+                      <div className="partEntry" key={part.id}>
+                        <div className="partEntryHead">
+                          <h4>Деталь {index + 1}</h4>
+                          {parts.length > 1 && (
+                            <button className="removePartButton" type="button" aria-label={`Удалить деталь ${index + 1}`} onClick={() => removePart(part.id)}>Удалить</button>
+                          )}
+                        </div>
+                        <div className="partGrid">
+                          <label>
+                            Название детали
+                            <input
+                              name={`part-${part.id}-name`}
+                              aria-label={index === 0 ? "Название детали" : `Название детали ${index + 1}`}
+                              placeholder="Например: передняя фара"
+                              aria-invalid={partInvalid ? "true" : undefined}
+                            />
+                          </label>
+                          <label>
+                            OEM / Part Number
+                            <input
+                              name={`part-${part.id}-number`}
+                              aria-label={index === 0 ? "OEM / Part Number" : `OEM / Part Number ${index + 1}`}
+                              placeholder="Если известен"
+                            />
+                          </label>
+                        </div>
+                        {partInvalid && <p className="fieldError" id={`part-${part.id}-error`} role="alert">{fieldErrors.part}</p>}
+
+                        <label className="fileLabel">
+                          <span className="fileLabelText">Фото детали</span>
+                          <span className="fileControl">
+                            <span className="fileAction">Выбрать фото</span>
+                            <span className="fileName">{part.photoName || "JPG, PNG, HEIC · до 8 МБ"}</span>
+                          </span>
+                          <input
+                            name={`part-${part.id}-photo`}
+                            aria-label={index === 0 ? "Фото детали" : `Фото детали ${index + 1}`}
+                            type="file"
+                            accept="image/*"
+                            aria-invalid={photoInvalid ? "true" : undefined}
+                            aria-describedby={photoInvalid ? `part-${part.id}-photo-error` : undefined}
+                            onChange={(event) => setPartPhotoName(part.id, event.currentTarget.files?.[0]?.name ?? "")}
+                          />
+                        </label>
+                        {photoInvalid && <p className="fieldError" id={`part-${part.id}-photo-error`} role="alert">{fieldErrors.photo}</p>}
+
+                        <label>
+                          Комментарий
+                          <textarea
+                            name={`part-${part.id}-description`}
+                            aria-label={index === 0 ? "Комментарий" : `Комментарий ${index + 1}`}
+                            rows={3}
+                            placeholder="Сторона, повреждение или любая полезная деталь"
+                          />
+                        </label>
+                      </div>
+                    );
+                  })}
                 </div>
-                {fieldErrors.part && <p className="fieldError" id="part-error" role="alert">{fieldErrors.part}</p>}
-                <label className="fileLabel">
-                  <span className="fileLabelText">Фото детали</span>
-                  <span className="fileControl">
-                    <span className="fileAction">Выбрать фото</span>
-                    <span className="fileName">{photoName || "JPG, PNG, HEIC · до 8 МБ"}</span>
-                  </span>
-                  <input name="photo" type="file" accept="image/*" aria-invalid={fieldErrors.photo ? "true" : undefined} aria-describedby={fieldErrors.photo ? "photo-error" : undefined} onChange={(event) => setPhotoName(event.currentTarget.files?.[0]?.name ?? "")} />
-                </label>
-                {fieldErrors.photo && <p className="fieldError" id="photo-error" role="alert">{fieldErrors.photo}</p>}
-                <label>Комментарий<textarea name="description" rows={3} placeholder="Сторона, повреждение или любая полезная деталь" /></label>
+
+                <button className="addPartButton" type="button" onClick={addPart}>+ Добавить ещё деталь</button>
               </fieldset>
 
-              <fieldset className="formGroup" aria-describedby={fieldErrors.contact ? "contact-error" : undefined}>
+              <fieldset
+                className="formGroup"
+                data-form-step="3"
+                data-active={activeStep === 3 ? "true" : "false"}
+                aria-describedby={fieldErrors.contact ? "contact-error" : undefined}
+              >
                 <legend><span>03</span><b>Контакт</b></legend>
                 <p className="fieldNote">Укажите удобный контакт, чтобы менеджер мог продолжить подбор.</p>
                 <label>Телефон / WhatsApp / Telegram<input name="contact" placeholder="Как с вами связаться" aria-invalid={fieldErrors.contact ? "true" : undefined} aria-describedby={fieldErrors.contact ? "contact-error" : undefined} /></label>
                 {fieldErrors.contact && <p className="fieldError" id="contact-error" role="alert">{fieldErrors.contact}</p>}
                 <label>Имя <span>(необязательно)</span><input name="clientName" placeholder="Ваше имя" /></label>
               </fieldset>
+
+              <div className="formStepActions" aria-label="Навигация по шагам">
+                {activeStep > 1 && <button className="stepBack" type="button" onClick={goBack}>← Назад</button>}
+                {activeStep < 3 && <button className="stepNext" type="button" onClick={goNext}>Далее →</button>}
+              </div>
 
               {state === "error" && message && <p className="error" role="alert">{message}</p>}
               <button className="primary submit" disabled={state === "loading"} type="submit">{state === "loading" ? "Отправляем…" : "Отправить заявку"}</button>

@@ -10,7 +10,7 @@ const proofAssets = [
 test("renders only the approved verified trust facts and real supplier media", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page).toHaveTitle("Spline — автозапчасти из ОАЭ в Россию и СНГ");
+  await expect(page).toHaveTitle("Das Motors — автозапчасти из ОАЭ в Россию и СНГ");
 
   const trust = page.locator(".trustProof");
   await expect(trust).toBeVisible();
