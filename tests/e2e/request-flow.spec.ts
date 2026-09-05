@@ -155,6 +155,11 @@ test("one vehicle can submit two part items in the same CRM request payload", as
   await page.getByLabel("Название детали").fill("Передняя фара");
   await page.getByRole("button", { name: "+ Добавить ещё деталь" }).click();
   await page.getByLabel("Название детали 2").fill("Задний фонарь");
+  await page.getByLabel("Фото детали 2").setInputFiles({
+    name: "rear-light.jpg",
+    mimeType: "image/jpeg",
+    buffer: Buffer.from([0xff, 0xd8, 0xff, 0xd9]),
+  });
   await nextStep(page);
   await expectStep(page, 3);
   await page.getByLabel("Телефон / WhatsApp / Telegram").fill("+971500000000");
@@ -164,6 +169,7 @@ test("one vehicle can submit two part items in the same CRM request payload", as
   expect(captured).toContain("Передняя фара");
   expect(captured).toContain("Задний фонарь");
   expect((captured.match(/partName/g) || []).length).toBe(2);
+  expect(captured).toContain("part-1-photo-0");
 });
 
 test("an explicitly added empty part must be completed or removed before progress", async ({ page }) => {
@@ -175,7 +181,7 @@ test("an explicitly added empty part must be completed or removed before progres
   await expect(page.locator("#part-1-error")).toContainText("либо удалите пустую деталь");
   await expect(page.getByLabel("Название детали 2")).toBeFocused();
 
-  await page.getByRole("button", { name: "Удалить" }).click();
+  await page.locator(".partEntry").last().getByRole("button", { name: "Удалить" }).click();
   await nextStep(page);
   await expectStep(page, 3);
 });
