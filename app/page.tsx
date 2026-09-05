@@ -174,7 +174,12 @@ export default function Home() {
     const form = formRef.current;
     if (!form) return;
     const target = step === 1 ? "vin" : step === 2 ? `part-${parts[0].id}-name` : "contact";
-    requestAnimationFrame(() => requestAnimationFrame(() => focusField(form, target)));
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const field = form.elements.namedItem(target);
+      if (field instanceof HTMLElement) field.focus({ preventScroll: true });
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      form.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+    }));
   }
 
   function moveToStep(step: FormStep, direction: StepDirection) {
@@ -453,9 +458,9 @@ export default function Home() {
 
               <nav className="formProgress" aria-label="Шаги заявки">
                 <ol>
-                  <li data-current={activeStep === 1 ? "true" : "false"} data-complete={activeStep > 1 ? "true" : "false"}><span>01</span><b>Авто</b></li>
-                  <li data-current={activeStep === 2 ? "true" : "false"} data-complete={activeStep > 2 ? "true" : "false"}><span>02</span><b>Детали</b></li>
-                  <li data-current={activeStep === 3 ? "true" : "false"}><span>03</span><b>Контакт</b></li>
+                  <li aria-current={activeStep === 1 ? "step" : undefined} data-current={activeStep === 1 ? "true" : "false"} data-complete={activeStep > 1 ? "true" : "false"}><span>01</span><b>Авто</b></li>
+                  <li aria-current={activeStep === 2 ? "step" : undefined} data-current={activeStep === 2 ? "true" : "false"} data-complete={activeStep > 2 ? "true" : "false"}><span>02</span><b>Детали</b></li>
+                  <li aria-current={activeStep === 3 ? "step" : undefined} data-current={activeStep === 3 ? "true" : "false"}><span>03</span><b>Контакт</b></li>
                 </ol>
                 <p>Шаг {activeStep} из 3</p>
               </nav>
