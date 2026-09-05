@@ -355,6 +355,26 @@
   filter:saturate(.45) brightness(.88)!important;
 }
 
+/* Restrained procedural cast grain: enough physicality to break the flat fill,
+   without becoming a photographic texture or adding new visual language. */
+.partBackplate{
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='2' seed='11'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.13'/%3E%3C/svg%3E"),
+    linear-gradient(145deg,rgba(236,242,247,.07) 0 9%,transparent 25%),
+    linear-gradient(145deg,#223243 0%,#172738 31%,#0a1520 70%,#132334 100%)!important;
+  background-size:160px 160px,auto,auto!important;
+  background-blend-mode:soft-light,normal,normal!important;
+}
+
+.partHousing{
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='2' seed='11'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.13'/%3E%3C/svg%3E"),
+    linear-gradient(143deg,rgba(236,243,248,.16) 0 7%,transparent 21%),
+    linear-gradient(145deg,#74818d 0%,#5e6c78 23%,#43515f 49%,#2d3c49 71%,#1d2b37 87%,#465461 100%)!important;
+  background-size:160px 160px,auto,auto!important;
+  background-blend-mode:soft-light,normal,normal!important;
+}
+
 /* Mobile first-screen repair: preserve the poster composition but remove avoidable vertical
    waste so the headline and primary request action remain fully reachable with browser chrome. */
 @media(max-width:700px){
