@@ -69,6 +69,39 @@ test("mobile hero opens on first meaningful entry in a browser-chrome-constraine
   await expect(hero).toHaveClass(/heroMobileMotionRun/);
 });
 
+test("browser-chrome-constrained first screen keeps headline and primary CTA fully visible", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 390, height: 640 });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await page.evaluate(() => document.fonts.ready);
+
+  const geometry = await page.evaluate(() => {
+    const header = document.querySelector<HTMLElement>(".topbar");
+    const headline = document.querySelector<HTMLElement>(".hero h1");
+    const cta = document.querySelector<HTMLElement>(".heroActions .primary");
+    if (!header || !headline || !cta) return null;
+    const h = header.getBoundingClientRect();
+    const t = headline.getBoundingClientRect();
+    const c = cta.getBoundingClientRect();
+    return {
+      headerBottom: h.bottom,
+      headlineTop: t.top,
+      headlineBottom: t.bottom,
+      ctaTop: c.top,
+      ctaBottom: c.bottom,
+      viewportHeight: window.innerHeight,
+      overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    };
+  });
+
+  expect(geometry).not.toBeNull();
+  if (!geometry) return;
+  expect(geometry.headlineTop).toBeGreaterThanOrEqual(geometry.headerBottom - 1);
+  expect(geometry.headlineBottom).toBeLessThan(geometry.ctaTop);
+  expect(geometry.ctaBottom).toBeLessThanOrEqual(geometry.viewportHeight - 8);
+  expect(geometry.overflow).toBe(false);
+});
+
 for (const viewport of [{ width: 390, height: 844 }, { width: 360, height: 800 }]) {
   test(`mobile process numerals fit after reveal at ${viewport.width}px`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "no-preference" });
