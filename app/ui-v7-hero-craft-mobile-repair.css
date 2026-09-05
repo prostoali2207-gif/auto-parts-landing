@@ -248,6 +248,113 @@
 .fastenerB{transform:translate3d(143px,69px,70px)!important}
 .fastenerC{transform:translate3d(-84px,110px,27px)!important}
 
+/* UI Guard craft revision: make the contract's three material families unmistakable
+   at real render scale. Geometry and motion remain unchanged. */
+.heroObject::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  left:17%;
+  right:-5%;
+  bottom:10%;
+  height:25%;
+  border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.34) 0%,rgba(0,0,0,.18) 42%,transparent 72%);
+  transform:rotate(-8deg);
+  filter:blur(10px);
+  opacity:.72;
+  pointer-events:none;
+}
+
+/* Family 1 — dark cast / graphite shell. */
+.partHousing{
+  background:
+    linear-gradient(143deg,rgba(236,243,248,.16) 0 7%,transparent 21%),
+    linear-gradient(145deg,#74818d 0%,#5e6c78 23%,#43515f 49%,#2d3c49 71%,#1d2b37 87%,#465461 100%)!important;
+  filter:
+    drop-shadow(6px 9px 0 rgba(6,14,21,.46))
+    drop-shadow(16px 26px 21px rgba(0,0,0,.36))
+    drop-shadow(-2px -2px 2px rgba(231,238,243,.10))!important;
+  box-shadow:
+    inset 2px 2px 0 rgba(244,248,251,.16),
+    inset -16px -18px 31px rgba(5,13,20,.31),
+    0 25px 31px rgba(0,0,0,.30)!important;
+}
+.partHousing::before{
+  background:
+    linear-gradient(180deg,rgba(226,234,240,.13),rgba(15,28,39,.18)),
+    repeating-linear-gradient(90deg,
+      transparent 0 43px,
+      rgba(12,24,34,.42) 43px 49px,
+      transparent 49px 86px)!important;
+}
+.partHousing::after{
+  border-color:rgba(9,20,29,.54)!important;
+  background:linear-gradient(145deg,rgba(17,30,41,.46),rgba(4,11,17,.24))!important;
+  box-shadow:
+    inset 6px 6px 15px rgba(0,0,0,.34),
+    inset -1px -1px 0 rgba(192,204,214,.07)!important;
+}
+
+/* Family 2 — satin cool metal bracket / flange / cap. */
+.partBracket{
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.31) 0 7%,transparent 22%),
+    linear-gradient(145deg,#aeb9c2 0%,#87949f 30%,#5d6b78 59%,#3f4e5b 82%,#707e8a 100%)!important;
+  filter:
+    drop-shadow(5px 8px 0 rgba(12,22,31,.36))
+    drop-shadow(12px 20px 17px rgba(0,0,0,.33))
+    drop-shadow(-2px -2px 2px rgba(245,248,250,.13))!important;
+}
+
+.partRing{
+  background:
+    radial-gradient(circle at 19% 28%,#1e2d3a 0 6px,#c6cfd6 7px 10px,transparent 11px),
+    radial-gradient(circle at 80% 22%,#1e2d3a 0 6px,#c6cfd6 7px 10px,transparent 11px),
+    radial-gradient(circle at 83% 75%,#1e2d3a 0 6px,#c6cfd6 7px 10px,transparent 11px),
+    radial-gradient(circle at 22% 80%,#1e2d3a 0 6px,#c6cfd6 7px 10px,transparent 11px),
+    linear-gradient(145deg,rgba(255,255,255,.42) 0 8%,transparent 23%),
+    linear-gradient(145deg,#dce2e7 0%,#b3bdc6 26%,#7f8b97 55%,#53616e 80%,#8d99a4 100%)!important;
+  filter:
+    drop-shadow(4px 7px 0 rgba(13,23,32,.34))
+    drop-shadow(12px 19px 17px rgba(0,0,0,.36))
+    drop-shadow(-2px -2px 2px rgba(255,255,255,.17))!important;
+}
+
+.partLens{
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.20) 0 8%,transparent 24%),
+    linear-gradient(145deg,#8995a0 0%,#6c7985 34%,#465562 68%,#5f6d79 100%)!important;
+  filter:
+    drop-shadow(4px 7px 0 rgba(14,24,33,.32))
+    drop-shadow(11px 18px 16px rgba(0,0,0,.35))
+    drop-shadow(-2px -2px 2px rgba(232,238,242,.11))!important;
+}
+
+/* Dark recessed carrier makes the exploded gaps legible rather than reading as stacked paper. */
+.partCore{
+  background:
+    linear-gradient(145deg,rgba(197,210,220,.08),transparent 22%),
+    linear-gradient(145deg,#4c5a68 0%,#344351 31%,#172633 63%,#07121c 100%)!important;
+  filter:
+    drop-shadow(5px 8px 0 rgba(3,9,14,.42))
+    drop-shadow(11px 18px 16px rgba(0,0,0,.38))
+    drop-shadow(-1px -1px 1px rgba(176,189,200,.06))!important;
+}
+
+/* Family 3 — restrained steel / connector hardware. */
+.partConnector{
+  filter:
+    brightness(.91)
+    saturate(.72)
+    drop-shadow(3px 5px 0 rgba(3,9,14,.34))
+    drop-shadow(8px 13px 12px rgba(0,0,0,.32))!important;
+}
+.fastener{
+  background:linear-gradient(145deg,#aeb9c2,#697784)!important;
+  filter:saturate(.45) brightness(.88)!important;
+}
+
 /* Mobile first-screen repair: preserve the poster composition but remove avoidable vertical
    waste so the headline and primary request action remain fully reachable with browser chrome. */
 @media(max-width:700px){
