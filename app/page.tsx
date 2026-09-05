@@ -5,7 +5,8 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 const ENDPOINT = "https://ybjoayhahbifcrrrykln.supabase.co/functions/v1/create-landing-request";
 const ANALYTICS_ENDPOINT = "https://ybjoayhahbifcrrrykln.supabase.co/functions/v1/track-landing-event";
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024;
-const MANAGER_CONTACT_URL = process.env.NEXT_PUBLIC_MANAGER_CONTACT_URL?.trim() || "";
+const WHATSAPP_URL = "https://wa.me/971544550149";
+const TELEGRAM_URL = "https://t.me/dasmotors_dxb";
 
 type SubmitState = "idle" | "loading" | "success" | "error";
 type FieldErrors = Partial<Record<"vehicle" | "year" | "part" | "photo" | "contact", string>>;
@@ -309,9 +310,11 @@ export default function Home() {
           <div className="heroActions">
             <a className="primary" href="#request">Запросить запчасть</a>
             <span className="micro">Можно начать без точного названия детали.</span>
-            {MANAGER_CONTACT_URL && (
-              <a className="managerContactLink" href={MANAGER_CONTACT_URL}>Есть вопрос? Связаться с менеджером</a>
-            )}
+            <div className="managerContactLinks" aria-label="Связаться с менеджером">
+              <span>Есть вопрос?</span>
+              <a className="managerContactLink" href={WHATSAPP_URL}>WhatsApp</a>
+              <a className="managerContactLink" href={TELEGRAM_URL}>Telegram</a>
+            </div>
           </div>
         </div>
 
