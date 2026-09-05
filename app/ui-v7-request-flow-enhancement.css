@@ -22,6 +22,7 @@ main{
 }
 
 .topCta:focus-visible,
+.managerContactSummary:focus-visible,
 .managerContactLink:focus-visible,
 .addPartButton:focus-visible,
 .removePartButton:focus-visible,
@@ -31,30 +32,85 @@ main{
   outline-offset:3px!important;
 }
 
-.managerContactLinks{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:8px 14px;
+.managerContactDisclosure{
+  width:fit-content;
   margin-top:-2px;
   color:rgba(244,246,248,.58);
   font-size:13px;
   line-height:1.4;
 }
 
-.managerContactLinks>span{
+.managerContactSummary{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  min-height:32px;
+  cursor:pointer;
+  list-style:none;
+  color:rgba(244,246,248,.56);
   font-weight:500;
 }
 
+.managerContactSummary::-webkit-details-marker{
+  display:none;
+}
+
+.managerContactSummary span{
+  color:rgba(244,246,248,.74);
+  font-weight:600;
+  text-decoration:underline;
+  text-decoration-color:rgba(244,246,248,.28);
+  text-underline-offset:4px;
+}
+
+.managerContactSummary i{
+  display:inline-block;
+  margin-left:2px;
+  color:rgba(244,246,248,.58);
+  font-style:normal;
+  transition:transform 160ms ease;
+}
+
+.managerContactDisclosure[open] .managerContactSummary i{
+  transform:rotate(90deg);
+}
+
+.managerContactSummary:hover span{
+  color:var(--v7-paper);
+  text-decoration-color:var(--v7-acid);
+}
+
+.managerContactChoices{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px 16px;
+  padding-top:8px;
+}
+
 .managerContactLink{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
   width:fit-content;
   color:rgba(244,246,248,.76);
   font-size:13px;
   font-weight:600;
   line-height:1.4;
   text-decoration:underline;
-  text-decoration-color:rgba(244,246,248,.34);
+  text-decoration-color:rgba(244,246,248,.3);
   text-underline-offset:4px;
+}
+
+.managerContactLink svg{
+  width:15px;
+  height:15px;
+  flex:0 0 auto;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.7;
+  stroke-linecap:round;
+  stroke-linejoin:round;
 }
 
 .managerContactLink:hover{
@@ -338,12 +394,21 @@ main{
     justify-content:center;
   }
 
-  .managerContactLinks{
-    gap:7px 12px;
+  .managerContactDisclosure{
     font-size:12.5px;
   }
 
+  .managerContactSummary{
+    min-height:34px;
+  }
+
+  .managerContactChoices{
+    gap:8px 14px;
+    padding-top:6px;
+  }
+
   .managerContactLink{
+    min-height:32px;
     font-size:12.5px;
   }
 }

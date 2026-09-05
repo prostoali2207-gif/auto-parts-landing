@@ -123,7 +123,7 @@ Verified against the Das Motors BayerCRM profile and confirmed by the business o
 - WhatsApp: `+971544550149` -> `https://wa.me/971544550149`;
 - Telegram: `@dasmotors_dxb` -> `https://t.me/dasmotors_dxb`.
 
-Both links may be rendered as quiet secondary actions under the dominant request CTA. They must not compete visually with `Запросить запчасть`.
+The hero must not expose both channels at first glance. Render one quiet second-level disclosure: `Есть вопрос? Связаться с менеджером →`. Only after the visitor opens it, reveal WhatsApp and Telegram as labeled links with small supporting icons. Text labels remain mandatory; icons never stand alone. This secondary path must not compete visually with `Запросить запчасть`.
 
 ## Visual refinement contract
 
@@ -134,7 +134,7 @@ Allowed additions:
 - sticky solid-navy header with restrained divider;
 - compact mobile progress rail using existing V7 typography/cobalt/acid hierarchy;
 - plain part-entry separators;
-- quiet secondary manager-contact text link;
+- quiet secondary manager-contact disclosure with small labeled channel icons;
 - restrained forward/back step transition.
 
 Do not add:

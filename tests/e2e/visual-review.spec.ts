@@ -86,6 +86,16 @@ test("capture full landing on mobile", async ({ page }) => {
   await page.screenshot({ path: `${outputDir}/landing-mobile-390.png`, fullPage: true });
 });
 
+test("capture opened manager contact disclosure on mobile", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openLanding(page);
+
+  await page.locator(".managerContactSummary").click();
+  await expect(page.locator(".managerContactDisclosure")).toHaveAttribute("open", "");
+  await page.locator(".hero").screenshot({ path: `${outputDir}/hero-mobile-manager-contact-open.png` });
+});
+
 test("capture full landing at intermediate width", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 768, height: 960 });

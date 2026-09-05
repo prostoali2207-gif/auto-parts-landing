@@ -310,11 +310,27 @@ export default function Home() {
           <div className="heroActions">
             <a className="primary" href="#request">Запросить запчасть</a>
             <span className="micro">Можно начать без точного названия детали.</span>
-            <div className="managerContactLinks" aria-label="Связаться с менеджером">
-              <span>Есть вопрос?</span>
-              <a className="managerContactLink" href={WHATSAPP_URL}>WhatsApp</a>
-              <a className="managerContactLink" href={TELEGRAM_URL}>Telegram</a>
-            </div>
+            <details className="managerContactDisclosure">
+              <summary className="managerContactSummary">
+                Есть вопрос? <span>Связаться с менеджером</span><i aria-hidden="true">→</i>
+              </summary>
+              <div className="managerContactChoices" aria-label="Связаться с менеджером">
+                <a className="managerContactLink" href={WHATSAPP_URL}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4A8 8 0 1 1 20 11.5Z" />
+                    <path d="M9.2 8.5c.4 2.3 2 3.9 4.3 4.3" />
+                  </svg>
+                  <span>WhatsApp</span>
+                </a>
+                <a className="managerContactLink" href={TELEGRAM_URL}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m21 4-7.8 16-3.1-6.2L4 10.7 21 4Z" />
+                    <path d="m10.1 13.8 4.4-4.4" />
+                  </svg>
+                  <span>Telegram</span>
+                </a>
+              </div>
+            </details>
           </div>
         </div>
 

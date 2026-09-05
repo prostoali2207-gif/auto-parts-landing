@@ -74,10 +74,22 @@ test("desktop keeps all three request groups visible without wizard controls", a
   await expect(page.getByRole("button", { name: "Отправить заявку" })).toBeVisible();
 });
 
-test("verified manager contact links point to Das Motors WhatsApp and Telegram", async ({ page }) => {
+test("manager contact stays secondary until the visitor opens it", async ({ page }) => {
+  const disclosure = page.locator(".managerContactDisclosure");
+  const summary = page.locator(".managerContactSummary");
   const whatsapp = page.getByRole("link", { name: "WhatsApp" });
   const telegram = page.getByRole("link", { name: "Telegram" });
 
+  await expect(summary).toContainText("Есть вопрос? Связаться с менеджером");
+  await expect(disclosure).not.toHaveAttribute("open", "");
+  await expect(whatsapp).toBeHidden();
+  await expect(telegram).toBeHidden();
+
+  await summary.click();
+
+  await expect(disclosure).toHaveAttribute("open", "");
+  await expect(whatsapp).toBeVisible();
+  await expect(telegram).toBeVisible();
   await expect(whatsapp).toHaveAttribute("href", "https://wa.me/971544550149");
   await expect(telegram).toHaveAttribute("href", "https://t.me/dasmotors_dxb");
 });
