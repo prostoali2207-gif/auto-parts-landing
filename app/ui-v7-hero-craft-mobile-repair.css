@@ -375,6 +375,15 @@
   background-blend-mode:soft-light,normal,normal!important;
 }
 
+/* Make the approved exploded assembly readable at rest.
+   Gaps extend on the same diagonal axis and remain slightly inside the existing hover pose. */
+.partBackplate{transform:translate3d(-64px,30px,-101px) rotate(1deg)!important}
+.partBracket{transform:translate3d(-31px,15px,-46px) rotate(-3deg)!important}
+.partHousing{transform:translate3d(20px,-10px,22px) rotate(-4deg)!important}
+.partCore{transform:translate3d(68px,-44px,100px) rotate(-4deg)!important}
+.partRing{transform:translate3d(112px,-70px,154px) rotate(-6deg)!important}
+.partLens{transform:translate3d(150px,-94px,202px) rotate(-6deg)!important}
+
 /* Physical depth: the existing translateZ values were previously viewed almost front-on.
    A restrained shared 3D tilt makes the one-axis exploded stack read spatially without
    changing any part geometry or introducing independent rotations. */
