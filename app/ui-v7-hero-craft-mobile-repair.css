@@ -151,6 +151,103 @@
     0 4px 6px rgba(0,0,0,.21)!important;
 }
 
+/* Exact-render review pass: increase material hierarchy and construction depth.
+   Keep the same geometry; only make the existing fabrication cues read more clearly. */
+.partBackplate{
+  filter:
+    drop-shadow(13px 19px 17px rgba(0,0,0,.31))
+    drop-shadow(-1px -1px 1px rgba(195,208,220,.06))!important;
+}
+
+.partBracket{
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.35) 0 7%,transparent 21%),
+    linear-gradient(145deg,#b7c1ca 0%,#8c98a3 29%,#5f6d7a 58%,#3c4a58 82%,#697784 100%)!important;
+  filter:
+    drop-shadow(10px 17px 15px rgba(0,0,0,.31))
+    drop-shadow(-1px -1px 1px rgba(245,248,250,.15))!important;
+}
+.partBracket::before{
+  background:
+    linear-gradient(180deg,rgba(236,242,247,.16),rgba(22,34,46,.13)),
+    repeating-linear-gradient(90deg,
+      transparent 0 34px,
+      rgba(24,37,49,.38) 34px 39px,
+      transparent 39px 67px)!important;
+  opacity:.92!important;
+}
+
+.partHousing{
+  background:
+    linear-gradient(143deg,rgba(255,255,255,.27) 0 6%,transparent 19%),
+    linear-gradient(145deg,#aeb8c1 0%,#8c98a3 23%,#687684 48%,#4c5a68 70%,#354451 86%,#5e6c79 100%)!important;
+  filter:
+    drop-shadow(13px 21px 18px rgba(0,0,0,.34))
+    drop-shadow(-1px -1px 1px rgba(244,248,250,.14))!important;
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,.22),
+    inset -15px -17px 30px rgba(12,23,34,.30),
+    0 25px 31px rgba(0,0,0,.30)!important;
+}
+.partHousing::before{
+  left:34px!important;
+  right:auto!important;
+  top:27px!important;
+  width:268px!important;
+  height:44px!important;
+  background:
+    linear-gradient(180deg,rgba(236,241,246,.20),rgba(31,45,58,.18)),
+    repeating-linear-gradient(90deg,
+      transparent 0 43px,
+      rgba(27,41,54,.35) 43px 49px,
+      transparent 49px 86px)!important;
+  opacity:.88!important;
+}
+.partHousing::after{
+  inset:24% 15% 18% 23%!important;
+  border:1px solid rgba(20,32,44,.42)!important;
+  background:linear-gradient(145deg,rgba(20,33,45,.36),rgba(7,16,24,.15))!important;
+  box-shadow:
+    inset 5px 5px 13px rgba(3,10,16,.28),
+    inset -1px -1px 0 rgba(221,228,234,.08)!important;
+}
+
+.partCore{
+  background:
+    linear-gradient(145deg,rgba(207,219,229,.09),transparent 21%),
+    linear-gradient(145deg,#596776 0%,#3d4c5b 30%,#1b2a38 62%,#08131e 100%)!important;
+  filter:
+    drop-shadow(10px 17px 15px rgba(0,0,0,.35))
+    drop-shadow(-1px -1px 1px rgba(189,201,212,.07))!important;
+}
+
+.partRing{
+  background:
+    radial-gradient(circle at 19% 28%,#1f2e3b 0 6px,#c8d0d7 7px 10px,transparent 11px),
+    radial-gradient(circle at 80% 22%,#1f2e3b 0 6px,#c8d0d7 7px 10px,transparent 11px),
+    radial-gradient(circle at 83% 75%,#1f2e3b 0 6px,#c8d0d7 7px 10px,transparent 11px),
+    radial-gradient(circle at 22% 80%,#1f2e3b 0 6px,#c8d0d7 7px 10px,transparent 11px),
+    linear-gradient(145deg,rgba(255,255,255,.38) 0 8%,transparent 23%),
+    linear-gradient(145deg,#d9dfe4 0%,#aeb8c1 26%,#7d8995 54%,#53616f 79%,#8995a0 100%)!important;
+  filter:
+    drop-shadow(11px 17px 15px rgba(0,0,0,.34))
+    drop-shadow(-1px -1px 1px rgba(255,255,255,.18))!important;
+}
+
+.partLens{
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.17) 0 8%,transparent 23%),
+    linear-gradient(145deg,#7d8995 0%,#616e7b 34%,#3e4d5b 67%,#566470 100%)!important;
+  filter:
+    drop-shadow(10px 16px 14px rgba(0,0,0,.34))
+    drop-shadow(-1px -1px 1px rgba(232,238,242,.12))!important;
+}
+
+/* Seat the three bolt heads closer to the visible mounting structure. */
+.fastenerA{transform:translate3d(-148px,-82px,50px)!important}
+.fastenerB{transform:translate3d(143px,69px,70px)!important}
+.fastenerC{transform:translate3d(-84px,110px,27px)!important}
+
 /* Mobile first-screen repair: preserve the poster composition but remove avoidable vertical
    waste so the headline and primary request action remain fully reachable with browser chrome. */
 @media(max-width:700px){
