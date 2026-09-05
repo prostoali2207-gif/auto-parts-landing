@@ -1,0 +1,224 @@
+/* V7 narrow hero craft + mobile first-screen repair.
+   Source contracts:
+   - docs/v7-hero-object-material-form-polish-contract.md
+   - DESIGN.md
+   Scope: preserve the approved abstract silhouette and request flow.
+   Improve material separation, directional light / construction depth, connector legibility,
+   and keep the primary CTA fully reachable in a browser-chrome-constrained mobile viewport. */
+
+/* The assembly keeps one top-left key light, deeper inter-layer occlusion and a faint
+   opposite-edge separation cue. No glow / HUD / photoreal texture. */
+.heroObject{
+  filter:
+    drop-shadow(0 34px 42px rgba(0,0,0,.29))
+    drop-shadow(-3px -3px 8px rgba(198,211,224,.07))!important;
+}
+
+.explodedObject{
+  filter:saturate(.86) contrast(1.035);
+}
+
+/* Dark cast rear shell: intentionally quieter than the machined forward pieces. */
+.partBackplate{
+  background:
+    linear-gradient(145deg,rgba(236,242,247,.07) 0 9%,transparent 25%),
+    linear-gradient(145deg,#223243 0%,#172738 31%,#0a1520 70%,#132334 100%)!important;
+  box-shadow:
+    inset 2px 2px 0 rgba(240,245,249,.06),
+    inset -13px -15px 28px rgba(2,8,14,.34),
+    0 25px 34px rgba(0,0,0,.27)!important;
+}
+
+/* Structural bracket: satin metal, visibly distinct from the cast shell. */
+.partBracket{
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.31) 0 8%,transparent 23%),
+    linear-gradient(145deg,#c5ced6 0%,#98a4af 29%,#667483 59%,#465565 82%,#758391 100%)!important;
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,.25),
+    inset -11px -13px 23px rgba(16,27,39,.28),
+    0 21px 27px rgba(0,0,0,.26)!important;
+}
+
+/* Main housing stays the dominant mass, but reads cast / fabricated rather than flat SVG. */
+.partHousing{
+  background:
+    linear-gradient(143deg,rgba(255,255,255,.38) 0 7%,transparent 20%),
+    linear-gradient(145deg,#dbe1e6 0%,#bac4cc 24%,#8f9ba6 47%,#697786 68%,#4e5d6c 84%,#7f8c98 100%)!important;
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,.27),
+    inset -13px -16px 28px rgba(20,33,46,.25),
+    0 25px 31px rgba(0,0,0,.29)!important;
+}
+
+/* Recessed carrier is the dark interior material; stronger AO separates it from housing/flange. */
+.partCore{
+  background:
+    linear-gradient(145deg,rgba(214,225,234,.11),transparent 22%),
+    linear-gradient(145deg,#697786 0%,#455464 30%,#1f2e3d 61%,#0b1723 100%)!important;
+  box-shadow:
+    inset 2px 2px 0 rgba(233,239,244,.10),
+    inset -10px -12px 22px rgba(2,8,14,.34),
+    0 23px 28px rgba(0,0,0,.33)!important;
+}
+
+/* Machined flange gets the brightest satin edge in the material hierarchy. */
+.partRing{
+  background:
+    radial-gradient(circle at 19% 28%,#263543 0 6px,#cbd3da 7px 10px,transparent 11px),
+    radial-gradient(circle at 80% 22%,#263543 0 6px,#cbd3da 7px 10px,transparent 11px),
+    radial-gradient(circle at 83% 75%,#263543 0 6px,#cbd3da 7px 10px,transparent 11px),
+    radial-gradient(circle at 22% 80%,#263543 0 6px,#cbd3da 7px 10px,transparent 11px),
+    linear-gradient(145deg,rgba(255,255,255,.34) 0 8%,transparent 23%),
+    linear-gradient(145deg,#e0e5e9 0%,#b5bec7 27%,#85919e 54%,#606e7d 78%,#98a3ad 100%)!important;
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,.32),
+    inset -10px -12px 21px rgba(22,35,48,.27),
+    0 22px 27px rgba(0,0,0,.32)!important;
+}
+
+/* Service cap: less gadget-like, more dark satin polymer / metal. */
+.partLens{
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.18) 0 9%,transparent 25%),
+    linear-gradient(145deg,#8f9ba6 0%,#6c7987 34%,#475666 67%,#657381 100%)!important;
+  border-color:rgba(210,219,227,.30)!important;
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,.17),
+    inset -9px -11px 19px rgba(17,29,41,.28),
+    0 20px 25px rgba(0,0,0,.31)!important;
+}
+.partLens::before{
+  background:linear-gradient(145deg,#202f3d,#111d29)!important;
+  box-shadow:
+    inset 3px 3px 9px rgba(2,7,12,.32),
+    inset -1px -1px 0 rgba(195,206,215,.08)!important;
+}
+.partLens::after{
+  background:repeating-linear-gradient(90deg,#657381 0 4px,#293846 4px 9px)!important;
+  opacity:.68!important;
+}
+
+/* Replace the old two vertical bars (pause-icon read) with one integrated connector socket. */
+.partConnector{
+  width:112px!important;
+  height:70px!important;
+  margin:-35px 0 0 -56px!important;
+  background:
+    linear-gradient(145deg,rgba(205,217,227,.08),transparent 25%),
+    linear-gradient(145deg,#314154,#192736 61%,#0d1925)!important;
+  border-color:rgba(121,139,157,.50)!important;
+  box-shadow:
+    inset 1px 1px 0 rgba(211,221,230,.08),
+    inset -7px -8px 15px rgba(2,8,14,.24),
+    0 16px 21px rgba(0,0,0,.28)!important;
+}
+.partConnector::before{
+  content:""!important;
+  position:absolute!important;
+  left:25px!important;
+  top:20px!important;
+  width:55px!important;
+  height:32px!important;
+  border:1px solid #7f8d9c!important;
+  border-radius:2px!important;
+  background:linear-gradient(145deg,#111c28,#213143)!important;
+  box-shadow:
+    inset 3px 3px 8px rgba(0,0,0,.38),
+    inset -1px -1px 0 rgba(182,195,207,.10)!important;
+  clip-path:polygon(4% 11%,89% 0,100% 23%,94% 91%,10% 100%,0 72%)!important;
+}
+.partConnector::after{
+  content:""!important;
+  position:absolute!important;
+  left:38px!important;
+  top:30px!important;
+  width:28px!important;
+  height:13px!important;
+  border:0!important;
+  border-radius:1px!important;
+  background:
+    radial-gradient(circle,#aab5bf 0 1.5px,transparent 1.8px) 0 0/9px 7px,
+    linear-gradient(145deg,#344454,#1a2835)!important;
+  box-shadow:inset 0 0 0 1px rgba(4,11,18,.36)!important;
+}
+
+/* Fasteners stay subdued and visually seated in the mounting structure. */
+.fastener{
+  filter:saturate(.62) brightness(.86)!important;
+  box-shadow:
+    inset 0 0 0 2px rgba(24,37,49,.38),
+    0 4px 6px rgba(0,0,0,.21)!important;
+}
+
+/* Mobile first-screen repair: preserve the poster composition but remove avoidable vertical
+   waste so the headline and primary request action remain fully reachable with browser chrome. */
+@media(max-width:700px){
+  .topbar{
+    padding:12px 18px!important;
+  }
+  .topCta{
+    min-height:42px!important;
+  }
+  .hero{
+    padding-top:24px!important;
+  }
+  .hero h1{
+    max-width:350px!important;
+    font-size:clamp(40px,11.4vw,49px)!important;
+    line-height:.98!important;
+  }
+  .lead{
+    margin-top:18px!important;
+    max-width:344px!important;
+    font-size:15px!important;
+    line-height:1.46!important;
+  }
+  .heroActions{
+    margin-top:18px!important;
+  }
+  .heroActions .primary{
+    min-height:52px!important;
+  }
+  .hero .micro{
+    margin-top:10px!important;
+    font-size:12.5px!important;
+    line-height:1.45!important;
+  }
+  .managerContactDisclosure{
+    margin-top:0!important;
+  }
+}
+
+@media(max-width:390px){
+  .hero h1{
+    font-size:40px!important;
+  }
+}
+
+@media(max-width:390px) and (max-height:700px){
+  .hero{
+    padding-top:18px!important;
+  }
+  .hero h1{
+    font-size:38px!important;
+    line-height:.99!important;
+  }
+  .lead{
+    margin-top:14px!important;
+    font-size:14px!important;
+    line-height:1.42!important;
+  }
+  .heroActions{
+    margin-top:14px!important;
+  }
+  .heroActions .primary{
+    min-height:50px!important;
+  }
+  .hero .micro{
+    margin-top:8px!important;
+  }
+  .managerContactSummary{
+    min-height:28px!important;
+  }
+}
