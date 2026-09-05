@@ -502,7 +502,7 @@ export default function Home() {
                         <div className="partEntryHead">
                           <h4>Деталь {index + 1}</h4>
                           {parts.length > 1 && (
-                            <button className="removePartButton" type="button" onClick={() => removePart(part.id)}>Удалить</button>
+                            <button className="removePartButton" type="button" aria-label={`Удалить деталь ${index + 1}`} onClick={() => removePart(part.id)}>Удалить</button>
                           )}
                         </div>
                         <div className="partGrid">
