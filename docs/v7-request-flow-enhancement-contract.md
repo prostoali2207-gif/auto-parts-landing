@@ -116,18 +116,14 @@ For each rendered part entry, frontend must generate a sequential backend photo 
 
 Do not change backend schema from this frontend pass.
 
-## Direct manager contact dependency
+## Direct manager contact
 
-A direct contact CTA may be rendered only from a verified public destination.
+Verified against the Das Motors BayerCRM profile and confirmed by the business owner on 2026-09-05:
 
-Implementation boundary:
+- WhatsApp: `+971544550149` -> `https://wa.me/971544550149`;
+- Telegram: `@dasmotors_dxb` -> `https://t.me/dasmotors_dxb`.
 
-- environment variable: `NEXT_PUBLIC_MANAGER_CONTACT_URL`;
-- when absent/empty, no dead or placeholder direct-contact link is rendered;
-- when configured, link label: `Есть вопрос? Связаться с менеджером`;
-- destination must be independently verified by QA before release.
-
-Current repository evidence contains no verified manager WhatsApp/Telegram/phone URL, therefore the destination remains `NEEDS CONFIRMATION`.
+Both links may be rendered as quiet secondary actions under the dominant request CTA. They must not compete visually with `Запросить запчасть`.
 
 ## Visual refinement contract
 
@@ -175,4 +171,4 @@ Before merge:
 7. mobile request-step captures for 01 / 02 / 03;
 8. independent UI Guard PASS;
 9. independent QA PASS for mocked request paths;
-10. live CRM / external-manager-contact portions remain UNVERIFIED until safe downstream verification and a real contact destination are available.
+10. manager-contact destinations are verified; live CRM HTTP submission remains to be verified safely against the active BayerCRM project.
