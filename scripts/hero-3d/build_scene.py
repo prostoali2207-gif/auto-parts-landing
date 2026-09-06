@@ -57,6 +57,8 @@ def make_material(name, base, metallic, roughness):
     return mat
 
 def add_bevel(obj, width=0.07, segments=3):
+    if hasattr(obj.data, "use_auto_smooth"):
+        obj.data.use_auto_smooth = True
     bev = obj.modifiers.new("Edge bevel", "BEVEL")
     bev.width = width
     bev.segments = segments
