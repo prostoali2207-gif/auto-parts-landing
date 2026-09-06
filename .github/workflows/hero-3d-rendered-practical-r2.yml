@@ -1,0 +1,47 @@
+name: Hero 3D Rendered Practical R2
+
+on:
+  push:
+    branches:
+      - agent/3d-product-visualization-v011-craft-repair
+    paths:
+      - "scripts/hero-3d/**"
+      - ".agents/skills/3d-product-visualization-production/**"
+      - ".github/workflows/hero-3d-rendered-practical-r2.yml"
+      - "docs/agent-architecture/3d-product-visualization-rendered-practical-r2-prerun.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render-observation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+
+      - name: Install known render runtime
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y blender libegl1 libgl1
+          blender --version
+
+      - name: Render v0.1.1 practical artifacts
+        run: |
+          mkdir -p artifacts/hero-3d-r2
+          blender --background --python scripts/hero-3d/build_scene.py --             --out-dir artifacts/hero-3d-r2             --render-only
+
+      - name: Verify render evidence
+        run: |
+          python3 scripts/hero-3d/verify_render_review.py artifacts/hero-3d-r2
+
+      - name: Upload R2 rendered evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hero-3d-rendered-practical-r2
+          path: artifacts/hero-3d-r2/
+          if-no-files-found: error
+          retention-days: 14
