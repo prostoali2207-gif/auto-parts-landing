@@ -36,7 +36,15 @@
 
 @media(max-width:700px){
   .hero3dStage{
-    inset:-7% -16% -9% -11%;
+    /* Mobile V7 requires a large cropped visual mass, not a small product thumbnail.
+       Expand the viewer canvas while hero overflow remains the crop boundary. */
+    inset:-24% -34% -8% -26%;
+  }
+}
+
+@media(min-width:701px) and (max-width:900px){
+  .hero3dStage{
+    inset:-13% -18% -12% -13%;
   }
 }
 
