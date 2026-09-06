@@ -1,0 +1,44 @@
+name: Hero 3D Production Preview
+
+on:
+  push:
+    branches:
+      - agent/3d-product-visualization-capability-v01
+    paths:
+      - "scripts/hero-3d/**"
+      - ".github/workflows/hero-3d-preview.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  blender-render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@v4
+
+      - name: Install Blender
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y blender libegl1 libgl1
+          blender --version
+
+      - name: Build scene, render and export GLB
+        run: |
+          mkdir -p artifacts/hero-3d
+          blender --background --python scripts/hero-3d/build_scene.py -- --out-dir artifacts/hero-3d
+
+      - name: Verify deterministic artifacts and budgets
+        run: |
+          python3 scripts/hero-3d/verify_artifacts.py artifacts/hero-3d
+
+      - name: Upload 3D production evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: hero-3d-production
+          path: artifacts/hero-3d/
+          if-no-files-found: error
+          retention-days: 14
