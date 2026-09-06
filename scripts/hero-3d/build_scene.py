@@ -17,11 +17,12 @@ FRAME_EXPLODED = 40
 ASSEMBLY_AXIS = Vector((0.82, -0.28, 0.50)).normalized()
 
 PART_EXPLODE = {
-    "Bracket_ROOT": -0.30,
+    "Backplate_ROOT": -1.00,
+    "Bracket_ROOT": -0.50,
     "Housing_ROOT": 0.0,
-    "Carrier_ROOT": 0.72,
-    "Flange_ROOT": 1.48,
-    "Cap_ROOT": 2.20,
+    "Carrier_ROOT": 1.08,
+    "Flange_ROOT": 1.76,
+    "Cap_ROOT": 2.42,
 }
 
 def parse_args():
@@ -101,6 +102,34 @@ def extrude_polygon_xz(name, points, depth, parent, material, bevel=0.06):
     add_bevel(obj, bevel, 4)
     return obj
 
+def css_polygon(width_px, height_px, percent_points, scale=0.013):
+    """Convert the approved CSS clip-path percentage polygon to centered Blender X/Z coordinates."""
+    return [
+        (((px / 100.0) - 0.5) * width_px * scale,
+         (0.5 - (py / 100.0)) * height_px * scale)
+        for px, py in percent_points
+    ]
+
+def add_cast_grain(mat):
+    """Very restrained procedural micro-surface; construction stays readable, not phototextured."""
+    nodes = mat.node_tree.nodes
+    links = mat.node_tree.links
+    bsdf = nodes.get("Principled BSDF")
+    if not bsdf:
+        return
+    noise = nodes.new("ShaderNodeTexNoise")
+    noise.name = "Cast micrograin"
+    noise.inputs["Scale"].default_value = 22.0
+    noise.inputs["Detail"].default_value = 2.0
+    noise.inputs["Roughness"].default_value = 0.62
+    bump = nodes.new("ShaderNodeBump")
+    bump.name = "Cast micro-bump"
+    bump.inputs["Strength"].default_value = 0.07
+    bump.inputs["Distance"].default_value = 0.035
+    links.new(noise.outputs["Fac"], bump.inputs["Height"])
+    links.new(bump.outputs["Normal"], bsdf.inputs["Normal"])
+
+
 def add_box(name, dims, loc, rot, parent, material, bevel=0.05):
     bpy.ops.mesh.primitive_cube_add(size=1)
     obj = bpy.context.object
@@ -159,157 +188,164 @@ def setup_camera(scene):
     data = bpy.data.cameras.new("HeroCamera")
     cam = bpy.data.objects.new("HeroCamera", data)
     bpy.context.collection.objects.link(cam)
-    cam.location = (8.9, -13.8, 6.3)
-    data.lens = 66
+    cam.location = (4.8, -15.4, 4.9)
+    data.lens = 72
     data.sensor_width = 36
-    look_at(cam, (0.15, -0.10, 0.05))
+    look_at(cam, (0.35, -0.25, 0.18))
     scene.camera = cam
     return cam
 
 def build_asset(materials):
     cast, satin, steel = materials
 
-    # V0.1.1: preserve V7's authored asymmetric silhouette, but construct it as one
-    # fabricated cast module rather than a generic enclosure with decorative bars.
-    bracket = make_root("Bracket_ROOT", (-0.10, 0.38, 0.10))
-    housing = make_root("Housing_ROOT", (0.0, 0.0, 0.0))
-    carrier = make_root("Carrier_ROOT", (0.30, -0.10, 0.16))
-    flange = make_root("Flange_ROOT", (0.62, -0.17, 0.34))
-    cap = make_root("Cap_ROOT", (1.12, -0.24, 0.72))
+    # v0.1.2 derives its primary 2D proportions directly from the approved V7 CSS geometry.
+    # 3D adds real thickness, bevel response and ordered depth; it does not invent a new silhouette.
+    backplate = make_root("Backplate_ROOT", (0.0, 0.58, 0.0))
+    bracket = make_root("Bracket_ROOT", (0.0, 0.28, 0.0))
+    housing = make_root("Housing_ROOT", (0.0, 0.00, 0.0))
+    carrier = make_root("Carrier_ROOT", (0.0, -0.58, 0.0))
+    flange = make_root("Flange_ROOT", (0.0, -0.88, 0.0))
+    cap = make_root("Cap_ROOT", (0.0, -1.18, 0.0))
 
-    # Thin structural cradle behind the housing. Most of it is hidden in the assembled
-    # state; visible shoulders/ears read as mounting structure, not a second enclosure.
-    bracket_outline = [
-        (-3.22, -0.70), (-2.72, -1.46), (-1.32, -1.78), (0.10, -1.62),
-        (1.08, -1.82), (2.34, -1.22), (2.96, -0.34), (2.84, 0.78),
-        (2.18, 1.36), (0.86, 1.64), (-0.48, 1.58), (-1.54, 1.82),
-        (-2.62, 1.26), (-3.18, 0.36),
-    ]
-    extrude_polygon_xz("BracketCradle", bracket_outline, 0.22, bracket, satin, 0.075)
+    backplate_points = css_polygon(474, 326, [
+        (0,33),(9,18),(22,16),(29,6),(66,0),(83,8),(89,17),(98,21),
+        (100,46),(94,66),(86,70),(78,88),(60,91),(52,100),(25,91),
+        (17,80),(6,78),(0,62),
+    ])
+    extrude_polygon_xz("BackplateBody", backplate_points, 0.30, backplate, cast, 0.10)
 
-    # Four mounting ears sit outside the housing silhouette and visibly belong to the cradle.
-    for idx, (x, z) in enumerate([
-        (-2.74, 1.02),
-        (2.42, 0.72),
-        (-2.46, -1.08),
-        (1.92, -1.28),
-    ]):
-        add_cylinder(f"MountBoss_{idx}", 0.30, 0.34, (x, -0.03, z), bracket, satin, 10, 0.040)
-        add_cylinder(f"MountHole_{idx}", 0.12, 0.38, (x, -0.21, z), bracket, cast, 14, 0.018)
+    # Two explicit mounting ears from the approved rear-plate language.
+    for idx, (x, z) in enumerate([(-2.55, 1.16), (2.45, -1.02)]):
+        add_cylinder(f"BackplateBoss_{idx}", 0.31, 0.34, (x, -0.03, z), backplate, cast, 10, 0.04)
+        add_cylinder(f"BackplateHole_{idx}", 0.115, 0.38, (x, -0.20, z), backplate, steel, 14, 0.018)
 
-    # Dominant cast shell: deeper, more sculptural and intentionally asymmetric.
-    housing_outline = [
-        (-3.02, -0.44), (-2.56, -1.28), (-1.50, -1.66), (-0.24, -1.58),
-        (0.72, -1.76), (1.82, -1.42), (2.62, -0.82), (2.94, 0.06),
-        (2.62, 0.92), (1.72, 1.40), (0.54, 1.64), (-0.62, 1.50),
-        (-1.42, 1.66), (-2.30, 1.18), (-2.88, 0.52),
-    ]
-    extrude_polygon_xz("HousingShell", housing_outline, 0.94, housing, cast, 0.145)
+    bracket_points = css_polygon(382, 274, [
+        (0,27),(8,14),(21,16),(29,5),(65,0),(74,9),(92,12),(100,31),
+        (95,54),(88,57),(83,88),(70,88),(63,100),(35,94),(28,83),
+        (10,82),(3,64),
+    ])
+    extrude_polygon_xz("BracketBody", bracket_points, 0.28, bracket, satin, 0.085)
 
-    # A stepped cast shoulder gives the shell construction depth without creating
-    # another flat UI-like panel.
-    shoulder_outline = [
-        (-1.72, -0.56), (-1.24, -1.00), (-0.18, -1.16), (0.88, -0.96),
-        (1.72, -0.48), (1.98, 0.18), (1.54, 0.82), (0.60, 1.10),
-        (-0.52, 1.02), (-1.40, 0.62), (-1.84, 0.10),
-    ]
-    shoulder = extrude_polygon_xz("HousingShoulder", shoulder_outline, 0.28, housing, cast, 0.085)
-    shoulder.location.y = -0.55
+    housing_points = css_polygon(372, 238, [
+        (0,30),(10,14),(24,13),(31,5),(66,0),(77,8),(93,12),(100,34),
+        (94,63),(84,70),(78,88),(57,96),(48,100),(20,90),(13,81),(4,76),
+    ])
+    extrude_polygon_xz("HousingShell", housing_points, 0.82, housing, cast, 0.13)
 
-    # Short integrated ribs follow the shell's load path. No long bars cross the face.
+    # One stepped shell shoulder and three short structural ribs: true geometry,
+    # but sourced from the current V7 construction language rather than decorative greebles.
+    shoulder_points = css_polygon(250, 138, [
+        (3,27),(17,10),(73,0),(97,23),(90,73),(72,93),(28,100),(4,78),
+    ])
+    shoulder = extrude_polygon_xz("HousingShoulder", shoulder_points, 0.24, housing, cast, 0.07)
+    shoulder.location = (0.42, -0.52, -0.02)
+
     for idx, (loc, angle, length) in enumerate([
-        ((-1.96, -0.58, 0.70), -18, 0.92),
-        ((-1.78, -0.58, 0.24), -12, 0.82),
-        ((-1.52, -0.58, -0.28), 8, 0.76),
+        ((-1.78, -0.52, 0.70), -10, 0.88),
+        ((-1.64, -0.52, 0.25), -7, 0.78),
+        ((-1.43, -0.52, -0.22), 6, 0.68),
     ]):
         add_box(
             f"HousingRib_{idx}",
-            (length, 0.16, 0.13),
+            (length, 0.15, 0.115),
             loc,
             (0, math.radians(angle), 0),
             housing,
             cast,
-            0.035,
+            0.028,
         )
 
-    # Integrated connector stays subordinate and low on the housing.
+    # Connector matches the current V7 placement and remains attached to the housing family.
     add_box(
         "ConnectorBody",
-        (0.96, 0.72, 0.62),
-        (-2.62, -0.18, -1.18),
-        (0, math.radians(-8), math.radians(-5)),
+        (0.98, 0.68, 0.58),
+        (-2.40, -0.18, -1.46),
+        (0, math.radians(-9), math.radians(-7)),
         housing,
         cast,
-        0.075,
+        0.065,
     )
     add_box(
         "ConnectorSocket",
-        (0.46, 0.18, 0.25),
-        (-2.70, -0.56, -1.18),
-        (0, math.radians(-8), math.radians(-5)),
+        (0.48, 0.16, 0.25),
+        (-2.49, -0.55, -1.46),
+        (0, math.radians(-9), math.radians(-7)),
         housing,
         steel,
-        0.022,
+        0.020,
     )
 
-    # Recessed carrier: small and dark, so it reads as the internal layer between
-    # the cast shell and the bright precision interface.
-    carrier_outline = [
-        (-1.18, -0.72), (-0.70, -1.00), (0.32, -0.96), (1.02, -0.52),
-        (1.20, 0.12), (0.84, 0.72), (0.08, 0.96), (-0.82, 0.82),
-        (-1.22, 0.28),
-    ]
-    extrude_polygon_xz("CarrierBody", carrier_outline, 0.34, carrier, cast, 0.070)
+    carrier_points = css_polygon(204, 146, [
+        (6,25),(17,8),(70,0),(91,13),(100,42),(91,81),(72,100),
+        (26,93),(5,74),(0,45),
+    ])
+    extrude_polygon_xz("CarrierBody", carrier_points, 0.34, carrier, cast, 0.070)
 
-    # Precision flange is the bright cue, but deliberately smaller than the housing.
-    flange_outline = [
-        (-1.16, -0.60), (-0.62, -0.94), (0.30, -0.90), (0.98, -0.46),
-        (1.12, 0.16), (0.76, 0.74), (0.04, 0.92), (-0.78, 0.76),
-        (-1.18, 0.22),
-    ]
-    extrude_polygon_xz("MachinedFlange", flange_outline, 0.26, flange, satin, 0.065)
+    # Dark carrier inset creates a pocket read while preserving the approved non-circular shape.
+    carrier_inset_points = css_polygon(119, 76, [
+        (8,16),(83,0),(100,24),(90,86),(14,100),(0,71),
+    ])
+    carrier_inset = extrude_polygon_xz("CarrierInset", carrier_inset_points, 0.10, carrier, cast, 0.025)
+    carrier_inset.location.y = -0.18
 
-    inner = [
-        (-0.62, -0.32), (-0.18, -0.54), (0.42, -0.46), (0.66, -0.08),
-        (0.52, 0.40), (0.02, 0.54), (-0.48, 0.36), (-0.68, 0.02),
-    ]
-    inset = extrude_polygon_xz("FlangeInset", inner, 0.10, flange, cast, 0.025)
-    inset.location.y = -0.19
+    flange_points = css_polygon(230, 180, [
+        (9,22),(20,7),(65,0),(86,11),(100,35),(93,71),(76,92),
+        (39,100),(14,88),(0,61),
+    ])
+    extrude_polygon_xz("MachinedFlange", flange_points, 0.26, flange, satin, 0.065)
+
+    flange_inset_points = css_polygon(149, 109, [
+        (8,18),(75,0),(100,27),(90,82),(61,100),(11,91),(0,57),
+    ])
+    flange_inset = extrude_polygon_xz("FlangeInset", flange_inset_points, 0.10, flange, cast, 0.025)
+    flange_inset.location.y = -0.17
 
     for idx, (x, z) in enumerate([
-        (-0.78, 0.42),
-        (0.64, 0.48),
-        (0.74, -0.36),
+        (-0.78, 0.55),
+        (0.78, 0.58),
+        (0.92, -0.48),
+        (-0.72, -0.55),
     ]):
-        add_cylinder(f"FlangeBolt_{idx}", 0.095, 0.15, (x, -0.21, z), flange, steel, 6, 0.016)
+        add_cylinder(f"FlangeBolt_{idx}", 0.090, 0.15, (x, -0.19, z), flange, steel, 6, 0.015)
 
-    # Small service cap, offset high/right like the approved V7 object. It should read
-    # as the last removable layer, not as a gadget face.
-    cap_outline = [
-        (-0.86, -0.46), (-0.38, -0.68), (0.34, -0.62), (0.80, -0.24),
-        (0.82, 0.34), (0.36, 0.62), (-0.36, 0.58), (-0.84, 0.18),
+    cap_points = css_polygon(158, 120, [
+        (8,18),(73,0),(94,13),(100,43),(89,82),(63,100),(17,91),(0,63),
+    ])
+    extrude_polygon_xz("ServiceCap", cap_points, 0.22, cap, satin, 0.055)
+
+    # One asymmetrical inset with five varied diagonal grip/vent ribs.
+    cap_inset_points = css_polygon(86, 46, [
+        (6,16),(83,0),(100,24),(90,86),(16,100),(0,66),
+    ])
+    cap_inset = extrude_polygon_xz("CapInset", cap_inset_points, 0.08, cap, cast, 0.018)
+    cap_inset.location.y = -0.15
+
+    vent_data = [
+        (-0.32, 0.03, 0.33, -9),
+        (-0.15, 0.00, 0.39, -7),
+        (0.03, -0.02, 0.35, -5),
+        (0.20, -0.01, 0.30, -3),
+        (0.35, 0.03, 0.24, -1),
     ]
-    extrude_polygon_xz("ServiceCap", cap_outline, 0.22, cap, satin, 0.060)
-
-    # Three restrained grip/vent slots; no screen or pause-icon language.
-    for i in range(3):
+    for i, (x, z, length, angle) in enumerate(vent_data):
         add_box(
-            f"CapSlot_{i}",
-            (0.11, 0.11, 0.42),
-            (-0.24 + i * 0.24, -0.17, 0.00),
-            (0, math.radians(-5), 0),
+            f"CapVent_{i}",
+            (0.055, 0.055, length),
+            (x, -0.205, z),
+            (0, 0, math.radians(angle)),
             cap,
-            cast,
-            0.016,
+            steel,
+            0.010,
         )
 
-    for root in [bracket, housing, carrier, flange, cap]:
+    roots = [backplate, bracket, housing, carrier, flange, cap]
+    for root in roots:
         key_explode(root, PART_EXPLODE[root.name])
 
     master = bpy.data.objects.new("HeroObject_ROOT", None)
     bpy.context.collection.objects.link(master)
-    master.rotation_euler = (math.radians(7), math.radians(-13), math.radians(-7))
-    for root in [bracket, housing, carrier, flange, cap]:
+    master.rotation_euler = (math.radians(7), math.radians(-10), math.radians(-8))
+    for root in roots:
         root.parent = master
 
     return master
@@ -337,11 +373,11 @@ def setup_scene(scene, preview):
     bg.inputs["Color"].default_value = (0.006, 0.012, 0.022, 1)
     bg.inputs["Strength"].default_value = 0.18
 
-    # V0.1.1 keeps the object floating like the approved V7 composition. Inter-layer
-    # occlusion and raking reflections provide depth without a literal product-photo floor.
-    add_area("Key_Softbox_TopLeft", (-5.2, -6.0, 7.8), 860, 5.8, (0.96, 0.98, 1.0))
-    add_area("Separation_Rake_Right", (5.2, 1.8, 6.8), 760, 2.8, (0.70, 0.82, 1.0))
-    add_area("Low_Front_Fill", (2.0, -5.4, 0.8), 95, 4.6, (0.76, 0.84, 1.0))
+    # V0.1.2: preserve raking highlights, but restore enough frontal information
+    # that cast construction remains visible in the assembled hero state.
+    add_area("Key_Softbox_TopLeft", (-5.0, -6.5, 7.8), 1030, 6.2, (0.96, 0.98, 1.0))
+    add_area("Separation_Rake_Right", (5.5, 2.2, 6.5), 650, 3.0, (0.72, 0.83, 1.0))
+    add_area("Controlled_Front_Fill", (1.0, -6.5, 1.7), 185, 5.0, (0.80, 0.87, 1.0))
 
     return None
 
@@ -411,9 +447,10 @@ def main():
     scene = bpy.context.scene
     floor = setup_scene(scene, args.preview)
 
-    cast = make_material("MAT_CastGraphite", (0.020, 0.030, 0.046), 0.34, 0.60)
-    satin = make_material("MAT_SatinCoolMetal", (0.34, 0.41, 0.49), 0.88, 0.27)
-    steel = make_material("MAT_SteelHardware", (0.58, 0.63, 0.68), 0.98, 0.20)
+    cast = make_material("MAT_CastGraphite", (0.085, 0.110, 0.145), 0.46, 0.50)
+    add_cast_grain(cast)
+    satin = make_material("MAT_SatinCoolMetal", (0.43, 0.50, 0.58), 0.88, 0.27)
+    steel = make_material("MAT_SteelHardware", (0.62, 0.67, 0.72), 0.98, 0.19)
     materials = [cast, satin, steel]
 
     master = build_asset(materials)
