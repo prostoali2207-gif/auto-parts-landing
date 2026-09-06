@@ -6,8 +6,8 @@ const deployedUrl = process.env.PLAYWRIGHT_TEST_BASE_URL;
 
 test.skip(!deployedUrl, "Visual review runs only against a deployed URL.");
 
-async function openLanding(page: Page) {
-  await page.goto("/", { waitUntil: "domcontentloaded" });
+async function openLanding(page: Page, path = "/") {
+  await page.goto(path, { waitUntil: "domcontentloaded" });
   await expect(page.locator("main")).toBeVisible();
   await expect(page.locator("#request")).toBeAttached();
   await page.evaluate(() => document.fonts.ready);
@@ -24,6 +24,13 @@ async function waitForTrustMedia(page: Page) {
   })).toBe(true);
   await expect(trust.locator(".trustProofVideo")).toBeAttached();
   await page.waitForTimeout(300);
+}
+
+async function waitForProgressive3DHero(page: Page) {
+  const hero = page.locator(".heroObject");
+  await expect(hero).toHaveClass(/hero3dReady/, { timeout: 20_000 });
+  await expect(page.locator("model-viewer.hero3dModel")).toHaveAttribute("src", "/hero/hero-object.glb");
+  await page.waitForTimeout(2200);
 }
 
 async function freezeHeroMotion(page: Page, currentTime: number) {
@@ -148,7 +155,7 @@ test("capture loaded trust proof at all release widths", async ({ page }) => {
 test("capture mobile browser-chrome hero timing and explicit 01 then 02 then 03 process stages", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 390, height: 640 });
-  await openLanding(page);
+  await openLanding(page, "/?hero3d=0");
 
   await expect(page.locator(".heroObject")).toHaveClass(/heroMobileMotionArmed/);
   await page.screenshot({ path: `${outputDir}/motion-mobile-hero-compact.png`, fullPage: false });
@@ -166,7 +173,7 @@ test("capture mobile browser-chrome hero timing and explicit 01 then 02 then 03 
 test("capture desktop hero and explicit 01 then 02 then 03 process stages", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await openLanding(page);
+  await openLanding(page, "/?hero3d=0");
 
   await freezeHeroMotion(page, 150);
   await page.locator(".hero").screenshot({ path: `${outputDir}/motion-desktop-hero-compact.png` });
@@ -176,4 +183,90 @@ test("capture desktop hero and explicit 01 then 02 then 03 process stages", asyn
   await page.locator(".hero").screenshot({ path: `${outputDir}/motion-desktop-hero-final.png` });
 
   await captureProcessNumberStages(page, "motion-desktop");
+});
+
+
+test("progressive 3D remains disabled for reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openLanding(page, "/?hero3d=1");
+
+  await expect(page.locator(".heroObject")).not.toHaveClass(/hero3dReady/);
+  await expect(page.locator("model-viewer.hero3dModel")).toHaveCount(0);
+  await expect(page.locator(".explodedObject")).toBeVisible();
+});
+
+test("capture progressive 3D hero on mobile", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openLanding(page, "/?hero3d=1");
+  await waitForProgressive3DHero(page);
+
+  const geometry = await page.evaluate(() => {
+    const hero = document.querySelector<HTMLElement>(".hero");
+    const object = document.querySelector<HTMLElement>(".heroObject");
+    const cta = document.querySelector<HTMLElement>(".heroActions .primary");
+    const headline = document.querySelector<HTMLElement>(".hero h1");
+    if (!hero || !object || !cta || !headline) return null;
+    const o = object.getBoundingClientRect();
+    const c = cta.getBoundingClientRect();
+    const h = headline.getBoundingClientRect();
+    return {
+      objectLeft: o.left,
+      objectRight: o.right,
+      ctaBottom: c.bottom,
+      headlineBottom: h.bottom,
+      viewportWidth: window.innerWidth,
+      hasOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    };
+  });
+
+  expect(geometry).not.toBeNull();
+  expect(geometry?.hasOverflow).toBe(false);
+  expect(geometry?.objectLeft).toBeGreaterThanOrEqual(-80);
+  expect(geometry?.objectRight).toBeLessThanOrEqual((geometry?.viewportWidth ?? 390) + 80);
+  expect(geometry?.headlineBottom).toBeLessThan(geometry?.ctaBottom ?? 0);
+
+  await page.locator(".hero").screenshot({ path: `${outputDir}/hero-3d-mobile-390.png` });
+});
+
+test("capture progressive 3D hero on desktop", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await openLanding(page, "/?hero3d=1");
+  await waitForProgressive3DHero(page);
+
+  await expect(page.locator(".heroObject")).toHaveClass(/hero3dReady/);
+  await page.locator(".hero").screenshot({ path: `${outputDir}/hero-3d-desktop-1440.png` });
+});
+
+test("progressive 3D does not break browser-chrome first screen", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 390, height: 640 });
+  await openLanding(page, "/?hero3d=1");
+  await waitForProgressive3DHero(page);
+
+  const result = await page.evaluate(() => {
+    const header = document.querySelector<HTMLElement>(".topbar");
+    const headline = document.querySelector<HTMLElement>(".hero h1");
+    const cta = document.querySelector<HTMLElement>(".heroActions .primary");
+    if (!header || !headline || !cta) return null;
+    const hd = header.getBoundingClientRect();
+    const h = headline.getBoundingClientRect();
+    const c = cta.getBoundingClientRect();
+    return {
+      headlineTop: h.top,
+      headerBottom: hd.bottom,
+      ctaBottom: c.bottom,
+      viewportHeight: window.innerHeight,
+      overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    };
+  });
+
+  expect(result).not.toBeNull();
+  expect(result?.headlineTop).toBeGreaterThanOrEqual((result?.headerBottom ?? 0) - 1);
+  expect(result?.ctaBottom).toBeLessThanOrEqual((result?.viewportHeight ?? 640) - 8);
+  expect(result?.overflow).toBe(false);
+
+  await page.screenshot({ path: `${outputDir}/hero-3d-mobile-390x640.png`, fullPage: false });
 });
