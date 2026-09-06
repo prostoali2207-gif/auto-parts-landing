@@ -409,28 +409,35 @@ def build_asset(materials):
         0.018,
     )
 
-    # Compact open cradle: structural support around the precision interface, not another skin.
-    carrier_points = css_polygon(148, 104, [
-        (6,25),(18,8),(70,0),(91,14),(100,42),(91,81),(72,100),
-        (26,93),(5,74),(0,45),
-    ])
-    carrier_body = loft_polygon_xz(
-        "CarrierBody",
-        carrier_points,
-        [(-0.19, 0.90, 0.92, 0.10, -0.02),
-         (0.00, 0.98, 0.99, 0.00, 0.00),
-         (0.17, 1.02, 1.02, -0.04, 0.02)],
-        carrier, cast, 0.0
+    # Compact open cradle built from three cast supports.
+    # Avoid a second boolean ring inside the keyed cavity: it created unstable shading/z-fighting.
+    add_box(
+        "CarrierRail_Left",
+        (0.24, 0.30, 1.12),
+        (-0.54, 0.00, 0.02),
+        (0, math.radians(-8), math.radians(-4)),
+        carrier,
+        cast,
+        0.040,
     )
-    carrier_open_points = css_polygon(108, 74, [
-        (8,18),(75,0),(100,27),(90,82),(61,100),(11,91),(0,57),
-    ])
-    carrier_cutter = extrude_polygon_xz(
-        "CarrierOpening_CUTTER", carrier_open_points, 0.52, carrier, cast, 0.0
+    add_box(
+        "CarrierRail_Lower",
+        (1.02, 0.30, 0.22),
+        (0.02, 0.00, -0.50),
+        (0, math.radians(5), math.radians(3)),
+        carrier,
+        cast,
+        0.040,
     )
-    carrier_cutter.location = (0.02, 0.0, 0.0)
-    boolean_difference(carrier_body, carrier_cutter, "Open carrier cradle")
-    add_bevel(carrier_body, 0.050, 3)
+    add_box(
+        "CarrierRail_UpperRight",
+        (0.68, 0.30, 0.22),
+        (0.34, 0.00, 0.47),
+        (0, math.radians(-6), math.radians(-8)),
+        carrier,
+        cast,
+        0.040,
+    )
 
     # Machined interface is a true open flange, concentrating the bright precision material.
     flange_points = css_polygon(192, 146, [
