@@ -246,6 +246,19 @@ test("capture progressive 3D hero on mobile", async ({ page }) => {
   await page.locator(".hero").screenshot({ path: `${outputDir}/hero-3d-mobile-390.png` });
 });
 
+test("capture progressive 3D hero at intermediate width", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 768, height: 960 });
+  await openLanding(page, "/?hero3d=1");
+  await waitForProgressive3DHero(page);
+
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+  );
+  expect(overflow).toBe(false);
+  await page.locator(".hero").screenshot({ path: `${outputDir}/hero-3d-intermediate-768.png` });
+});
+
 test("capture progressive 3D hero on desktop", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 1440, height: 1000 });
