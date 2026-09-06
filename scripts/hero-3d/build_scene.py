@@ -22,7 +22,7 @@ PART_EXPLODE = {
     "Housing_ROOT": 0.0,
     "Carrier_ROOT": 1.08,
     "Flange_ROOT": 1.76,
-    "Cap_ROOT": 2.34,
+    "Cap_ROOT": 2.28,
 }
 
 def parse_args():
@@ -259,9 +259,9 @@ def build_asset(materials):
     backplate = make_root("Backplate_ROOT", (0.0, 0.52, 0.0))
     bracket = make_root("Bracket_ROOT", (-0.05, 0.24, 0.02))
     housing = make_root("Housing_ROOT", (0.0, 0.0, 0.0))
-    carrier = make_root("Carrier_ROOT", (0.42, -0.70, 0.16))
-    flange = make_root("Flange_ROOT", (0.80, -1.00, 0.34))
-    cap = make_root("Cap_ROOT", (1.46, -1.30, 0.84))
+    carrier = make_root("Carrier_ROOT", (0.50, -0.40, 0.16))
+    flange = make_root("Flange_ROOT", (0.78, -0.98, 0.34))
+    cap = make_root("Cap_ROOT", (1.58, -1.30, 0.88))
 
     backplate_points = css_polygon(474, 326, [
         (0,33),(9,18),(22,16),(29,6),(66,0),(83,8),(89,17),(98,21),
@@ -329,6 +329,17 @@ def build_asset(materials):
     )
     pocket_cutter.location = (0.34, -0.60, -0.02)
     boolean_difference(housing_body, pocket_cutter, "Housing recessed pocket")
+
+    # Deep keyed mating cavity: visible cast wall depth behind the precision flange.
+    mating_cavity_points = css_polygon(170, 112, [
+        (6,22),(20,7),(72,0),(94,18),(100,43),(88,82),(66,100),
+        (25,92),(5,72),(0,42),
+    ])
+    mating_cavity_cutter = extrude_polygon_xz(
+        "HousingMatingCavity_CUTTER", mating_cavity_points, 0.74, None, cast, 0.0
+    )
+    mating_cavity_cutter.location = (0.50, -0.46, 0.16)
+    boolean_difference(housing_body, mating_cavity_cutter, "Deep keyed mating cavity")
     add_bevel(housing_body, 0.115, 4)
 
     # Two front interface bosses plus two protruding mounting ears.
@@ -399,7 +410,7 @@ def build_asset(materials):
     )
 
     # Compact open cradle: structural support around the precision interface, not another skin.
-    carrier_points = css_polygon(172, 120, [
+    carrier_points = css_polygon(148, 104, [
         (6,25),(18,8),(70,0),(91,14),(100,42),(91,81),(72,100),
         (26,93),(5,74),(0,45),
     ])
@@ -411,7 +422,7 @@ def build_asset(materials):
          (0.17, 1.02, 1.02, -0.04, 0.02)],
         carrier, cast, 0.0
     )
-    carrier_open_points = css_polygon(104, 72, [
+    carrier_open_points = css_polygon(108, 74, [
         (8,18),(75,0),(100,27),(90,82),(61,100),(11,91),(0,57),
     ])
     carrier_cutter = extrude_polygon_xz(
@@ -422,7 +433,7 @@ def build_asset(materials):
     add_bevel(carrier_body, 0.050, 3)
 
     # Machined interface is a true open flange, concentrating the bright precision material.
-    flange_points = css_polygon(208, 160, [
+    flange_points = css_polygon(192, 146, [
         (9,22),(20,7),(65,0),(86,11),(100,35),(93,71),(76,92),
         (39,100),(14,88),(0,61),
     ])
@@ -434,7 +445,7 @@ def build_asset(materials):
          (0.16, 1.02, 1.02, -0.02, 0.01)],
         flange, satin, 0.0
     )
-    flange_open_points = css_polygon(112, 78, [
+    flange_open_points = css_polygon(146, 102, [
         (8,18),(75,0),(100,27),(90,82),(61,100),(11,91),(0,57),
     ])
     flange_cutter = extrude_polygon_xz(
@@ -452,7 +463,7 @@ def build_asset(materials):
         add_cylinder(f"FlangeBolt_{idx}", 0.085, 0.13, (x, -0.22, z), flange, steel, 6, 0.014)
 
     # Small service cap: no grille, no screen, no pause/menu pattern.
-    cap_points = css_polygon(90, 66, [
+    cap_points = css_polygon(76, 56, [
         (8,18),(73,0),(94,13),(100,43),(89,82),(63,100),(17,91),(0,63),
     ])
     loft_polygon_xz(
@@ -463,7 +474,7 @@ def build_asset(materials):
          (0.15, 1.02, 1.02, -0.02, 0.01)],
         cap, satin, 0.050
     )
-    for idx, (x, z) in enumerate([(-0.26, 0.15), (0.22, -0.12)]):
+    for idx, (x, z) in enumerate([(-0.20, 0.11), (0.17, -0.09)]):
         add_cylinder(f"CapFastener_{idx}", 0.075, 0.095, (x, -0.18, z), cap, steel, 6, 0.012)
 
     roots = [backplate, bracket, housing, carrier, flange, cap]
