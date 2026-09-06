@@ -449,7 +449,7 @@ export default function Home() {
         <div className="requestThreshold">
           <div className="requestThresholdInner">
             <p className="eyebrow">Request a part</p>
-            <div className="requestTitleRow"><h2>Что нужно найти?</h2><span aria-hidden="true">01</span></div>
+            <div className="requestTitleRow"><h2>Что нужно найти?</h2></div>
           </div>
         </div>
 
