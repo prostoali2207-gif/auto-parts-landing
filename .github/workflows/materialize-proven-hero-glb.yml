@@ -1,0 +1,65 @@
+name: Materialize Proven Hero GLB
+
+on:
+  push:
+    branches:
+      - feat/v7-hero-3d-progressive-integration
+    paths:
+      - ".github/workflows/materialize-proven-hero-glb.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout integration branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/v7-hero-3d-progressive-integration
+          fetch-depth: 0
+
+      - name: Download and verify official Blender 5.2.1 LTS
+        run: |
+          set -euo pipefail
+          B="$RUNNER_TEMP/blender52"
+          mkdir -p "$B"
+          cd "$B"
+          curl -fL --retry 3 -o blender.tar.xz             https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz
+          curl -fL --retry 3 -o blender.sha256             https://download.blender.org/release/Blender5.2/blender-5.2.1.sha256
+          grep 'blender-5.2.1-linux-x64.tar.xz' blender.sha256             | sed 's#blender-5.2.1-linux-x64.tar.xz#blender.tar.xz#'             | sha256sum -c -
+          tar -xf blender.tar.xz
+          "$B/blender-5.2.1-linux-x64/blender" --version
+
+      - name: Install headless graphics runtime
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libegl1 libgl1
+
+      - name: Reproduce proven E1 GLB
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/hero-export"
+          mkdir -p "$OUT"
+          "$RUNNER_TEMP/blender52/blender-5.2.1-linux-x64/blender"             --background             --python scripts/hero-3d/build_scene.py --             --out-dir "$OUT"             --preview
+          echo "83109e5c734d2fab54a6560b1a56596d6dda069b54b2a2ffaf6ae08ae86abf10  $OUT/hero-object.glb"             | sha256sum -c -
+          test "$(stat -c%s "$OUT/hero-object.glb")" = "68392"
+          python3 scripts/hero-3d/verify_glb.py "$OUT/hero-object.glb"
+
+      - name: Commit exact proven asset
+        run: |
+          set -euo pipefail
+          mkdir -p public/hero
+          cp "$RUNNER_TEMP/hero-export/hero-object.glb" public/hero/hero-object.glb
+          git add public/hero/hero-object.glb
+          if git diff --cached --quiet; then
+            echo "Asset already materialized"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Materialize proven V7 hero GLB"
+          git push origin HEAD:feat/v7-hero-3d-progressive-integration
