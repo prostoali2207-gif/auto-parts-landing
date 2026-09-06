@@ -332,7 +332,7 @@ def build_asset(materials):
             f"CapVent_{i}",
             (0.055, 0.055, length),
             (x, -0.205, z),
-            (0, 0, math.radians(angle)),
+            (0, math.radians(angle), 0),
             cap,
             steel,
             0.010,
