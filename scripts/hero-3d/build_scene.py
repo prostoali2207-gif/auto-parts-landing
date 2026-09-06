@@ -29,6 +29,7 @@ def parse_args():
     p = argparse.ArgumentParser()
     p.add_argument("--out-dir", required=True)
     p.add_argument("--preview", action="store_true")
+    p.add_argument("--render-only", action="store_true")
     return p.parse_args(argv)
 
 def clean_scene():
@@ -397,7 +398,8 @@ def main():
     bpy.ops.wm.save_as_mainfile(filepath=str(blend_path))
 
     glb_path = out_dir / "hero-object.glb"
-    export_glb(glb_path, asset_objects)
+    if not args.render_only:
+        export_glb(glb_path, asset_objects)
 
     report = evaluated_report(asset_objects, materials, glb_path, bpy.app.version_string)
     report["camera"] = {
@@ -411,7 +413,7 @@ def main():
     (out_dir / "asset-report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
 
     print("SCENE_JSON " + json.dumps(report, sort_keys=True))
-    print("HERO_3D_OK")
+    print("HERO_3D_RENDER_ONLY_OK" if args.render_only else "HERO_3D_OK")
 
 if __name__ == "__main__":
     main()
