@@ -22,7 +22,7 @@ PART_EXPLODE = {
     "Housing_ROOT": 0.0,
     "Carrier_ROOT": 1.08,
     "Flange_ROOT": 1.76,
-    "Cap_ROOT": 2.24,
+    "Cap_ROOT": 2.34,
 }
 
 def parse_args():
@@ -259,9 +259,9 @@ def build_asset(materials):
     backplate = make_root("Backplate_ROOT", (0.0, 0.52, 0.0))
     bracket = make_root("Bracket_ROOT", (-0.05, 0.24, 0.02))
     housing = make_root("Housing_ROOT", (0.0, 0.0, 0.0))
-    carrier = make_root("Carrier_ROOT", (0.34, -0.66, 0.12))
-    flange = make_root("Flange_ROOT", (0.72, -0.96, 0.30))
-    cap = make_root("Cap_ROOT", (1.20, -1.26, 0.66))
+    carrier = make_root("Carrier_ROOT", (0.42, -0.70, 0.16))
+    flange = make_root("Flange_ROOT", (0.80, -1.00, 0.34))
+    cap = make_root("Cap_ROOT", (1.46, -1.30, 0.84))
 
     backplate_points = css_polygon(474, 326, [
         (0,33),(9,18),(22,16),(29,6),(66,0),(83,8),(89,17),(98,21),
@@ -331,14 +331,37 @@ def build_asset(materials):
     boolean_difference(housing_body, pocket_cutter, "Housing recessed pocket")
     add_bevel(housing_body, 0.115, 4)
 
-    # Three integrated front bosses make mounting/assembly logic visible without identifying a subsystem.
+    # Two front interface bosses plus two protruding mounting ears.
     for idx, (x, z, r) in enumerate([
-        (-1.72, 0.78, 0.25),
-        (1.54, 0.60, 0.23),
-        (-1.48, -0.72, 0.22),
+        (-1.46, 0.62, 0.22),
+        (1.22, -0.58, 0.20),
     ]):
-        add_cylinder(f"HousingBoss_{idx}", r, 0.26, (x, -0.52, z), housing, cast, 12, 0.040)
-        add_cylinder(f"HousingBossSeat_{idx}", r * 0.36, 0.075, (x, -0.69, z), housing, steel, 8, 0.012)
+        add_cylinder(f"HousingBoss_{idx}", r, 0.24, (x, -0.52, z), housing, cast, 12, 0.038)
+        add_cylinder(f"HousingBossSeat_{idx}", r * 0.36, 0.072, (x, -0.68, z), housing, steel, 8, 0.011)
+
+    # Mounting ears extend the silhouette and make the object's attachment logic explicit.
+    ear_specs = [
+        ("UpperLeft", (-2.36, -0.12, 0.92), (-2.72, -0.16, 1.02), -10),
+        ("LowerRight", (2.12, -0.12, -0.78), (2.46, -0.16, -0.92), 12),
+    ]
+    for name, stem_loc, boss_loc, angle in ear_specs:
+        add_box(
+            f"HousingEarStem_{name}",
+            (0.74, 0.42, 0.32),
+            stem_loc,
+            (0, math.radians(angle), 0),
+            housing,
+            cast,
+            0.055,
+        )
+        add_cylinder(
+            f"HousingEarBoss_{name}",
+            0.28, 0.34, boss_loc, housing, cast, 12, 0.040
+        )
+        add_cylinder(
+            f"HousingEarHole_{name}",
+            0.105, 0.10, (boss_loc[0], -0.36, boss_loc[2]), housing, steel, 8, 0.014
+        )
 
     # Short cast ribs grow from the left-side mass; no bars cross the face.
     for idx, (loc, angle, length) in enumerate([
@@ -375,19 +398,28 @@ def build_asset(materials):
         0.018,
     )
 
-    # Recessed carrier is compact and tapered rather than another same-size shield.
-    carrier_points = css_polygon(188, 132, [
+    # Compact open cradle: structural support around the precision interface, not another skin.
+    carrier_points = css_polygon(172, 120, [
         (6,25),(18,8),(70,0),(91,14),(100,42),(91,81),(72,100),
         (26,93),(5,74),(0,45),
     ])
-    loft_polygon_xz(
+    carrier_body = loft_polygon_xz(
         "CarrierBody",
         carrier_points,
-        [(-0.20, 0.90, 0.92, 0.10, -0.02),
+        [(-0.19, 0.90, 0.92, 0.10, -0.02),
          (0.00, 0.98, 0.99, 0.00, 0.00),
-         (0.18, 1.02, 1.02, -0.04, 0.02)],
-        carrier, cast, 0.055
+         (0.17, 1.02, 1.02, -0.04, 0.02)],
+        carrier, cast, 0.0
     )
+    carrier_open_points = css_polygon(104, 72, [
+        (8,18),(75,0),(100,27),(90,82),(61,100),(11,91),(0,57),
+    ])
+    carrier_cutter = extrude_polygon_xz(
+        "CarrierOpening_CUTTER", carrier_open_points, 0.52, None, cast, 0.0
+    )
+    carrier_cutter.location = (0.02, 0.0, 0.0)
+    boolean_difference(carrier_body, carrier_cutter, "Open carrier cradle")
+    add_bevel(carrier_body, 0.050, 3)
 
     # Machined interface is a true open flange, concentrating the bright precision material.
     flange_points = css_polygon(208, 160, [
@@ -420,7 +452,7 @@ def build_asset(materials):
         add_cylinder(f"FlangeBolt_{idx}", 0.085, 0.13, (x, -0.22, z), flange, steel, 6, 0.014)
 
     # Small service cap: no grille, no screen, no pause/menu pattern.
-    cap_points = css_polygon(112, 82, [
+    cap_points = css_polygon(90, 66, [
         (8,18),(73,0),(94,13),(100,43),(89,82),(63,100),(17,91),(0,63),
     ])
     loft_polygon_xz(
@@ -431,7 +463,7 @@ def build_asset(materials):
          (0.15, 1.02, 1.02, -0.02, 0.01)],
         cap, satin, 0.050
     )
-    for idx, (x, z) in enumerate([(-0.34, 0.20), (0.30, -0.16)]):
+    for idx, (x, z) in enumerate([(-0.26, 0.15), (0.22, -0.12)]):
         add_cylinder(f"CapFastener_{idx}", 0.075, 0.095, (x, -0.18, z), cap, steel, 6, 0.012)
 
     roots = [backplate, bracket, housing, carrier, flange, cap]
