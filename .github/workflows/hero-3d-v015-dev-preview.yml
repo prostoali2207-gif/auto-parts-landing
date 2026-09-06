@@ -1,0 +1,47 @@
+name: Hero 3D v0.1.5 Development Preview
+
+on:
+  push:
+    branches:
+      - agent/3d-product-visualization-v015-mechanical-topology
+    paths:
+      - "scripts/hero-3d/**"
+      - ".agents/skills/3d-product-visualization-production/**"
+      - ".github/workflows/hero-3d-v015-dev-preview.yml"
+      - "docs/agent-architecture/3d-product-visualization-v015-r5-dev-preview-prerun.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+
+      - name: Install known render runtime
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y blender libegl1 libgl1
+          blender --version
+
+      - name: Render preview artifacts
+        run: |
+          mkdir -p artifacts/hero-3d-v015-preview
+          blender --background --python scripts/hero-3d/build_scene.py --             --out-dir artifacts/hero-3d-v015-preview             --preview             --render-only
+
+      - name: Verify render evidence
+        run: |
+          python3 scripts/hero-3d/verify_render_review.py artifacts/hero-3d-v015-preview
+
+      - name: Upload preview evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hero-3d-v015-dev-preview
+          path: artifacts/hero-3d-v015-preview/
+          if-no-files-found: error
+          retention-days: 7
