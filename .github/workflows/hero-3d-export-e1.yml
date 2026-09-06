@@ -1,0 +1,54 @@
+name: Hero 3D Export E1 — Blender 5.2 LTS
+
+on:
+  push:
+    branches:
+      - eval/3d-v016-export-e1-blender52
+    paths:
+      - ".github/workflows/hero-3d-export-e1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export-glb:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout proven candidate
+        uses: actions/checkout@v4
+
+      - name: Download and verify official Blender 5.2.1 LTS
+        run: |
+          set -euo pipefail
+          BLENDER_DIR="$RUNNER_TEMP/blender52"
+          mkdir -p "$BLENDER_DIR"
+          cd "$BLENDER_DIR"
+          curl -fL --retry 3 -o blender.tar.xz             https://download.blender.org/release/Blender5.2/blender-5.2.1-linux-x64.tar.xz
+          curl -fL --retry 3 -o blender.sha256             https://download.blender.org/release/Blender5.2/blender-5.2.1.sha256
+          grep 'blender-5.2.1-linux-x64.tar.xz' blender.sha256             | sed 's#blender-5.2.1-linux-x64.tar.xz#blender.tar.xz#'             | sha256sum -c -
+          tar -xf blender.tar.xz
+          "$BLENDER_DIR/blender-5.2.1-linux-x64/blender" --version
+
+      - name: Build proven scene and export GLB
+        run: |
+          set -euo pipefail
+          OUT="$GITHUB_WORKSPACE/artifacts/hero-3d-export-e1"
+          mkdir -p "$OUT"
+          "$RUNNER_TEMP/blender52/blender-5.2.1-linux-x64/blender"             --background             --python scripts/hero-3d/build_scene.py --             --out-dir "$OUT"             --preview
+
+      - name: Verify GLB structure and budgets
+        run: |
+          set -euo pipefail
+          python3 scripts/hero-3d/verify_glb.py artifacts/hero-3d-export-e1/hero-object.glb
+          python3 scripts/hero-3d/verify_artifacts.py artifacts/hero-3d-export-e1
+
+      - name: Upload export evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hero-3d-export-e1
+          path: artifacts/hero-3d-export-e1/
+          if-no-files-found: error
+          retention-days: 14
