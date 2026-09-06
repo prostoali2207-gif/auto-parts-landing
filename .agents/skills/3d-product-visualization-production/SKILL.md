@@ -1,12 +1,12 @@
 ---
 name: 3d-product-visualization-production
 description: Applied production capability for turning an approved Spline visual contract into a reproducible Blender-built 3D hero asset, rendered and exported as GLB, without changing visual strategy or inventing product proof.
-version: 0.1.5-candidate
+version: 0.1.6-candidate
 ---
 
 # 3D Product Visualization Production
 
-Status: **CANDIDATE — NOT QUALIFIED — v0.1.4 PREVIEW REPAIR**
+Status: **CANDIDATE — NOT QUALIFIED — v0.1.5 PREVIEW REPAIR**
 
 ## Mission
 

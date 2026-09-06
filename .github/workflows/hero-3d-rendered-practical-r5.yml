@@ -1,0 +1,44 @@
+name: Hero 3D Rendered Practical R5
+
+on:
+  push:
+    branches:
+      - agent/3d-product-visualization-v016-mating-cavity
+    paths:
+      - ".github/workflows/hero-3d-rendered-practical-r5.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rendered-practical:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout frozen candidate
+        uses: actions/checkout@v4
+
+      - name: Install known render runtime
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y blender libegl1 libgl1
+          blender --version
+
+      - name: Render full-quality R5 artifacts
+        run: |
+          mkdir -p artifacts/hero-3d-r5
+          blender --background --python scripts/hero-3d/build_scene.py --             --out-dir artifacts/hero-3d-r5             --render-only
+
+      - name: Verify render evidence
+        run: |
+          python3 scripts/hero-3d/verify_render_review.py artifacts/hero-3d-r5
+
+      - name: Upload R5 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hero-3d-rendered-practical-r5
+          path: artifacts/hero-3d-r5/
+          if-no-files-found: error
+          retention-days: 14
