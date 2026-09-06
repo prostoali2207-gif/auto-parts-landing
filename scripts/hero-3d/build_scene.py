@@ -299,7 +299,7 @@ def build_asset(materials):
         (38,100),(14,88),(0,61),
     ])
     bracket_cutter = extrude_polygon_xz(
-        "BracketOpening_CUTTER", bracket_open_points, 0.58, None, cast, 0.0
+        "BracketOpening_CUTTER", bracket_open_points, 0.58, bracket, cast, 0.0
     )
     bracket_cutter.location = (0.18, 0.0, -0.02)
     boolean_difference(bracket_body, bracket_cutter, "Open structural bracket")
@@ -325,7 +325,7 @@ def build_asset(materials):
         (4,29),(17,12),(71,0),(96,22),(90,72),(70,94),(28,100),(4,78),
     ])
     pocket_cutter = extrude_polygon_xz(
-        "HousingPocket_CUTTER", pocket_points, 0.34, None, cast, 0.0
+        "HousingPocket_CUTTER", pocket_points, 0.34, housing, cast, 0.0
     )
     pocket_cutter.location = (0.34, -0.60, -0.02)
     boolean_difference(housing_body, pocket_cutter, "Housing recessed pocket")
@@ -336,7 +336,7 @@ def build_asset(materials):
         (25,92),(5,72),(0,42),
     ])
     mating_cavity_cutter = extrude_polygon_xz(
-        "HousingMatingCavity_CUTTER", mating_cavity_points, 0.74, None, cast, 0.0
+        "HousingMatingCavity_CUTTER", mating_cavity_points, 0.74, housing, cast, 0.0
     )
     mating_cavity_cutter.location = (0.50, -0.46, 0.16)
     boolean_difference(housing_body, mating_cavity_cutter, "Deep keyed mating cavity")
@@ -426,7 +426,7 @@ def build_asset(materials):
         (8,18),(75,0),(100,27),(90,82),(61,100),(11,91),(0,57),
     ])
     carrier_cutter = extrude_polygon_xz(
-        "CarrierOpening_CUTTER", carrier_open_points, 0.52, None, cast, 0.0
+        "CarrierOpening_CUTTER", carrier_open_points, 0.52, carrier, cast, 0.0
     )
     carrier_cutter.location = (0.02, 0.0, 0.0)
     boolean_difference(carrier_body, carrier_cutter, "Open carrier cradle")
@@ -449,7 +449,7 @@ def build_asset(materials):
         (8,18),(75,0),(100,27),(90,82),(61,100),(11,91),(0,57),
     ])
     flange_cutter = extrude_polygon_xz(
-        "FlangeOpening_CUTTER", flange_open_points, 0.52, None, cast, 0.0
+        "FlangeOpening_CUTTER", flange_open_points, 0.52, flange, cast, 0.0
     )
     flange_cutter.location = (0.03, 0.0, 0.0)
     boolean_difference(flange_body, flange_cutter, "Machined opening")
