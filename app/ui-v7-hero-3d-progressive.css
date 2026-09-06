@@ -1,0 +1,51 @@
+/* V7 progressive 3D hero integration.
+   The existing CSS hero is the complete fallback and remains in the DOM.
+   Realtime 3D is decorative enhancement only; request/content never depend on WebGL. */
+
+.hero3dStage{
+  position:absolute;
+  inset:-8% -8% -10% -5%;
+  z-index:8;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 260ms ease;
+}
+
+.hero3dStageReady{
+  opacity:1;
+}
+
+.hero3dModel{
+  display:block;
+  width:100%;
+  height:100%;
+  background:transparent;
+  --poster-color:transparent;
+}
+
+.heroObject .explodedObject,
+.heroObject .objectGuide{
+  transition:opacity 220ms ease;
+}
+
+.heroObject.hero3dReady .explodedObject,
+.heroObject.hero3dReady .objectGuide{
+  opacity:0!important;
+  pointer-events:none;
+}
+
+@media(max-width:700px){
+  .hero3dStage{
+    inset:-7% -16% -9% -11%;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .hero3dStage{
+    display:none!important;
+  }
+  .heroObject .explodedObject,
+  .heroObject .objectGuide{
+    transition:none!important;
+  }
+}
