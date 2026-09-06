@@ -22,7 +22,7 @@ PART_EXPLODE = {
     "Housing_ROOT": 0.0,
     "Carrier_ROOT": 1.08,
     "Flange_ROOT": 1.76,
-    "Cap_ROOT": 2.42,
+    "Cap_ROOT": 2.24,
 }
 
 def parse_args():
@@ -261,7 +261,7 @@ def build_asset(materials):
     housing = make_root("Housing_ROOT", (0.0, 0.0, 0.0))
     carrier = make_root("Carrier_ROOT", (0.34, -0.66, 0.12))
     flange = make_root("Flange_ROOT", (0.72, -0.96, 0.30))
-    cap = make_root("Cap_ROOT", (1.14, -1.24, 0.56))
+    cap = make_root("Cap_ROOT", (1.20, -1.26, 0.66))
 
     backplate_points = css_polygon(474, 326, [
         (0,33),(9,18),(22,16),(29,6),(66,0),(83,8),(89,17),(98,21),
@@ -286,14 +286,24 @@ def build_asset(materials):
         (95,54),(88,57),(83,88),(70,88),(63,100),(35,94),(28,83),
         (10,82),(3,64),
     ])
-    loft_polygon_xz(
+    bracket_body = loft_polygon_xz(
         "BracketBody",
         bracket_points,
         [(-0.17, 0.94, 0.94, 0.10, -0.02),
          (0.02, 0.99, 0.99, 0.00, 0.00),
          (0.19, 1.02, 1.01, -0.06, 0.03)],
-        bracket, satin, 0.070
+        bracket, satin, 0.0
     )
+    bracket_open_points = css_polygon(250, 168, [
+        (5,28),(18,10),(67,0),(92,16),(100,39),(91,72),(74,92),
+        (38,100),(14,88),(0,61),
+    ])
+    bracket_cutter = extrude_polygon_xz(
+        "BracketOpening_CUTTER", bracket_open_points, 0.58, None, cast, 0.0
+    )
+    bracket_cutter.location = (0.18, 0.0, -0.02)
+    boolean_difference(bracket_body, bracket_cutter, "Open structural bracket")
+    add_bevel(bracket_body, 0.065, 3)
 
     housing_points = css_polygon(372, 238, [
         (0,30),(10,14),(24,13),(31,5),(66,0),(77,8),(93,12),(100,34),
@@ -410,7 +420,7 @@ def build_asset(materials):
         add_cylinder(f"FlangeBolt_{idx}", 0.085, 0.13, (x, -0.22, z), flange, steel, 6, 0.014)
 
     # Small service cap: no grille, no screen, no pause/menu pattern.
-    cap_points = css_polygon(142, 104, [
+    cap_points = css_polygon(112, 82, [
         (8,18),(73,0),(94,13),(100,43),(89,82),(63,100),(17,91),(0,63),
     ])
     loft_polygon_xz(
@@ -421,7 +431,7 @@ def build_asset(materials):
          (0.15, 1.02, 1.02, -0.02, 0.01)],
         cap, satin, 0.050
     )
-    for idx, (x, z) in enumerate([(-0.46, 0.28), (0.42, -0.24)]):
+    for idx, (x, z) in enumerate([(-0.34, 0.20), (0.30, -0.16)]):
         add_cylinder(f"CapFastener_{idx}", 0.075, 0.095, (x, -0.18, z), cap, steel, 6, 0.012)
 
     roots = [backplate, bracket, housing, carrier, flange, cap]
@@ -463,7 +473,7 @@ def setup_scene(scene, preview):
     # that cast construction remains visible in the assembled hero state.
     add_area("Key_Softbox_TopLeft", (-5.4, -6.8, 8.2), 1120, 6.5, (0.97, 0.985, 1.0))
     add_area("Separation_Rake_Right", (5.6, 1.8, 6.8), 720, 2.7, (0.72, 0.84, 1.0))
-    add_area("Controlled_Front_Fill", (0.8, -6.8, 1.6), 145, 5.2, (0.80, 0.87, 1.0))
+    add_area("Controlled_Front_Fill", (0.8, -6.8, 1.6), 170, 5.2, (0.80, 0.87, 1.0))
 
     return None
 
@@ -533,10 +543,10 @@ def main():
     scene = bpy.context.scene
     floor = setup_scene(scene, args.preview)
 
-    cast = make_material("MAT_CastGraphite", (0.070, 0.085, 0.105), 0.28, 0.58)
+    cast = make_material("MAT_CastGraphite", (0.052, 0.058, 0.066), 0.22, 0.62)
     add_cast_grain(cast)
-    satin = make_material("MAT_SatinCoolMetal", (0.46, 0.53, 0.60), 0.90, 0.24)
-    steel = make_material("MAT_SteelHardware", (0.66, 0.70, 0.74), 0.99, 0.17)
+    satin = make_material("MAT_SatinCoolMetal", (0.49, 0.56, 0.63), 0.92, 0.22)
+    steel = make_material("MAT_SteelHardware", (0.69, 0.73, 0.77), 0.99, 0.16)
     materials = [cast, satin, steel]
 
     master = build_asset(materials)
