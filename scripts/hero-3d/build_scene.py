@@ -14,14 +14,14 @@ from mathutils import Vector
 
 FRAME_ASSEMBLED = 1
 FRAME_EXPLODED = 40
-ASSEMBLY_AXIS = Vector((0.55, -1.0, 0.36)).normalized()
+ASSEMBLY_AXIS = Vector((0.82, -0.28, 0.50)).normalized()
 
 PART_EXPLODE = {
-    "Bracket_ROOT": -0.55,
+    "Bracket_ROOT": -0.30,
     "Housing_ROOT": 0.0,
-    "Carrier_ROOT": 0.78,
-    "Flange_ROOT": 1.42,
-    "Cap_ROOT": 2.02,
+    "Carrier_ROOT": 0.72,
+    "Flange_ROOT": 1.48,
+    "Cap_ROOT": 2.20,
 }
 
 def parse_args():
@@ -159,94 +159,148 @@ def setup_camera(scene):
     data = bpy.data.cameras.new("HeroCamera")
     cam = bpy.data.objects.new("HeroCamera", data)
     bpy.context.collection.objects.link(cam)
-    cam.location = (7.6, -11.8, 5.6)
-    data.lens = 58
+    cam.location = (8.9, -13.8, 6.3)
+    data.lens = 66
     data.sensor_width = 36
-    look_at(cam, (0.15, -0.25, 0.1))
+    look_at(cam, (0.15, -0.10, 0.05))
     scene.camera = cam
     return cam
 
 def build_asset(materials):
     cast, satin, steel = materials
 
-    bracket = make_root("Bracket_ROOT", (0, 0.42, 0))
-    housing = make_root("Housing_ROOT", (0, 0.0, 0))
-    carrier = make_root("Carrier_ROOT", (0.22, -0.08, 0.12))
-    flange = make_root("Flange_ROOT", (0.48, -0.16, 0.24))
-    cap = make_root("Cap_ROOT", (0.72, -0.22, 0.34))
+    # V0.1.1: preserve V7's authored asymmetric silhouette, but construct it as one
+    # fabricated cast module rather than a generic enclosure with decorative bars.
+    bracket = make_root("Bracket_ROOT", (-0.10, 0.38, 0.10))
+    housing = make_root("Housing_ROOT", (0.0, 0.0, 0.0))
+    carrier = make_root("Carrier_ROOT", (0.30, -0.10, 0.16))
+    flange = make_root("Flange_ROOT", (0.62, -0.17, 0.34))
+    cap = make_root("Cap_ROOT", (1.12, -0.24, 0.72))
 
+    # Thin structural cradle behind the housing. Most of it is hidden in the assembled
+    # state; visible shoulders/ears read as mounting structure, not a second enclosure.
     bracket_outline = [
-        (-3.15, -0.75), (-2.72, -1.48), (-1.48, -1.76), (-0.45, -1.66),
-        (0.18, -1.98), (1.32, -1.58), (2.38, -1.12), (2.86, -0.18),
-        (2.62, 0.90), (1.78, 1.45), (0.66, 1.66), (-0.35, 1.52),
-        (-1.18, 1.76), (-2.30, 1.34), (-2.84, 0.62), (-3.22, 0.05),
+        (-3.22, -0.70), (-2.72, -1.46), (-1.32, -1.78), (0.10, -1.62),
+        (1.08, -1.82), (2.34, -1.22), (2.96, -0.34), (2.84, 0.78),
+        (2.18, 1.36), (0.86, 1.64), (-0.48, 1.58), (-1.54, 1.82),
+        (-2.62, 1.26), (-3.18, 0.36),
     ]
-    extrude_polygon_xz("BracketBody", bracket_outline, 0.28, bracket, satin, 0.08)
+    extrude_polygon_xz("BracketCradle", bracket_outline, 0.22, bracket, satin, 0.075)
 
-    # Mounting ears and structural ribs.
-    for idx, (x, z) in enumerate([(-2.55, 1.04), (2.24, 0.72), (-2.42, -1.05), (1.88, -1.18)]):
-        add_cylinder(f"BracketEar_{idx}", 0.34, 0.36, (x, -0.02, z), bracket, satin, 8, 0.045)
-        add_cylinder(f"BracketEarHole_{idx}", 0.13, 0.39, (x, -0.205, z), bracket, cast, 12, 0.02)
+    # Four mounting ears sit outside the housing silhouette and visibly belong to the cradle.
+    for idx, (x, z) in enumerate([
+        (-2.74, 1.02),
+        (2.42, 0.72),
+        (-2.46, -1.08),
+        (1.92, -1.28),
+    ]):
+        add_cylinder(f"MountBoss_{idx}", 0.30, 0.34, (x, -0.03, z), bracket, satin, 10, 0.040)
+        add_cylinder(f"MountHole_{idx}", 0.12, 0.38, (x, -0.21, z), bracket, cast, 14, 0.018)
 
-    add_box("BracketRib_A", (2.85, 0.18, 0.16), (-0.88, -0.19, 0.58), (0, math.radians(-8), 0), bracket, satin, 0.035)
-    add_box("BracketRib_B", (2.25, 0.18, 0.15), (0.58, -0.19, -0.68), (0, math.radians(20), 0), bracket, satin, 0.035)
-
+    # Dominant cast shell: deeper, more sculptural and intentionally asymmetric.
     housing_outline = [
-        (-2.72, -0.58), (-2.18, -1.35), (-0.84, -1.66), (0.28, -1.54),
-        (1.08, -1.75), (2.05, -1.18), (2.62, -0.32), (2.52, 0.74),
-        (1.72, 1.36), (0.42, 1.66), (-0.84, 1.56), (-1.78, 1.28),
-        (-2.46, 0.62), (-2.80, 0.00),
+        (-3.02, -0.44), (-2.56, -1.28), (-1.50, -1.66), (-0.24, -1.58),
+        (0.72, -1.76), (1.82, -1.42), (2.62, -0.82), (2.94, 0.06),
+        (2.62, 0.92), (1.72, 1.40), (0.54, 1.64), (-0.62, 1.50),
+        (-1.42, 1.66), (-2.30, 1.18), (-2.88, 0.52),
     ]
-    extrude_polygon_xz("HousingShell", housing_outline, 0.62, housing, cast, 0.10)
+    extrude_polygon_xz("HousingShell", housing_outline, 0.94, housing, cast, 0.145)
 
-    # Raised construction ribs on the cast shell.
-    add_box("HousingRib_A", (3.55, 0.15, 0.14), (-0.55, -0.39, 0.72), (0, math.radians(-9), 0), housing, cast, 0.035)
-    add_box("HousingRib_B", (2.75, 0.15, 0.13), (0.28, -0.39, -0.46), (0, math.radians(24), 0), housing, cast, 0.035)
-    add_box("HousingSpine", (0.18, 0.17, 2.25), (-1.42, -0.39, -0.04), (0, math.radians(-7), 0), housing, cast, 0.035)
+    # A stepped cast shoulder gives the shell construction depth without creating
+    # another flat UI-like panel.
+    shoulder_outline = [
+        (-1.72, -0.56), (-1.24, -1.00), (-0.18, -1.16), (0.88, -0.96),
+        (1.72, -0.48), (1.98, 0.18), (1.54, 0.82), (0.60, 1.10),
+        (-0.52, 1.02), (-1.40, 0.62), (-1.84, 0.10),
+    ]
+    shoulder = extrude_polygon_xz("HousingShoulder", shoulder_outline, 0.28, housing, cast, 0.085)
+    shoulder.location.y = -0.55
 
-    # Side connector integrated with housing.
-    add_box("ConnectorBody", (1.05, 0.62, 0.74), (-2.64, -0.16, -1.18), (0, math.radians(-7), math.radians(-8)), housing, cast, 0.07)
-    add_box("ConnectorSocket", (0.55, 0.16, 0.30), (-2.72, -0.52, -1.17), (0, math.radians(-7), math.radians(-8)), housing, steel, 0.025)
+    # Short integrated ribs follow the shell's load path. No long bars cross the face.
+    for idx, (loc, angle, length) in enumerate([
+        ((-1.96, -0.58, 0.70), -18, 0.92),
+        ((-1.78, -0.58, 0.24), -12, 0.82),
+        ((-1.52, -0.58, -0.28), 8, 0.76),
+    ]):
+        add_box(
+            f"HousingRib_{idx}",
+            (length, 0.16, 0.13),
+            loc,
+            (0, math.radians(angle), 0),
+            housing,
+            cast,
+            0.035,
+        )
 
+    # Integrated connector stays subordinate and low on the housing.
+    add_box(
+        "ConnectorBody",
+        (0.96, 0.72, 0.62),
+        (-2.62, -0.18, -1.18),
+        (0, math.radians(-8), math.radians(-5)),
+        housing,
+        cast,
+        0.075,
+    )
+    add_box(
+        "ConnectorSocket",
+        (0.46, 0.18, 0.25),
+        (-2.70, -0.56, -1.18),
+        (0, math.radians(-8), math.radians(-5)),
+        housing,
+        steel,
+        0.022,
+    )
+
+    # Recessed carrier: small and dark, so it reads as the internal layer between
+    # the cast shell and the bright precision interface.
     carrier_outline = [
-        (-1.45, -0.82), (-0.95, -1.14), (0.42, -1.05), (1.22, -0.62),
-        (1.42, 0.16), (1.02, 0.82), (0.18, 1.08), (-0.92, 0.94),
-        (-1.42, 0.38),
+        (-1.18, -0.72), (-0.70, -1.00), (0.32, -0.96), (1.02, -0.52),
+        (1.20, 0.12), (0.84, 0.72), (0.08, 0.96), (-0.82, 0.82),
+        (-1.22, 0.28),
     ]
-    extrude_polygon_xz("CarrierBody", carrier_outline, 0.40, carrier, cast, 0.075)
-    add_box("CarrierRecess", (1.35, 0.16, 0.72), (0.05, -0.29, 0.0), (0, math.radians(-7), 0), carrier, cast, 0.04)
+    extrude_polygon_xz("CarrierBody", carrier_outline, 0.34, carrier, cast, 0.070)
 
+    # Precision flange is the bright cue, but deliberately smaller than the housing.
     flange_outline = [
-        (-1.48, -0.82), (-0.78, -1.20), (0.42, -1.18), (1.28, -0.58),
-        (1.50, 0.26), (1.06, 0.96), (0.16, 1.22), (-0.96, 1.02), (-1.52, 0.30),
+        (-1.16, -0.60), (-0.62, -0.94), (0.30, -0.90), (0.98, -0.46),
+        (1.12, 0.16), (0.76, 0.74), (0.04, 0.92), (-0.78, 0.76),
+        (-1.18, 0.22),
     ]
-    extrude_polygon_xz("MachinedFlange", flange_outline, 0.30, flange, satin, 0.07)
-    # Keyed central opening language via a recessed dark carrier plate, deliberately non-circular.
+    extrude_polygon_xz("MachinedFlange", flange_outline, 0.26, flange, satin, 0.065)
+
     inner = [
-        (-0.82, -0.42), (-0.28, -0.72), (0.52, -0.62), (0.86, -0.10),
-        (0.68, 0.52), (0.10, 0.72), (-0.62, 0.52), (-0.88, 0.04),
+        (-0.62, -0.32), (-0.18, -0.54), (0.42, -0.46), (0.66, -0.08),
+        (0.52, 0.40), (0.02, 0.54), (-0.48, 0.36), (-0.68, 0.02),
     ]
-    inner_obj = extrude_polygon_xz("FlangeInset", inner, 0.08, flange, cast, 0.025)
-    inner_obj.location.y = -0.19
+    inset = extrude_polygon_xz("FlangeInset", inner, 0.10, flange, cast, 0.025)
+    inset.location.y = -0.19
 
-    for idx, (x, z) in enumerate([(-0.98, 0.56), (0.82, 0.64), (1.02, -0.46), (-0.72, -0.72)]):
-        add_cylinder(f"FlangeBolt_{idx}", 0.11, 0.16, (x, -0.22, z), flange, steel, 6, 0.018)
+    for idx, (x, z) in enumerate([
+        (-0.78, 0.42),
+        (0.64, 0.48),
+        (0.74, -0.36),
+    ]):
+        add_cylinder(f"FlangeBolt_{idx}", 0.095, 0.15, (x, -0.21, z), flange, steel, 6, 0.016)
 
+    # Small service cap, offset high/right like the approved V7 object. It should read
+    # as the last removable layer, not as a gadget face.
     cap_outline = [
-        (-1.04, -0.62), (-0.42, -0.88), (0.48, -0.74), (1.02, -0.20),
-        (0.96, 0.54), (0.34, 0.86), (-0.54, 0.78), (-1.08, 0.28),
+        (-0.86, -0.46), (-0.38, -0.68), (0.34, -0.62), (0.80, -0.24),
+        (0.82, 0.34), (0.36, 0.62), (-0.36, 0.58), (-0.84, 0.18),
     ]
-    extrude_polygon_xz("ServiceCap", cap_outline, 0.24, cap, satin, 0.065)
-    # Mechanical vent/grip slots — no screen/lens semantics.
-    for i in range(4):
+    extrude_polygon_xz("ServiceCap", cap_outline, 0.22, cap, satin, 0.060)
+
+    # Three restrained grip/vent slots; no screen or pause-icon language.
+    for i in range(3):
         add_box(
             f"CapSlot_{i}",
-            (0.18, 0.10, 0.62),
-            (-0.42 + i * 0.28, -0.17, -0.02 + (i % 2) * 0.04),
-            (0, math.radians(-6), math.radians(-4)),
+            (0.11, 0.11, 0.42),
+            (-0.24 + i * 0.24, -0.17, 0.00),
+            (0, math.radians(-5), 0),
             cap,
             cast,
-            0.02,
+            0.016,
         )
 
     for root in [bracket, housing, carrier, flange, cap]:
@@ -254,7 +308,7 @@ def build_asset(materials):
 
     master = bpy.data.objects.new("HeroObject_ROOT", None)
     bpy.context.collection.objects.link(master)
-    master.rotation_euler = (math.radians(4), math.radians(-6), math.radians(-4))
+    master.rotation_euler = (math.radians(7), math.radians(-13), math.radians(-7))
     for root in [bracket, housing, carrier, flange, cap]:
         root.parent = master
 
@@ -283,23 +337,13 @@ def setup_scene(scene, preview):
     bg.inputs["Color"].default_value = (0.006, 0.012, 0.022, 1)
     bg.inputs["Strength"].default_value = 0.18
 
-    # Dark studio floor: gives soft physical grounding without making the hero a literal product photo.
-    bpy.ops.mesh.primitive_plane_add(size=30, location=(0, 1.4, -2.55))
-    floor = bpy.context.object
-    floor.name = "StudioFloor"
-    floor_mat = bpy.data.materials.new("StudioFloorMat")
-    floor_mat.use_nodes = True
-    bsdf = floor_mat.node_tree.nodes.get("Principled BSDF")
-    bsdf.inputs["Base Color"].default_value = (0.008, 0.016, 0.030, 1)
-    bsdf.inputs["Roughness"].default_value = 0.72
-    floor.data.materials.append(floor_mat)
+    # V0.1.1 keeps the object floating like the approved V7 composition. Inter-layer
+    # occlusion and raking reflections provide depth without a literal product-photo floor.
+    add_area("Key_Softbox_TopLeft", (-5.2, -6.0, 7.8), 860, 5.8, (0.96, 0.98, 1.0))
+    add_area("Separation_Rake_Right", (5.2, 1.8, 6.8), 760, 2.8, (0.70, 0.82, 1.0))
+    add_area("Low_Front_Fill", (2.0, -5.4, 0.8), 95, 4.6, (0.76, 0.84, 1.0))
 
-    add_area("Key_Softbox_TopLeft", (-4.5, -5.5, 7.5), 1050, 5.5, (0.94, 0.97, 1.0))
-    add_area("Fill_FrontRight", (5.4, -4.2, 2.5), 300, 4.5, (0.72, 0.82, 1.0))
-    add_area("Separation_Rake", (3.8, 2.8, 6.2), 780, 3.0, (0.72, 0.84, 1.0))
-    add_area("Low_Fill", (-1.0, -2.0, -0.6), 120, 3.5, (0.80, 0.86, 1.0), target=(0, 0, -0.3))
-
-    return floor
+    return None
 
 def render(scene, path):
     scene.render.filepath = str(path)
@@ -367,9 +411,9 @@ def main():
     scene = bpy.context.scene
     floor = setup_scene(scene, args.preview)
 
-    cast = make_material("MAT_CastGraphite", (0.065, 0.085, 0.115), 0.58, 0.48)
-    satin = make_material("MAT_SatinCoolMetal", (0.36, 0.43, 0.51), 0.82, 0.29)
-    steel = make_material("MAT_SteelHardware", (0.52, 0.58, 0.64), 0.92, 0.23)
+    cast = make_material("MAT_CastGraphite", (0.020, 0.030, 0.046), 0.34, 0.60)
+    satin = make_material("MAT_SatinCoolMetal", (0.34, 0.41, 0.49), 0.88, 0.27)
+    steel = make_material("MAT_SteelHardware", (0.58, 0.63, 0.68), 0.98, 0.20)
     materials = [cast, satin, steel]
 
     master = build_asset(materials)
