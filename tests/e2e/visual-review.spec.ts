@@ -29,7 +29,23 @@ async function waitForTrustMedia(page: Page) {
 async function waitForProgressive3DHero(page: Page) {
   const hero = page.locator(".heroObject");
   await expect(hero).toHaveClass(/hero3dReady/, { timeout: 20_000 });
-  await expect(page.locator("model-viewer.hero3dModel")).toHaveAttribute("src", "/hero/hero-object.glb");
+
+  const viewerState = await page.locator("model-viewer.hero3dModel").evaluate((node) => {
+    const viewer = node as HTMLElement & {
+      loaded?: boolean;
+      src?: string;
+      availableAnimations?: string[];
+    };
+    return {
+      loaded: Boolean(viewer.loaded),
+      src: viewer.src ?? "",
+      animations: viewer.availableAnimations ?? [],
+    };
+  });
+
+  expect(viewerState.loaded).toBe(true);
+  expect(viewerState.src).toContain("/hero/hero-object.glb");
+  expect(viewerState.animations).toHaveLength(6);
   await page.waitForTimeout(2200);
 }
 
