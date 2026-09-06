@@ -1,0 +1,47 @@
+name: Hero 3D Rendered Practical R4
+
+on:
+  push:
+    branches:
+      - agent/3d-product-visualization-v013-volumetric-cast
+    paths:
+      - "scripts/hero-3d/**"
+      - ".agents/skills/3d-product-visualization-production/**"
+      - ".github/workflows/hero-3d-rendered-practical-r4.yml"
+      - "docs/agent-architecture/3d-product-visualization-rendered-practical-r4-prerun.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render-observation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+
+      - name: Install known render runtime
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y blender libegl1 libgl1
+          blender --version
+
+      - name: Render v0.1.3 practical artifacts
+        run: |
+          mkdir -p artifacts/hero-3d-r4
+          blender --background --python scripts/hero-3d/build_scene.py --             --out-dir artifacts/hero-3d-r4             --render-only
+
+      - name: Verify render evidence
+        run: |
+          python3 scripts/hero-3d/verify_render_review.py artifacts/hero-3d-r4
+
+      - name: Upload R4 rendered evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hero-3d-rendered-practical-r4
+          path: artifacts/hero-3d-r4/
+          if-no-files-found: error
+          retention-days: 14
