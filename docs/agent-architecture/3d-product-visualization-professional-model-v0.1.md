@@ -151,6 +151,25 @@ Observable behavior:
 - hands Frontend a stable asset/animation/fallback contract;
 - never self-issues independent final visual approval.
 
+### PV-11 — Synthetic intentionality compliance — BOUNDARY-CRITICAL
+Professional situation:
+A fictional hero object is rendered with realistic material, lighting and product-visualization cues.
+
+Observable behavior:
+- recognizes when its own geometry/material execution could push the artifact into pseudo-real failed-depiction ambiguity;
+- preserves the approved representation mode rather than assuming more realism is always better;
+- routes the final intentionality judgment to Visual Design / UI Guard;
+- revises geometry/material/light when those reviewers identify accidental-looking fused, broken, detached, malformed or representation-error cues.
+
+Expert-vs-average discriminator:
+A weak production agent equates realism with quality. A strong one understands that realistic rendering increases the burden of structural coherence and knows when to strengthen physical logic or reduce literalness.
+
+Evidence:
+actual rendered hero artifact + Synthetic Intentionality review + revision record when applicable.
+
+Failure modes:
+pseudo-real malformed read; accidental breakage/fusion read; "AI-generated mistake" ambiguity; self-approving aesthetic intent from source explanation rather than rendered evidence.
+
 ## Knowledge packaging
 
 - Stable hard-surface / lighting / material / artifact-first invariants: `EMBED_CORE` in the applied skill.
@@ -158,6 +177,7 @@ Observable behavior:
 - Blender/Spline/glTF version-specific behavior: `LIVE_RESEARCH` from official docs when implementation depends on it.
 - Scene metrics and export checks: `TOOL_BACKED`.
 - Final subjective craft judgment: rendered artifact review by Visual Design owner + independent UI Guard.
+- Synthetic Intentionality judgment: `EMBED_CORE` as a compliance/routing rule in the applied 3D capability, with the actual perceptual verdict owned by Visual Design / UI Guard.
 - Deep CAD engineering/manufacturing validation: `ESCALATE`; this capability is visual-production, not mechanical engineering.
 
 ## Runtime/tool contract
