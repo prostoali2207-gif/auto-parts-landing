@@ -23,6 +23,22 @@ Place the actual render beside strong current references. Do not ask whether Spl
 ## Originality test
 Remove logo and copy mentally. If the remaining composition could belong to any generic SaaS or automotive template, the visual concept is weak.
 
+## Synthetic intentionality test
+Apply this when a synthetic or fictional object uses realistic material, lighting or physical cues strongly enough that a viewer could reasonably read it as a depiction of a real object.
+
+First inspect the artifact **without priming the reviewer with "AI"**. Ask what it appears to be, which features look intentional, and whether anything reads accidentally broken, malformed, fused, detached or incorrectly represented.
+
+Then challenge the read directly: do the unusual features look deliberately designed, or could they reasonably be interpreted as errors in depicting a real object?
+
+Strong outcomes may be:
+- clearly real;
+- clearly stylized / abstract;
+- fictional but physically coherent.
+
+The risk zone is **pseudo-real + structurally ambiguous**. Do not reject novelty or surrealism merely because it is strange. Revise when the intended abstraction exists mainly in the creator's explanation rather than in the visible artifact.
+
+For full routing, severity and evaluation logic use `docs/agent-architecture/synthetic-intentionality-visual-judgment-extension.md`.
+
 ## Coherence test
 Every system should support the concept. Too many good ideas can make a bad design when they compete.
 
