@@ -168,6 +168,20 @@ Automotive character should come from the actual job of sourcing and verifying p
 
 Avoid default racing/luxury motifs unless genuinely relevant.
 
+## 9A. Synthetic / fictional object intentionality
+
+When art direction uses a synthetic or fictional object with realistic material, lighting or product-visualization cues, establish a clear representation mode before implementation:
+
+- clearly real;
+- clearly stylized / abstract;
+- fictional but physically coherent.
+
+Do not approve the unstable middle state merely because it is "creative": pseudo-real structure with unexplained fused, broken, detached or malformed features can read as a failed depiction rather than authored abstraction.
+
+Use `.agents/skills/visual-taste-agent/knowledge/visual-judgment.md` and `docs/agent-architecture/synthetic-intentionality-visual-judgment-extension.md`.
+
+The goal is intentionality, not realism. Surreal or impossible form remains valid when its authored language is perceptually clear.
+
 ## 10. Real assets
 When credible real photography is available, art-direct it deliberately.
 Specify:
@@ -221,7 +235,8 @@ Provide the UI Guard:
 - intended scorecard targets;
 - reference mechanisms used;
 - known compromises;
-- viewport requirements.
+- viewport requirements;
+- Synthetic Intentionality / representation-mode expectation when synthetic realistic imagery is present.
 
 ## Evidence principles
 Use external guidance as mechanisms, not dogma.
