@@ -56,4 +56,8 @@
   .heroObject .objectGuide{
     transition:none!important;
   }
+  .heroObject.hero3dReady .explodedObject,
+  .heroObject.hero3dReady .objectGuide{
+    opacity:1!important;
+  }
 }

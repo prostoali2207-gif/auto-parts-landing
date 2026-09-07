@@ -59,7 +59,7 @@ export default function Hero3DObject() {
     const boot = async () => {
       try {
         await import("@google/model-viewer");
-        if (!cancelled) setEnabled(true);
+        if (!cancelled && !reduceMotion.matches) setEnabled(true);
       } catch {
         // CSS V7 object remains the complete fallback.
       }
@@ -68,6 +68,18 @@ export default function Hero3DObject() {
     const schedule = () => {
       timer = window.setTimeout(() => void boot(), mode === "on" ? 0 : 250);
     };
+
+    const onMotionChange = () => {
+      if (!reduceMotion.matches) return;
+      cancelled = true;
+      window.clearTimeout(timer);
+      window.removeEventListener("load", schedule);
+      viewerRef.current?.pause?.();
+      viewerRef.current?.closest(".heroObject")?.classList.remove("hero3dReady");
+      setReady(false);
+      setEnabled(false);
+    };
+    reduceMotion.addEventListener("change", onMotionChange);
 
     if (document.readyState === "complete") {
       schedule();
@@ -79,6 +91,7 @@ export default function Hero3DObject() {
       cancelled = true;
       window.clearTimeout(timer);
       window.removeEventListener("load", schedule);
+      reduceMotion.removeEventListener("change", onMotionChange);
     };
   }, []);
 
