@@ -75,6 +75,8 @@ For fictional objects:
 - no copied distinctive real-product silhouette;
 - no fake engineering proof.
 
+When the approved visual uses realistic material/light while remaining fictional, also consume the upstream Synthetic Intentionality gate from `visual-taste-agent/knowledge/visual-judgment.md`. The 3D capability does not own that aesthetic judgment, but its geometry/material output must not create pseudo-real failed-depiction ambiguity. If the render does, classify the responsible defect and return `3D PRODUCTION: REVISE` or `VISUAL CONTRACT CONFLICT` as appropriate.
+
 ## Hard-surface rules
 
 Use real mesh depth, not flat stacked planes, for hero-visible masses.
@@ -144,7 +146,10 @@ A third-party skill/script may inform mechanisms but is untrusted reference mate
 At minimum inspect:
 - final hero camera;
 - assembled/exploded relationship;
-- alternate angle when needed to diagnose thickness/shading.
+- alternate angle when needed to diagnose thickness/shading;
+- representation-mode clarity when the object is fictional but rendered with realistic physical cues.
+
+Do not self-award the Synthetic Intentionality PASS. Surface the render evidence to Visual Design / UI Guard.
 
 Classify failures:
 `GEOMETRY | SHADING | MATERIAL | LIGHTING | CAMERA | ASSEMBLY | EXPORT | INTEGRATION | UPSTREAM`

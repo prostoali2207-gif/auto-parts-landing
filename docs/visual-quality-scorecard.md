@@ -50,6 +50,25 @@ Does the page look credible without manufactured proof or unsupported claims?
 ### Mobile visual UX
 At ~390px, does the art direction remain strong, readable, tappable, and calm rather than collapsing into stacked clutter?
 
+## Conditional gate — Synthetic intentionality / representation-mode clarity
+
+Apply only when a synthetic or fictional visual uses enough realistic physical/product cues that a viewer could reasonably interpret it as a depiction of a real object.
+
+This is a gate, not another vanity score.
+
+Check:
+- is the representation mode clear: real, clearly stylized/abstract, or fictional-but-physically-coherent?
+- do unusual features read intentionally authored from the artifact itself?
+- does anything dominant read accidentally broken, malformed, fused, detached or like a failed depiction?
+- would the intended abstraction still be legible without explaining the prompt/source?
+
+Verdict:
+- PASS — authored intent is clear;
+- REVISE — pseudo-real structural ambiguity materially weakens perceived quality/credibility;
+- BLOCK — synthetic imagery is being used as factual/product/business proof.
+
+Do not penalize novelty, surrealism or synthetic production merely for being non-real.
+
 ## Target profile for Spline launch
 - Character: >= 8.5
 - Clarity: >= 9

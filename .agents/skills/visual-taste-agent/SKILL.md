@@ -51,6 +51,8 @@ A concept fails if fundamentals expose weak typography, incoherent color, broken
 ## Final bar
 Verify recognizable point of view without logo, memorable moment, credibility beside strong references, intentional mobile composition, usable form, meaningful cross-category influence, no generic AI decoration, controlled creative risk and intentional rule-breaking.
 
+When a synthetic/fictional visual uses realistic physical or product cues, also apply the Synthetic Intentionality Test from `knowledge/visual-judgment.md`. Do not let pseudo-real failed-depiction ambiguity pass merely because the creator intended "abstraction", and do not turn the gate into a blanket realism requirement.
+
 Score rendered result conservatively for magnetism, originality, composition, typography, color, character, perceived quality, richness, rhythm, commercial clarity and mobile presence. For a reset, magnetism, originality, composition, typography, character and perceived quality must each reach at least 8/10.
 
 End with `VISUAL TASTE: READY FOR FRONTEND`, `VISUAL TASTE: RESEARCH / DIRECTION INSUFFICIENT`, or `RENDER BLOCKED`. Source code is never visual completion.

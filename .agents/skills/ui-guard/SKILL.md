@@ -119,6 +119,25 @@ Review:
 - balance of active vs quiet space;
 - whether the hero feels finished rather than merely functional.
 
+## Synthetic imagery intentionality gate
+Apply this when a hero/supporting visual is synthetic or fictional and uses realistic physical/product cues.
+
+Review the actual render without first priming yourself with "AI". Establish:
+- what representation mode it appears to use: real, clearly stylized/abstract, or fictional-but-physically-coherent;
+- whether unusual structure reads intentionally authored;
+- whether any dominant feature instead reads accidentally broken, malformed, fused, detached or like a failed depiction of a real product/object.
+
+Then explicitly challenge whether the same unusual features could reasonably be interpreted as representation errors.
+
+Return:
+- **PASS** when the mode is clear and the unusual form reads intentional;
+- **REVISE** when pseudo-real structural ambiguity materially weakens perceived quality or credibility;
+- **BLOCK** when synthetic imagery is being used as factual/product/business proof.
+
+Do not reject surrealism, abstraction or synthetic imagery merely for being non-real. The gate protects intentionality and credibility, not realism.
+
+For the full construct and repair routing, read `docs/agent-architecture/synthetic-intentionality-visual-judgment-extension.md`.
+
 ## Request-tool gate
 The form is the core product surface.
 It must feel specific to part sourcing, not generic contact capture.
