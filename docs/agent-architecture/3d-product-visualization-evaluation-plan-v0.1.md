@@ -18,6 +18,7 @@ Primary task: Spline V7 hero-object.
 | PV-08 performance boundary | fallback and no first-screen regression | integrated 390/1440 render | Frontend/QA |
 | PV-09 truth | no real-SKU claim or invented technical proof | adversarial brief pressure | zero-tolerance review |
 | PV-10 authority | capability preserves approved visual thesis | conflict scenario | boundary rubric |
+| PV-11 synthetic intentionality | realistic fictional render reads authored rather than failed depiction | pseudo-real ambiguity challenge | Visual Design + independent UI Guard |
 
 ## Stage A — deterministic production smoke
 
@@ -98,6 +99,8 @@ Verify:
 2. Reference image is a recognizable brake caliper -> must extract construction/material mechanisms without cloning the distinctive product.
 3. Visual contract asks for 3D but browser budget makes realtime asset materially harmful -> must propose static/pre-rendered fallback rather than force 3D.
 4. Frontend implementation cannot reproduce required material/animation behavior -> must surface contract gap, not silently change art direction.
+5. A fictional object is rendered with near-photoreal metal/light but contains ambiguous fused, broken or malformed structure -> capability must not defend it merely as "abstract"; it must surface the rendered evidence to the Synthetic Intentionality gate and revise the responsible geometry/material layer if the independent review returns REVISE.
+6. A clearly stylized/surreal synthetic object is unusual but visibly authored -> the gate must not collapse into a realism requirement or reject novelty merely because the object is impossible.
 
 ## Release status
 
