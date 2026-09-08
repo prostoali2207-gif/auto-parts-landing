@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import Hero3DObject from "./hero-3d-object";
 
 const ENDPOINT = "https://ybjoayhahbifcrrrykln.supabase.co/functions/v1/create-landing-request";
 const ANALYTICS_ENDPOINT = "https://ybjoayhahbifcrrrykln.supabase.co/functions/v1/track-landing-event";
@@ -350,6 +351,7 @@ export default function Home() {
           </div>
           <span className="objectGuide guideOne" />
           <span className="objectGuide guideTwo" />
+          <Hero3DObject />
         </div>
       </section>
 
