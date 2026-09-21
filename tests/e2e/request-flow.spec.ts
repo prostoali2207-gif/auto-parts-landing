@@ -2,6 +2,7 @@ import { expect, test, type Page } from "@playwright/test";
 
 const endpointPattern = "**/functions/v1/create-landing-request";
 const analyticsPattern = "**/functions/v1/track-landing-event";
+const trelloNotificationPattern = "**/api/trello-notify";
 
 async function mockAcceptedRequest(page: Page, requestNumber = 999) {
   await page.route(endpointPattern, async (route) => {
@@ -43,6 +44,13 @@ async function fillPrimaryPart(page: Page, name = "Передняя фара") {
 test.beforeEach(async ({ page }) => {
   await page.route(analyticsPattern, async (route) => {
     await route.fulfill({ status: 204, body: "" });
+  });
+  await page.route(trelloNotificationPattern, async (route) => {
+    await route.fulfill({
+      status: 202,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true }),
+    });
   });
   await page.goto("/");
 });
@@ -267,6 +275,83 @@ test("VIN path reaches confirmed success without creating a real CRM record", as
 
   await expect(page.getByRole("status")).toContainText("Заявка №999");
   await expect(page.getByRole("status")).toContainText("Менеджер продолжит подбор");
+});
+
+test("confirmed CRM success triggers the secondary Trello notification without exposing its email", async ({ page }) => {
+  let notificationPayload = "";
+  await page.unroute(trelloNotificationPattern);
+  await page.route(trelloNotificationPattern, async (route) => {
+    notificationPayload = route.request().postData() || "";
+    await route.fulfill({
+      status: 202,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true }),
+    });
+  });
+  await mockAcceptedRequest(page, 3001);
+
+  await fillVinVehicle(page);
+  await fillPrimaryPart(page, "Передняя фара");
+  await page.getByLabel("Телефон / WhatsApp / Telegram").fill("+971500000000");
+  await page.getByRole("button", { name: "Отправить заявку" }).click();
+
+  await expect(page.getByRole("status")).toContainText("Заявка №3001");
+  await expect.poll(() => notificationPayload).not.toBe("");
+
+  const parsed = JSON.parse(notificationPayload);
+  expect(parsed).toMatchObject({
+    requestNumber: 3001,
+    contact: "+971500000000",
+    vin: "JT123456789012345",
+  });
+  expect(parsed.parts).toEqual([
+    expect.objectContaining({ partName: "Передняя фара" }),
+  ]);
+  expect(notificationPayload).not.toContain("app.trello.com");
+});
+
+test("CRM rejection never triggers the secondary Trello notification", async ({ page }) => {
+  let notificationCalls = 0;
+  await page.unroute(trelloNotificationPattern);
+  await page.route(trelloNotificationPattern, async (route) => {
+    notificationCalls += 1;
+    await route.fulfill({ status: 202, body: JSON.stringify({ ok: true }) });
+  });
+  await page.route(endpointPattern, async (route) => {
+    await route.fulfill({
+      status: 503,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: false, error: "CRM unavailable" }),
+    });
+  });
+
+  await fillVinVehicle(page);
+  await fillPrimaryPart(page);
+  await page.getByLabel("Телефон / WhatsApp / Telegram").fill("+971500000000");
+  await page.getByRole("button", { name: "Отправить заявку" }).click();
+
+  await expect(page.locator("p.error[role=alert]")).toHaveText("CRM unavailable");
+  await expect.poll(() => notificationCalls).toBe(0);
+});
+
+test("secondary Trello notification failure does not turn an accepted CRM request into a false form error", async ({ page }) => {
+  await page.unroute(trelloNotificationPattern);
+  await page.route(trelloNotificationPattern, async (route) => {
+    await route.fulfill({
+      status: 503,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: false }),
+    });
+  });
+  await mockAcceptedRequest(page, 3002);
+
+  await fillVinVehicle(page);
+  await fillPrimaryPart(page);
+  await page.getByLabel("Телефон / WhatsApp / Telegram").fill("+971500000000");
+  await page.getByRole("button", { name: "Отправить заявку" }).click();
+
+  await expect(page.getByRole("status")).toContainText("Заявка №3002");
+  await expect(page.locator("p.error[role=alert]")).toHaveCount(0);
 });
 
 test("make model year fallback remains a valid vehicle path", async ({ page }) => {
