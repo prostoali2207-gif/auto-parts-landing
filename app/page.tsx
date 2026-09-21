@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 
 const ENDPOINT = "https://ybjoayhahbifcrrrykln.supabase.co/functions/v1/create-landing-request";
 const ANALYTICS_ENDPOINT = "https://ybjoayhahbifcrrrykln.supabase.co/functions/v1/track-landing-event";
+const LEAD_NOTIFICATION_ENDPOINT = "/api/trello-notify";
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024;
 const WHATSAPP_URL = "https://wa.me/971544550149";
 const TELEGRAM_URL = "https://t.me/dasmotors_dxb";
@@ -279,6 +280,31 @@ export default function Home() {
       const response = await fetch(ENDPOINT, { method: "POST", body });
       const data = await response.json();
       if (!response.ok || !data.ok) throw new Error(data.error || "Не удалось отправить заявку");
+
+      if (data.requestNumber != null) {
+        const notificationPayload = {
+          requestNumber: data.requestNumber,
+          contact,
+          clientName: formText(v, "clientName"),
+          vin: formText(v, "vin"),
+          carMake: formText(v, "carMake"),
+          carModel: formText(v, "carModel"),
+          carYear: formText(v, "carYear"),
+          parts: collectedParts.map(({ partName, partNumber, description }) => ({
+            partName,
+            partNumber,
+            description,
+          })),
+        };
+
+        void fetch(LEAD_NOTIFICATION_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          keepalive: true,
+          body: JSON.stringify(notificationPayload),
+        }).catch(() => undefined);
+      }
+
       setRequestNumber(data.requestNumber ?? null);
       setState("success");
       setActiveStep(1);
