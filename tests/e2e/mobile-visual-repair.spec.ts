@@ -1,14 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
 
-async function heroVisibleRatio(page: Page) {
-  return page.locator(".heroObject").evaluate((element) => {
-    const rect = element.getBoundingClientRect();
-    const top = Math.max(0, rect.top);
-    const bottom = Math.min(window.innerHeight, rect.bottom);
-    return Math.max(0, bottom - top) / rect.height;
-  });
-}
-
 async function scrollProcessIntoView(page: Page) {
   await page.evaluate(() => {
     const step = document.querySelector<HTMLElement>(".processStep");
@@ -51,22 +42,14 @@ async function assertNumeralsFit(page: Page) {
   }
 }
 
-test("mobile hero opens on first meaningful entry in a browser-chrome-constrained viewport", async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: "no-preference" });
+test("approved hero shows the actual deconstructed artwork on compact phones", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 390, height: 640 });
   await page.goto("/", { waitUntil: "domcontentloaded" });
-  await page.evaluate(() => document.fonts.ready);
-
-  const hero = page.locator(".heroObject");
-  await expect(hero).toHaveClass(/heroMobileMotionArmed/);
-  await expect(hero).not.toHaveClass(/heroMobileMotionRun/);
-
-  const initialRatio = await heroVisibleRatio(page);
-  expect(initialRatio).toBeGreaterThanOrEqual(0.19);
-  expect(initialRatio).toBeLessThan(0.36);
-
-  await page.evaluate(() => window.scrollBy(0, 2));
-  await expect(hero).toHaveClass(/heroMobileMotionRun/);
+  const image = page.locator(".heroConceptImage");
+  await expect(image).toBeVisible();
+  await expect.poll(() => image.evaluate((el) => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
 });
 
 test("browser-chrome-constrained first screen keeps headline and primary CTA fully visible", async ({ page }) => {
@@ -78,7 +61,7 @@ test("browser-chrome-constrained first screen keeps headline and primary CTA ful
   const geometry = await page.evaluate(() => {
     const header = document.querySelector<HTMLElement>(".topbar");
     const headline = document.querySelector<HTMLElement>(".hero h1");
-    const cta = document.querySelector<HTMLElement>(".heroActions .primary");
+    const cta = document.querySelector<HTMLElement>(".heroConceptCta");
     if (!header || !headline || !cta) return null;
     const h = header.getBoundingClientRect();
     const t = headline.getBoundingClientRect();

@@ -28,24 +28,6 @@ async function waitForTrustMedia(page: Page) {
   await page.waitForTimeout(150);
 }
 
-async function freezeHeroMotion(page: Page, currentTime: number) {
-  await page.evaluate((time) => {
-    document.querySelectorAll<HTMLElement>(".heroObject .part").forEach((element) => {
-      element.getAnimations().forEach((animation) => {
-        animation.pause();
-        animation.currentTime = time;
-      });
-    });
-  }, currentTime);
-}
-
-async function triggerMobileHero(page: Page) {
-  const heroObject = page.locator(".heroObject");
-  await expect(heroObject).toHaveClass(/heroMobileMotionArmed/);
-  await page.evaluate(() => window.scrollBy(0, 2));
-  await expect(heroObject).toHaveClass(/heroMobileMotionRun/);
-}
-
 async function triggerProcessAtFirstStep(page: Page) {
   const sequence = page.locator(".processSequence");
   const steps = page.locator(".processStep");
@@ -147,35 +129,25 @@ test("capture loaded trust proof at all release widths", async ({ page }) => {
   }
 });
 
-test("capture mobile browser-chrome hero timing and explicit 01 then 02 then 03 process stages", async ({ page }) => {
+
+test("capture approved hero at compact/mobile widths and process stages", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 390, height: 640 });
   await openLanding(page);
-
-  await expect(page.locator(".heroObject")).toHaveClass(/heroMobileMotionArmed/);
-  await page.screenshot({ path: `${outputDir}/motion-mobile-hero-compact.png`, fullPage: false });
-
-  await triggerMobileHero(page);
-  await freezeHeroMotion(page, 700);
-  await page.screenshot({ path: `${outputDir}/motion-mobile-hero-mid.png`, fullPage: false });
-  await freezeHeroMotion(page, 1500);
-  await page.screenshot({ path: `${outputDir}/motion-mobile-hero-final.png`, fullPage: false });
-
+  const art = page.locator(".heroConceptImage");
+  await expect.poll(() => art.evaluate((el) => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+  await page.screenshot({ path: `${outputDir}/hero-approved-mobile-compact.png`, fullPage: false });
   await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator(".heroConcept").screenshot({ path: `${outputDir}/hero-approved-mobile.png` });
   await captureProcessNumberStages(page, "motion-mobile");
 });
 
-test("capture desktop hero and explicit 01 then 02 then 03 process stages", async ({ page }) => {
+test("capture approved desktop hero and existing process stages", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 1440, height: 1000 });
   await openLanding(page);
-
-  await freezeHeroMotion(page, 150);
-  await page.locator(".hero").screenshot({ path: `${outputDir}/motion-desktop-hero-compact.png` });
-  await freezeHeroMotion(page, 700);
-  await page.locator(".hero").screenshot({ path: `${outputDir}/motion-desktop-hero-mid.png` });
-  await freezeHeroMotion(page, 1500);
-  await page.locator(".hero").screenshot({ path: `${outputDir}/motion-desktop-hero-final.png` });
-
+  const art = page.locator(".heroConceptImage");
+  await expect.poll(() => art.evaluate((el) => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+  await page.locator(".heroConcept").screenshot({ path: `${outputDir}/hero-approved-desktop.png` });
   await captureProcessNumberStages(page, "motion-desktop");
 });
