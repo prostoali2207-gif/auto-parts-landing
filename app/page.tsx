@@ -408,8 +408,9 @@ export default function Home() {
       <section className="requestSection" id="request">
         <div className="requestThreshold">
           <div className="requestThresholdInner">
-            <p className="eyebrow">Request a part</p>
-            <div className="requestTitleRow"><h2>Что нужно найти?</h2><span aria-hidden="true">01</span></div>
+            <p className="eyebrow">ЗАЯВКА НА ПОДБОР</p>
+            <div className="requestTitleRow"><h2>Что нужно найти?</h2></div>
+            <p className="requestLeadText">Укажите автомобиль и нужную деталь — менеджер продолжит подбор.</p>
           </div>
         </div>
 
@@ -560,9 +561,19 @@ export default function Home() {
 
               {state === "error" && message && <p className="error" role="alert">{message}</p>}
               <button className="primary submit" disabled={state === "loading"} type="submit">{state === "loading" ? "Отправляем…" : "Отправить заявку"}</button>
+              <p className="requestAfterNote">После отправки менеджер продолжит подбор по указанному контакту.</p>
             </form>
           )}
         </div>
+        <footer className="requestFooter" aria-label="Контакты DasMotors">
+          <div className="requestFooterInner">
+            <span className="requestFooterBrand">DasMotors <span>· Автозапчасти из ОАЭ</span></span>
+            <div className="requestFooterLinks">
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">WhatsApp <span aria-hidden="true">↗</span></a>
+              <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer">Telegram <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </footer>
       </section>
     </main>
   );

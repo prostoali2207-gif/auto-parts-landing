@@ -77,8 +77,8 @@ test("desktop keeps all three request groups visible without wizard controls", a
 test("manager contact stays secondary until the visitor opens it", async ({ page }) => {
   const disclosure = page.locator(".managerContactDisclosure");
   const summary = page.locator(".managerContactSummary");
-  const whatsapp = page.getByRole("link", { name: "WhatsApp" });
-  const telegram = page.getByRole("link", { name: "Telegram" });
+  const whatsapp = disclosure.getByRole("link", { name: "WhatsApp" });
+  const telegram = disclosure.getByRole("link", { name: "Telegram" });
 
   await expect(summary).toContainText("Есть вопрос? Связаться с менеджером");
   await expect(disclosure).not.toHaveAttribute("open", "");
