@@ -410,7 +410,7 @@ export default function Home() {
           <div className="requestThresholdInner">
             <p className="eyebrow">ЗАЯВКА НА ПОДБОР</p>
             <div className="requestTitleRow"><h2>Что нужно найти?</h2></div>
-            <p className="requestIntro">Укажите автомобиль и нужную деталь — менеджер продолжит подбор.</p>
+            <p className="requestLeadText">Укажите автомобиль и нужную деталь — менеджер продолжит подбор.</p>
           </div>
         </div>
 
