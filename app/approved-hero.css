@@ -1,0 +1,375 @@
+/* Approved HTML hero adaptation — scoped to the landing hero only.
+   The artwork is a conceptual render, not proof of parts in stock. */
+.hero.heroConcept{
+  position:relative!important;
+  isolation:isolate;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  grid-template-columns:none!important;
+  min-height:clamp(620px,58vw,785px)!important;
+  width:100%!important;
+  max-width:none!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  background:radial-gradient(ellipse 67% 87% at 76% 49%,#0c1c2b 0%,#07111f 70%)!important;
+  color:#f4f6f8;
+}
+.hero.heroConcept::before{
+  display:block!important;
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:2!important;
+  width:auto!important;
+  height:auto!important;
+  background:linear-gradient(90deg,#07111f 0%,#07111f 18%,rgba(7,17,31,.8) 37%,transparent 71%)!important;
+  pointer-events:none!important;
+  opacity:1!important;
+  border:0!important;
+}
+.hero.heroConcept::after{
+  display:block!important;
+  content:""!important;
+  position:absolute!important;
+  inset:auto 0 0!important;
+  width:100%!important;
+  height:24%!important;
+  z-index:2!important;
+  background:linear-gradient(0deg,#060e1b 0%,transparent 100%)!important;
+  pointer-events:none!important;
+  opacity:1!important;
+  border:0!important;
+  transform:none!important;
+}
+.hero.heroConcept .heroConceptArtwork{
+  position:absolute;
+  z-index:1;
+  top:0;
+  right:-2%;
+  width:76%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:visible;
+  pointer-events:none;
+}
+.heroConceptHalo{
+  position:absolute;
+  z-index:0;
+  width:80%;
+  height:63%;
+  right:3%;
+  top:13%;
+  background:#23394a;
+  opacity:.3;
+  filter:blur(85px);
+  border-radius:50%;
+}
+.heroConceptImage{
+  position:relative;
+  z-index:1;
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:none;
+  object-fit:contain;
+  object-position:center;
+  filter:drop-shadow(-12px 22px 24px rgba(0,0,0,.4));
+  -webkit-mask-image:radial-gradient(ellipse 86% 89% at 54% 52%,#000 62%,rgba(0,0,0,.73) 79%,transparent 98%);
+  mask-image:radial-gradient(ellipse 86% 89% at 54% 52%,#000 62%,rgba(0,0,0,.73) 79%,transparent 98%);
+  transition:transform 450ms cubic-bezier(.2,.7,.3,1);
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .hero.heroConcept:hover .heroConceptImage{transform:translate3d(7px,-3px,0);}
+}
+.hero.heroConcept .heroConceptCopy{
+  position:relative!important;
+  z-index:4!important;
+  width:min(56%,710px)!important;
+  max-width:none!important;
+  margin:0!important;
+  align-self:center!important;
+  padding:65px 0 85px clamp(24px,4.25vw,70px)!important;
+  text-align:left!important;
+  transform:none!important;
+}
+.heroConceptEyebrow{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin:0 0 24px!important;
+  color:#d2dae5;
+  font-size:11px;
+  font-family:var(--font-v7-body),Arial,sans-serif;
+  font-weight:750;
+  line-height:1.4;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+}
+.heroConceptEyebrow > span{
+  flex:0 0 24px;
+  height:1px;
+  background:#c8ff2e;
+}
+.hero.heroConcept .heroConceptTitle{
+  display:block!important;
+  max-width:710px!important;
+  margin:0!important;
+  font-family:var(--font-v7-body),Arial,sans-serif!important;
+  font-size:clamp(59px,7.3vw,108px)!important;
+  font-weight:800!important;
+  line-height:.99!important;
+  letter-spacing:-.073em!important;
+  text-align:left!important;
+  text-wrap:balance;
+  color:#f4f6f8!important;
+  opacity:1!important;
+  transform:none!important;
+}
+.heroConceptTitle .heroConceptWord{
+  display:block;
+  white-space:nowrap;
+}
+.heroConceptTitle .heroConceptTitleLight{
+  display:block;
+  color:#d6dfe8;
+  font-size:.62em;
+  font-weight:550;
+  line-height:1.12;
+  letter-spacing:-.066em;
+  max-width:690px;
+  text-wrap:pretty;
+}
+.heroConceptLead{
+  max-width:470px;
+  color:#b8c4cf!important;
+  font-family:var(--font-v7-body),Arial,sans-serif!important;
+  font-size:clamp(16px,1.35vw,20px)!important;
+  font-weight:400!important;
+  line-height:1.52!important;
+  margin:25px 0 30px!important;
+}
+.heroConceptActions{
+  display:flex!important;
+  flex-direction:column;
+  align-items:flex-start!important;
+  gap:0!important;
+  margin:0!important;
+}
+.heroConceptCta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  min-width:300px;
+  min-height:66px;
+  padding:18px 30px;
+  border:0;
+  border-radius:3px;
+  background:#c8ff2e!important;
+  color:#071018!important;
+  font-family:var(--font-v7-body),Arial,sans-serif;
+  font-weight:800;
+  font-size:17px;
+  letter-spacing:-.03em;
+  text-decoration:none;
+  text-align:center;
+  transition:background 200ms ease,transform 200ms ease;
+}
+.heroConceptCta:hover{background:#deff77!important;transform:translateY(-2px);}
+.heroConceptCta:focus-visible,
+.heroConceptContact summary:focus-visible{outline:3px solid #78a6ff;outline-offset:4px;}
+.hero.heroConcept .heroConceptContact{
+  display:block;
+  position:relative;
+  margin:24px 0 0!important;
+  padding:0!important;
+  width:max-content;
+  max-width:100%;
+  color:#c5d0db;
+}
+.hero.heroConcept .heroConceptContact .managerContactSummary{
+  display:flex!important;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:6px;
+  min-height:26px;
+  color:#c1cbd7!important;
+  font-family:var(--font-v7-body),Arial,sans-serif!important;
+  font-size:14px!important;
+  font-weight:450!important;
+  letter-spacing:0!important;
+  text-transform:none!important;
+  cursor:pointer;
+  background:none!important;
+  border:0!important;
+  padding:0!important;
+  margin:0!important;
+}
+.hero.heroConcept .heroConceptContact .managerContactSummary span{
+  color:#e2e8ef!important;
+  text-decoration:underline!important;
+  text-decoration-color:#b5c0ca!important;
+  text-underline-offset:6px;
+}
+.hero.heroConcept .heroConceptContact .managerContactSummary i{
+  margin-left:5px;
+  font-size:17px;
+  font-style:normal;
+  color:#c0cad4;
+}
+.hero.heroConcept .heroConceptContact .managerContactChoices{
+  position:relative!important;
+  inset:auto!important;
+  margin-top:13px!important;
+  z-index:9;
+}
+.heroConceptBottom{
+  position:absolute;
+  z-index:4;
+  left:clamp(24px,4.25vw,70px);
+  right:clamp(24px,4.25vw,70px);
+  bottom:22px;
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:center;
+  color:#8997a7;
+  font-family:var(--font-v7-body),sans-serif;
+  font-size:10px;
+  font-weight:750;
+  letter-spacing:.11em;
+  line-height:1.5;
+  text-transform:uppercase;
+  pointer-events:none;
+}
+.heroConceptRule{
+  flex:1;
+  max-width:90px;
+  height:1px;
+  background:rgba(182,193,201,.26);
+}
+@media (max-width:1100px) and (min-width:701px){
+  .hero.heroConcept{min-height:685px!important;}
+  .hero.heroConcept .heroConceptArtwork{width:85%;right:-11%;}
+  .hero.heroConcept .heroConceptCopy{width:59%!important;}
+  .hero.heroConcept .heroConceptTitle{font-size:clamp(55px,6.8vw,82px)!important;}
+  .hero.heroConcept::before{background:linear-gradient(90deg,#07111f 0%,rgba(7,17,31,.92) 27%,rgba(7,17,31,.42) 51%,transparent 87%)!important;}
+}
+@media (max-width:700px){
+  .hero.heroConcept{
+    display:block!important;
+    min-height:0!important;
+    padding:0!important;
+    background:linear-gradient(180deg,#081220 0%,#07111f 65%,#060d18 100%)!important;
+  }
+  .hero.heroConcept::before{display:none!important;}
+  .hero.heroConcept::after{
+    height:90px!important;
+    opacity:.7!important;
+  }
+  .hero.heroConcept .heroConceptCopy{
+    width:100%!important;
+    max-width:none!important;
+    padding:34px 23px 0!important;
+    margin:0!important;
+  }
+  .heroConceptEyebrow{
+    font-size:9px;
+    letter-spacing:.105em;
+    margin:0 0 20px!important;
+  }
+  .heroConceptEyebrow > span{flex-basis:17px;}
+  .hero.heroConcept .heroConceptTitle{
+    font-size:clamp(43px,12.5vw,54px)!important;
+    line-height:1.04!important;
+    letter-spacing:-.068em!important;
+    max-width:100%!important;
+  }
+  .heroConceptTitle .heroConceptTitleLight{
+    font-size:.78em;
+    line-height:1.11;
+    letter-spacing:-.055em;
+  }
+  .heroConceptLead{
+    max-width:355px;
+    font-size:15px!important;
+    line-height:1.54!important;
+    margin:20px 0 25px!important;
+  }
+  .heroConceptActions{width:100%;align-items:stretch!important;}
+  .heroConceptCta{
+    display:flex;
+    width:100%;
+    min-width:0;
+    min-height:60px;
+    font-size:16px;
+  }
+  .hero.heroConcept .heroConceptContact{
+    margin-top:18px!important;
+  }
+  .hero.heroConcept .heroConceptContact .managerContactSummary{
+    font-size:13px!important;
+  }
+  .hero.heroConcept .heroConceptArtwork{
+    position:relative!important;
+    top:auto!important;
+    right:auto!important;
+    bottom:auto!important;
+    left:auto!important;
+    width:100%!important;
+    height:clamp(320px,99vw,400px)!important;
+    min-width:0!important;
+    min-height:0!important;
+    margin:6px 0 0!important;
+    transform:none!important;
+    overflow:hidden!important;
+    z-index:1;
+  }
+  .heroConceptHalo{
+    top:20%;
+    right:0;
+    width:86%;
+    height:65%;
+    filter:blur(70px);
+  }
+  .heroConceptImage{
+    width:161%;
+    max-width:none;
+    height:100%;
+    object-fit:cover;
+    object-position:67% 48%;
+    transform:translateX(-6%) translateY(5%);
+    -webkit-mask-image:radial-gradient(ellipse 64% 75% at 57% 53%,#000 62%,rgba(0,0,0,.73) 80%,transparent 99%);
+    mask-image:radial-gradient(ellipse 64% 75% at 57% 53%,#000 62%,rgba(0,0,0,.73) 80%,transparent 99%);
+  }
+  .heroConceptBottom{
+    position:relative!important;
+    z-index:4;
+    left:auto!important;
+    right:auto!important;
+    bottom:auto!important;
+    min-height:51px;
+    margin:-10px 23px 0;
+    font-size:8px;
+    letter-spacing:.08em;
+  }
+  .heroConceptRule{max-width:38px;}
+}
+@media (max-width:365px){
+  .hero.heroConcept .heroConceptCopy{padding:28px 19px 0!important;}
+  .hero.heroConcept .heroConceptTitle{font-size:43px!important;}
+  .heroConceptTitle .heroConceptTitleLight{font-size:.76em;}
+  .heroConceptLead{font-size:14px!important;}
+}
+@media (prefers-reduced-motion:reduce){
+  .heroConceptImage,
+  .heroConceptCta{transition:none!important;}
+  .hero.heroConcept:hover .heroConceptImage{transform:none!important;}
+  @media (max-width:700px){
+    .hero.heroConcept .heroConceptImage{transform:translateX(-6%) translateY(5%)!important;}
+  }
+}
