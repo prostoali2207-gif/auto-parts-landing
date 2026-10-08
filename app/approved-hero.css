@@ -373,3 +373,11 @@
     .hero.heroConcept .heroConceptImage{transform:translateX(-6%) translateY(5%)!important;}
   }
 }
+
+/* Explicit mobile art direction: the approved copy and request precede the image. */
+@media(max-width:700px){
+  .hero.heroConcept{display:flex!important;flex-direction:column!important;align-items:stretch!important;}
+  .hero.heroConcept .heroConceptCopy{order:1!important;}
+  .hero.heroConcept .heroConceptArtwork{order:2!important;flex:0 0 auto!important;}
+  .hero.heroConcept .heroConceptBottom{order:3!important;}
+}
