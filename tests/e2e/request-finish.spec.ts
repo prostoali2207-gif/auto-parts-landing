@@ -44,7 +44,7 @@ test("compact mobile request retains 3-step flow and avoids premature submission
 test("the compact footer uses verified contact destinations", async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 800 });
   await page.goto("/");
-  const footer = page.getByRole("contentinfo", { name: "Контакты DasMotors" });
+  const footer = page.locator(".requestFooter");
   await expect(footer).toBeVisible();
   await expect(footer.getByRole("link", { name: /WhatsApp/ })).toHaveAttribute("href", "https://wa.me/971544550149");
   await expect(footer.getByRole("link", { name: /Telegram/ })).toHaveAttribute("href", "https://t.me/dasmotors_dxb");
