@@ -220,4 +220,4 @@ Keep hero, process, trust facts, CTA, request form and CRM integration unchanged
 - One short verified caption: `Снято у поставщиков в ОАЭ, где ищем детали.` No ownership/in-stock claim.
 - Gallery link to existing `#request` anchor; no additional form or checkout.
 - Mobile 360/390 responsive, keyboard and Escape navigation, visible focus, reduced motion, lazy-loading; preserve qualified request behavior.
-- Raw real images are hosted under public image URLs; first-party mirroring is preferable for long-term asset resilience.
+- Original real photos are stored as first-party immutable JPEGs under `public/gallery/`, not third-party URLs.
