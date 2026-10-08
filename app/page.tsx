@@ -287,14 +287,33 @@ export default function Home() {
         <a className="topCta" href="#request">Запросить</a>
       </header>
 
-      <section className="hero" id="top">
-        <div className="heroCopy">
-          <h1>Нужна <span className="routeWord">запчасть?</span> Покажите машину и деталь.</h1>
-          <p className="lead">Из ОАЭ в Россию и страны СНГ. VIN или марка, модель и год — плюс фото, название, OEM‑номер или описание детали. Добавьте контакт — менеджер продолжит подбор.</p>
-          <div className="heroActions">
-            <a className="primary" href="#request">Запросить запчасть</a>
-            <span className="micro">Можно начать без точного названия детали.</span>
-            <details className="managerContactDisclosure">
+      <section className="hero heroConcept" id="top" aria-labelledby="hero-heading">
+        <div className="heroConceptArtwork" aria-hidden="true">
+          <span className="heroConceptHalo" />
+          <img
+            className="heroConceptImage"
+            src="/hero/deconstructed-front.webp"
+            alt=""
+            width="1020"
+            height="798"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </div>
+        <div className="heroConceptCopy">
+          <p className="heroConceptEyebrow"><span aria-hidden="true" />Подбор запчастей из ОАЭ</p>
+          <h1 className="heroConceptTitle" id="hero-heading">
+            <span className="heroConceptWord">Нужна</span>
+            <span className="heroConceptWord">запчасть?</span>
+            <span className="heroConceptTitleLight">Покажите машину и деталь.</span>
+          </h1>
+          <p className="heroConceptLead">
+            VIN или марка, модель и год — плюс фото, название, OEM-номер или описание.
+            Менеджер продолжит подбор.
+          </p>
+          <div className="heroConceptActions">
+            <a className="heroConceptCta" href="#request">Запросить запчасть <span aria-hidden="true">↗</span></a>
+            <details className="managerContactDisclosure heroConceptContact">
               <summary className="managerContactSummary">
                 Есть вопрос? <span>Связаться с менеджером</span><i aria-hidden="true">→</i>
               </summary>
@@ -317,23 +336,9 @@ export default function Home() {
             </details>
           </div>
         </div>
-
-        <div className="heroObject" aria-hidden="true">
-          <div className="objectHalo" />
-          <div className="explodedObject">
-            <span className="part partBackplate" />
-            <span className="part partBracket" />
-            <span className="part partHousing" />
-            <span className="part partCore" />
-            <span className="part partRing" />
-            <span className="part partLens" />
-            <span className="part partConnector" />
-            <i className="part fastener fastenerA" />
-            <i className="part fastener fastenerB" />
-            <i className="part fastener fastenerC" />
-          </div>
-          <span className="objectGuide guideOne" />
-          <span className="objectGuide guideTwo" />
+        <div className="heroConceptBottom" aria-label="Тип изображения">
+          <span>Подбор деталей по запросу</span><span className="heroConceptRule" aria-hidden="true" />
+          <span>Иллюстрация конструкции</span>
         </div>
       </section>
 
