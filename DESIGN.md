@@ -221,3 +221,16 @@ Keep hero, process, trust facts, CTA, request form and CRM integration unchanged
 - Gallery link to existing `#request` anchor; no additional form or checkout.
 - Mobile 360/390 responsive, keyboard and Escape navigation, visible focus, reduced motion, lazy-loading; preserve qualified request behavior.
 - Original real photos are stored as first-party immutable JPEGs under `public/gallery/`, not third-party URLs.
+
+
+## Approved HTML hero replacement (2026-10-08)
+
+The owner approved the exact HTML concept `dasmotors-hero-html.html` (desktop/mobile) as the new visual reference for the hero. This targeted approval supersedes the older CSS exploded-object representation inside the hero only; the V7 site palette, request workflow, process, gallery and facts remain.
+
+- Visual: first-party `/hero/deconstructed-front.webp` image exported byte-for-byte from the approved HTML concept (1020 × 798, 135792 bytes, sha256 `2306f3f72cc127e7f5d7048452b6ac90ccbc7e26147653ef3624340785121ac1`). This is synthetic concept art, **not** a stock photo or a promise of stock availability.
+- Desktop: dark navy studio field, acid request CTA, editorial large white headline, smaller light second phrase, exploded front bumper/grille/lamp assembly on the right. Copy, eyebrow and spacing based on the user's HTML approval.
+- Mobile: separately composed stack (headline → proof-of-process description → request CTA → preserved manager contact choices → artwork). The artwork remains large and visually distinct without obscuring controls. No separate photo dependency from CDN.
+- Keep the request CTA anchored to the existing `#request`, live WhatsApp/Telegram choices, untouched form data and Supabase CRM/API contract.
+- Motion: static mobile artwork. On hover-capable desktop only, a tiny image shift is acceptable; on reduced-motion, no shift. Do not bring back the old scroll-triggered pseudo-3D staging.
+- Do not visually or semantically imply the synthetic object is a photographed product or confirmed inventory.
+- Render-review: compare mobile 360, 390, compact-height 390×640 and desktop 1440 with the approved HTML prototype. UI Guard and QA must independently gate release.
