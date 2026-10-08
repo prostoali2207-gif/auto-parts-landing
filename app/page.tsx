@@ -303,8 +303,8 @@ export default function Home() {
         <div className="heroConceptCopy">
           <p className="heroConceptEyebrow"><span aria-hidden="true" />Подбор запчастей из ОАЭ</p>
           <h1 className="heroConceptTitle" id="hero-heading">
-            <span className="heroConceptWord">Нужна</span>
-            <span className="heroConceptWord">запчасть?</span>
+            <span className="heroConceptWord">Нужна</span>{" "}
+            <span className="heroConceptWord">запчасть?</span>{" "}
             <span className="heroConceptTitleLight">Покажите машину и деталь.</span>
           </h1>
           <p className="heroConceptLead">
