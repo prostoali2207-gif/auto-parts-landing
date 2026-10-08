@@ -234,3 +234,16 @@ The owner approved the exact HTML concept `dasmotors-hero-html.html` (desktop/mo
 - Motion: static mobile artwork. On hover-capable desktop only, a tiny image shift is acceptable; on reduced-motion, no shift. Do not bring back the old scroll-triggered pseudo-3D staging.
 - Do not visually or semantically imply the synthetic object is a photographed product or confirmed inventory.
 - Render-review: compare mobile 360, 390, compact-height 390×640 and desktop 1440 with the approved HTML prototype. UI Guard and QA must independently gate release.
+
+
+## Compact request close (approved 2026-10-08)
+
+User approved a targeted last-section UX/CRO cleanup after reviewing the full desktop and mobile landing. Scope: `requestSection` presentation only.
+
+- Remove the meaningless large decorative `01` in the request threshold. Retain meaningful `01/02/03` inside the form and preceding process sequence.
+- Keep heading `Что нужно найти?` and replace decorative overhead with a short, truthful instruction `Укажите автомобиль и нужную деталь — менеджер продолжит подбор.`.
+- Reduce top/bottom intro padding, eliminate the ornamental circle, tighten the form's desktop group spacing and keep practical touch-sized inputs.
+- On mobile, preserve progressive disclosure and the 3-step state machine. The after-submit explanation must only appear on step 3; on desktop it sits beneath the single submit button.
+- Add a compact genuine-contact footer below the form, using existing WhatsApp / Telegram constants, never inventing a phone, address, hours or social profiles.
+- Do not change fields, validation, upload limits, multipart payload, analytics, webhook, success confirmation, server errors, CRM integration or hero/gallery/process/trust sections.
+- QA at 360px, 390px, 768px, 1440px; verify no horizontal overflow, request steps and existing end-to-end mocked request flow.
