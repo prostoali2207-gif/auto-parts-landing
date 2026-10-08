@@ -1,0 +1,40 @@
+name: Import approved hero artwork once
+on:
+  push:
+    branches: [feat/approved-hero-html-20261008]
+    paths: [.github/workflows/import-approved-hero-artwork.yml]
+permissions:
+  contents: write
+jobs:
+  copy-hero:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract approved artwork from published HTML concept
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --silent --show-error "https://d2ol7oe51mr4n9.cloudfront.net/user_3IwyFwSIl4DSmyJVLt9bW4ap9Fn/19533108-af36-41f3-beb1-df6be06720f9.html" -o /tmp/hero-concept.html
+          python3 - <<'PY'
+          from pathlib import Path
+          import base64,hashlib,re
+          src=Path('/tmp/hero-concept.html').read_text(encoding='utf-8')
+          match=re.search(r'src="data:image/webp;base64,([A-Za-z0-9+/=]+)"',src)
+          if not match:
+              raise SystemExit('Original art asset not found')
+          artwork=base64.b64decode(match.group(1),validate=True)
+          digest=hashlib.sha256(artwork).hexdigest()
+          expected='2306f3f72cc127e7f5d7048452b6ac90ccbc7e26147653ef3624340785121ac1'
+          if digest!=expected: raise SystemExit(f'Artwork digest mismatch {digest}')
+          target=Path('public/hero/deconstructed-front.webp')
+          target.parent.mkdir(parents=True,exist_ok=True)
+          target.write_bytes(artwork)
+          print(f'Original approved artwork: {len(artwork)} bytes {digest}')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/hero/deconstructed-front.webp
+          if ! git diff --cached --quiet; then
+            git commit -m "assets: vendor approved deconstructed hero artwork"
+            git push origin HEAD:feat/approved-hero-html-20261008
+          fi
