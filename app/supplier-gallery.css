@@ -99,6 +99,11 @@
 .supplierSlide:first-child {
   flex-basis: min(62vw, 760px);
 }
+.supplierGalleryTrack::after {
+  content: "";
+  flex: 0 0 max(0px, calc(100% - min(36vw, 440px)));
+  pointer-events: none;
+}
 .supplierPhotoButton {
   position: relative;
   display: block;
@@ -257,6 +262,7 @@
     flex-basis: min(84vw, 390px);
     height: min(108vw, 385px);
   }
+  .supplierGalleryTrack::after { flex-basis: max(0px, calc(100% - min(84vw, 390px))); }
   .supplierPhotoFooter {
     left: 13px;
     right: 13px;
