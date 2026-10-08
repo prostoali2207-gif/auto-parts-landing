@@ -4,35 +4,35 @@ import { useRef, useState } from "react";
 
 const supplierPhotos = [
   {
-    src: "https://d2ol7oe51mr4n9.cloudfront.net/user_3IwyFwSIl4DSmyJVLt9bW4ap9Fn/36679397-b3f2-4471-a211-cadb874e7e5c.jpg",
+    src: "/gallery/bmw-bodywork.jpg",
     alt: "Стеллажи с передними кузовными частями автомобилей BMW на площадке поставщика",
     label: "BMW / Кузовные детали",
     width: 1536,
     height: 864,
   },
   {
-    src: "https://d2ol7oe51mr4n9.cloudfront.net/user_3IwyFwSIl4DSmyJVLt9bW4ap9Fn/db3d1dad-2d21-484a-8941-e52e7ce10041.jpg",
+    src: "/gallery/audi-bodywork.jpg",
     alt: "Передние кузовные части Audi в несколько ярусов на стеллажах",
     label: "AUDI / Кузовные детали",
     width: 1152,
     height: 1536,
   },
   {
-    src: "https://d2ol7oe51mr4n9.cloudfront.net/user_3IwyFwSIl4DSmyJVLt9bW4ap9Fn/e996f70b-2591-481f-9917-e40edf14a6c9.jpg",
+    src: "/gallery/mercedes-headlamps.jpg",
     alt: "Ряды фар и передних кузовных частей Mercedes-Benz на складе",
     label: "MERCEDES-BENZ / Оптика",
     width: 864,
     height: 1536,
   },
   {
-    src: "https://d2ol7oe51mr4n9.cloudfront.net/user_3IwyFwSIl4DSmyJVLt9bW4ap9Fn/e39832f2-f2e0-4555-a771-cc74fff9d39f.jpg",
+    src: "/gallery/mixed-front-ends.jpg",
     alt: "Ряды передних частей автомобилей разных марок и двигатели в помещении поставщика",
     label: "РАЗНЫЕ МАРКИ / Узлы и кузов",
     width: 1152,
     height: 1536,
   },
   {
-    src: "https://d2ol7oe51mr4n9.cloudfront.net/user_3IwyFwSIl4DSmyJVLt9bW4ap9Fn/8d0e155f-0eb7-40a5-9731-843a8f592125.jpg",
+    src: "/gallery/mercedes-parts.jpg",
     alt: "Передние части Mercedes-Benz и двигатель на открытой площадке поставщика",
     label: "MERCEDES-BENZ / Двигатели и кузов",
     width: 864,
@@ -55,7 +55,7 @@ export default function SupplierGallery() {
     if (!first || !target) return;
     track.scrollTo({
       left: target.offsetLeft - first.offsetLeft,
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
     });
     setActive(index);
   }
