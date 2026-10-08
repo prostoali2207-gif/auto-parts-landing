@@ -207,3 +207,17 @@ For V7:
 `Visual Taste direction → Frontend implementation → rendered 390 / intermediate / 1440 review → independent UI Guard → QA → merge`
 
 Source code or CI success alone is not visual approval.
+
+
+## V7 verified supplier photography gallery (2026-10-08)
+
+The real supplier gallery supersedes the previous still/video pairing in `trustProof` only.
+Keep hero, process, trust facts, CTA, request form and CRM integration unchanged.
+
+- Five owner-supplied supplier photographs; no AI generation and no simulated stock.
+- Editorial horizontal photo rail; first BMW panorama, then Audi, Mercedes lighting, mixed marques, Mercedes components.
+- Manual native touch/trackpad scroll with visible next photo, snapping, previous/next buttons, 01/05 counter, accessible full-size dialog. No autoplay.
+- One short verified caption: `Снято у поставщиков в ОАЭ, где ищем детали.` No ownership/in-stock claim.
+- Gallery link to existing `#request` anchor; no additional form or checkout.
+- Mobile 360/390 responsive, keyboard and Escape navigation, visible focus, reduced motion, lazy-loading; preserve qualified request behavior.
+- Original real photos are stored as first-party immutable JPEGs under `public/gallery/`, not third-party URLs.

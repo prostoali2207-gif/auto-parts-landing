@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import SupplierGallery from "./supplier-gallery";
 
 const ENDPOINT = "https://ybjoayhahbifcrrrykln.supabase.co/functions/v1/create-landing-request";
 const ANALYTICS_ENDPOINT = "https://ybjoayhahbifcrrrykln.supabase.co/functions/v1/track-landing-event";
@@ -39,7 +40,6 @@ export default function Home() {
   const sessionId = useRef("");
   const started = useRef(false);
   const nextPartId = useRef(1);
-  const trustVideo = useRef<HTMLVideoElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   function track(eventName: FunnelEvent) {
@@ -57,22 +57,6 @@ export default function Home() {
     track("landing_view");
   }, []);
 
-  useEffect(() => {
-    const video = trustVideo.current;
-    if (!video) return;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const syncPlayback = () => {
-      if (reducedMotion.matches) {
-        video.pause();
-        if (video.readyState > 0) video.currentTime = 0;
-        return;
-      }
-      void video.play().catch(() => undefined);
-    };
-    syncPlayback();
-    reducedMotion.addEventListener("change", syncPlayback);
-    return () => reducedMotion.removeEventListener("change", syncPlayback);
-  }, []);
 
   function markRequestStart() {
     if (started.current) return;
@@ -389,36 +373,7 @@ export default function Home() {
             <p className="trustProofLead">Перед покупкой отправим фото и видео детали: состояние, маркировку и заметные особенности. Вы подтверждаете — после этого выкупаем.</p>
           </div>
 
-          <figure className="trustProofMedia">
-            <div className="trustMediaGrid">
-              <div className="trustMediaVideoFrame">
-                <video
-                  ref={trustVideo}
-                  className="trustProofVideo"
-                  src="/proof/video"
-                  poster="/proof/poster"
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  aria-hidden="true"
-                  tabIndex={-1}
-                />
-              </div>
-              <picture className="trustMediaPhotoFrame">
-                <source media="(max-width: 700px)" srcSet="/proof/photo-mobile" />
-                <img
-                  src="/proof/photo-desktop"
-                  alt="Реальное место поставщика автозапчастей в ОАЭ: кузовные детали и механические узлы"
-                  width="960"
-                  height="540"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </picture>
-            </div>
-            <figcaption className="trustMediaCaption">Снято у поставщиков в ОАЭ, где ищем детали.</figcaption>
-          </figure>
+          <SupplierGallery />
 
           <dl className="trustFacts">
             <div className="trustFact">

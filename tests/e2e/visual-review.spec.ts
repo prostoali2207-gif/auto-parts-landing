@@ -17,13 +17,15 @@ async function waitForTrustMedia(page: Page) {
   const trust = page.locator(".trustProof");
   await trust.scrollIntoViewIfNeeded();
   await expect(trust).toBeVisible();
-  const image = trust.locator(".trustMediaPhotoFrame img");
+  const gallery = trust.locator(".supplierGallery");
+  await expect(gallery.locator(".supplierSlide")).toHaveCount(5);
+  const image = gallery.locator("img").first();
+  await image.scrollIntoViewIfNeeded();
   await expect.poll(() => image.evaluate((node) => {
     const element = node as HTMLImageElement;
     return element.complete && element.naturalWidth > 0 && element.naturalHeight > 0;
   })).toBe(true);
-  await expect(trust.locator(".trustProofVideo")).toBeAttached();
-  await page.waitForTimeout(300);
+  await page.waitForTimeout(150);
 }
 
 async function freezeHeroMotion(page: Page, currentTime: number) {

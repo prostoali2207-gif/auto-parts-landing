@@ -1,0 +1,38 @@
+name: Import approved supplier photographs (one-time)
+on:
+  push:
+    branches: [feature/real-supplier-photo-gallery-20261008]
+    paths:
+      - .github/workflows/import-approved-gallery-photos.yml
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Import five authentic owner-supplied photos
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p public/gallery
+          curl --fail --location --retry 3 --silent --show-error "https://d2ol7oe51mr4n9.cloudfront.net/user_3IwyFwSIl4DSmyJVLt9bW4ap9Fn/36679397-b3f2-4471-a211-cadb874e7e5c.jpg" -o public/gallery/bmw-bodywork.jpg
+          curl --fail --location --retry 3 --silent --show-error "https://d2ol7oe51mr4n9.cloudfront.net/user_3IwyFwSIl4DSmyJVLt9bW4ap9Fn/db3d1dad-2d21-484a-8941-e52e7ce10041.jpg" -o public/gallery/audi-bodywork.jpg
+          curl --fail --location --retry 3 --silent --show-error "https://d2ol7oe51mr4n9.cloudfront.net/user_3IwyFwSIl4DSmyJVLt9bW4ap9Fn/e996f70b-2591-481f-9917-e40edf14a6c9.jpg" -o public/gallery/mercedes-headlamps.jpg
+          curl --fail --location --retry 3 --silent --show-error "https://d2ol7oe51mr4n9.cloudfront.net/user_3IwyFwSIl4DSmyJVLt9bW4ap9Fn/e39832f2-f2e0-4555-a771-cc74fff9d39f.jpg" -o public/gallery/mixed-front-ends.jpg
+          curl --fail --location --retry 3 --silent --show-error "https://d2ol7oe51mr4n9.cloudfront.net/user_3IwyFwSIl4DSmyJVLt9bW4ap9Fn/8d0e155f-0eb7-40a5-9731-843a8f592125.jpg" -o public/gallery/mercedes-parts.jpg
+          for f in public/gallery/*.jpg; do
+            test "$(file --mime-type -b "$f")" = image/jpeg
+            test "$(stat -c%s "$f")" -gt 100000
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/gallery/*.jpg
+          if ! git diff --cached --quiet; then
+            git commit -m "assets: vendor five original supplier photos"
+            git push origin HEAD:feature/real-supplier-photo-gallery-20261008
+          fi
