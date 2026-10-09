@@ -106,13 +106,13 @@ export default function Home() {
   }
 
   function validateVehicle(form: HTMLFormElement, v: FormData) {
-    const vin = formText(v, "vin");
     const carMake = formText(v, "carMake");
     const carModel = formText(v, "carModel");
     const carYear = formText(v, "carYear");
 
-    if (!vin && !(carMake && carModel && carYear)) {
-      failField(form, { vehicle: "Укажите VIN или марку, модель и год автомобиля." }, "vin", 1);
+    if (!carMake || !carModel || !carYear) {
+      const firstMissing = !carMake ? "carMake" : !carModel ? "carModel" : "carYear";
+      failField(form, { vehicle: "Укажите марку, модель и год автомобиля." }, firstMissing, 1);
       return false;
     }
     if (carYear) {
@@ -158,7 +158,7 @@ export default function Home() {
   function focusStep(step: FormStep) {
     const form = formRef.current;
     if (!form) return;
-    const target = step === 1 ? "vin" : step === 2 ? `part-${parts[0].id}-name` : "contact";
+    const target = step === 1 ? "carMake" : step === 2 ? `part-${parts[0].id}-name` : "contact";
     requestAnimationFrame(() => requestAnimationFrame(() => {
       const field = form.elements.namedItem(target);
       if (field instanceof HTMLElement) field.focus({ preventScroll: true });
@@ -234,8 +234,9 @@ export default function Home() {
     if (!validateParts(form, v)) return;
 
     const contact = formText(v, "contact");
-    if (!contact) {
-      failField(form, { contact: "Укажите телефон, WhatsApp или Telegram." }, "contact", 3);
+    const whatsappNumber = contact.replace(/[\s().-]/g, "");
+    if (!/^\+[1-9]\d{7,14}$/.test(whatsappNumber)) {
+      failField(form, { contact: contact ? "Укажите номер WhatsApp с кодом страны в международном формате." : "Укажите номер WhatsApp с кодом страны." }, "contact", 3);
       return;
     }
 
@@ -245,6 +246,7 @@ export default function Home() {
       const value = v.get(key);
       if (typeof value === "string") body.set(key, value);
     }
+    body.set("contact", whatsappNumber);
     body.set("analyticsSession", sessionId.current);
     body.set("parts", JSON.stringify(collectedParts.map(({ partName, partNumber, description, photoKeys }) => ({
       partName,
@@ -308,8 +310,8 @@ export default function Home() {
             <span className="heroConceptTitleLight">Покажите машину и деталь.</span>
           </h1>
           <p className="heroConceptLead">
-            VIN или марка, модель и год — плюс фото, название, OEM-номер или описание.
-            Менеджер продолжит подбор.
+            Укажите марку, модель и год автомобиля, а также фото, название, OEM-номер или описание детали.
+            VIN можно добавить, если он известен.
           </p>
           <div className="heroConceptActions">
             <a className="heroConceptCta" href="#request">Запросить запчасть <span aria-hidden="true">↗</span></a>
@@ -350,7 +352,7 @@ export default function Home() {
         <div className="processSequence">
           <article className="processStep stepVehicle">
             <span className="stepNo">01</span>
-            <div><span className="stepCode">VEHICLE</span><h3>Автомобиль</h3><p>VIN или марка · модель · год</p></div>
+            <div><span className="stepCode">VEHICLE</span><h3>Автомобиль</h3><p>Марка · модель · год · VIN по желанию</p></div>
           </article>
           <article className="processStep stepPart">
             <span className="stepNo">02</span>
@@ -358,7 +360,7 @@ export default function Home() {
           </article>
           <article className="processStep stepContact">
             <span className="stepNo">03</span>
-            <div><span className="stepCode">CONTACT</span><h3>Контакт</h3><p>Телефон, WhatsApp или Telegram</p></div>
+            <div><span className="stepCode">CONTACT</span><h3>Контакт</h3><p>Номер WhatsApp</p></div>
           </article>
         </div>
       </section>
@@ -419,7 +421,7 @@ export default function Home() {
             <div className="success" role="status">
               <span>REQUEST RECEIVED</span>
               <h2>{requestNumber ? `Заявка №${requestNumber}` : "Заявка принята"}</h2>
-              <p>Заявка принята. Менеджер продолжит подбор и при необходимости уточнит детали по указанному контакту.</p>
+              <p>Заявка принята. Менеджер продолжит подбор и при необходимости уточнит детали в WhatsApp.</p>
               <button className="secondary" onClick={() => { started.current = false; setState("idle"); }}>Отправить ещё одну</button>
             </div>
           ) : (
@@ -452,16 +454,15 @@ export default function Home() {
                 aria-describedby={fieldErrors.vehicle ? "vehicle-error" : undefined}
               >
                 <legend><span>01</span><b>Автомобиль</b></legend>
-                <p className="fieldNote">Нет VIN? Укажите марку, модель и год.</p>
-                <label>VIN<input name="vin" placeholder="Например: JT..." autoCapitalize="characters" aria-invalid={fieldErrors.vehicle ? "true" : undefined} /></label>
-                {fieldErrors.vehicle && <p className="fieldError" id="vehicle-error" role="alert">{fieldErrors.vehicle}</p>}
-                <div className="or"><span>или</span></div>
+                <p className="fieldNote">Марка, модель и год обязательны. VIN — если известен.</p>
                 <div className="grid3">
-                  <label>Марка<input name="carMake" placeholder="Toyota" /></label>
-                  <label>Модель<input name="carModel" placeholder="Camry" /></label>
-                  <label>Год<input name="carYear" inputMode="numeric" placeholder="2022" aria-invalid={fieldErrors.year ? "true" : undefined} aria-describedby={fieldErrors.year ? "year-error" : undefined} /></label>
+                  <label>Марка *<input name="carMake" placeholder="Toyota" required aria-invalid={fieldErrors.vehicle ? "true" : undefined} /></label>
+                  <label>Модель *<input name="carModel" placeholder="Camry" required aria-invalid={fieldErrors.vehicle ? "true" : undefined} /></label>
+                  <label>Год *<input name="carYear" inputMode="numeric" placeholder="2022" required aria-invalid={fieldErrors.vehicle || fieldErrors.year ? "true" : undefined} aria-describedby={fieldErrors.year ? "year-error" : undefined} /></label>
                 </div>
+                {fieldErrors.vehicle && <p className="fieldError" id="vehicle-error" role="alert">{fieldErrors.vehicle}</p>}
                 {fieldErrors.year && <p className="fieldError" id="year-error" role="alert">{fieldErrors.year}</p>}
+                <label>VIN <span>(необязательно)</span><input name="vin" placeholder="JTNB11HK5K3001234" autoCapitalize="characters" autoComplete="off" maxLength={17} /></label>
               </fieldset>
 
               <fieldset
@@ -548,8 +549,8 @@ export default function Home() {
                 aria-describedby={fieldErrors.contact ? "contact-error" : undefined}
               >
                 <legend><span>03</span><b>Контакт</b></legend>
-                <p className="fieldNote">Укажите удобный контакт, чтобы менеджер мог продолжить подбор.</p>
-                <label>Телефон / WhatsApp / Telegram<input name="contact" placeholder="Как с вами связаться" aria-invalid={fieldErrors.contact ? "true" : undefined} aria-describedby={fieldErrors.contact ? "contact-error" : undefined} /></label>
+                <p className="fieldNote">Менеджер свяжется с вами в WhatsApp. Укажите номер с кодом страны.</p>
+                <label>Номер WhatsApp *<input name="contact" type="tel" inputMode="tel" autoComplete="tel" placeholder="+7 999 123-45-67" required aria-invalid={fieldErrors.contact ? "true" : undefined} aria-describedby={fieldErrors.contact ? "contact-error" : undefined} /></label>
                 {fieldErrors.contact && <p className="fieldError" id="contact-error" role="alert">{fieldErrors.contact}</p>}
                 <label>Имя <span>(необязательно)</span><input name="clientName" placeholder="Ваше имя" /></label>
               </fieldset>
@@ -561,7 +562,7 @@ export default function Home() {
 
               {state === "error" && message && <p className="error" role="alert">{message}</p>}
               <button className="primary submit" disabled={state === "loading"} type="submit">{state === "loading" ? "Отправляем…" : "Отправить заявку"}</button>
-              <p className="requestAfterNote">После отправки менеджер продолжит подбор по указанному контакту.</p>
+              <p className="requestAfterNote">После отправки менеджер продолжит подбор в WhatsApp.</p>
             </form>
           )}
         </div>

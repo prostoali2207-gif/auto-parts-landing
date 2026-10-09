@@ -104,7 +104,10 @@ test("capture mobile request steps with sticky header", async ({ page }) => {
   await expect(page.locator(".topbar")).toBeVisible();
   await page.screenshot({ path: outputDir + "/request-mobile-step-01.png", fullPage: false });
 
-  await page.getByLabel("VIN").fill("JT123456789012345");
+  await page.getByLabel("Марка").fill("Toyota");
+  await page.getByLabel("Модель").fill("Camry");
+  await page.getByLabel("Год").fill("2022");
+  await page.getByLabel("VIN").fill("JTNB11HK5K3001234");
   await page.getByRole("button", { name: "Далее →" }).click();
   await expect(page.locator('[data-form-step="2"]')).toHaveAttribute("data-active", "true");
   await page.screenshot({ path: outputDir + "/request-mobile-step-02.png", fullPage: false });

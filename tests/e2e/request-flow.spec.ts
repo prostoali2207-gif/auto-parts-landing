@@ -29,7 +29,10 @@ async function nextStep(page: Page) {
 }
 
 async function fillVinVehicle(page: Page) {
-  await page.getByLabel("VIN").fill("JT123456789012345");
+  await page.getByLabel("Марка").fill("Toyota");
+  await page.getByLabel("Модель").fill("Camry");
+  await page.getByLabel("Год").fill("2022");
+  await page.getByLabel("VIN").fill("JTNB11HK5K3001234");
   await nextStep(page);
   await expectStep(page, 2);
 }
@@ -94,15 +97,32 @@ test("manager contact stays secondary until the visitor opens it", async ({ page
   await expect(telegram).toHaveAttribute("href", "https://t.me/dasmotors_dxb");
 });
 
-test("vehicle step blocks progress and returns focus to VIN when vehicle identity is missing", async ({ page }) => {
+test("vehicle step requires make model and year and focuses first missing field", async ({ page }) => {
   await expectStep(page, 1);
   await nextStep(page);
 
-  const vin = page.getByLabel("VIN");
-  await expect(page.locator("#vehicle-error")).toHaveText("Укажите VIN или марку, модель и год автомобиля.");
+  const make = page.getByLabel("Марка");
+  await expect(page.locator("#vehicle-error")).toHaveText("Укажите марку, модель и год автомобиля.");
   await expectStep(page, 1);
-  await expect(vin).toBeFocused();
-  await expect(vin).toHaveAttribute("aria-invalid", "true");
+  await expect(make).toBeFocused();
+  await expect(make).toHaveAttribute("aria-invalid", "true");
+});
+
+test("VIN by itself is not enough without mandatory vehicle details", async ({ page }) => {
+  await page.getByLabel("VIN").fill("JTNB11HK5K3001234");
+  await nextStep(page);
+  await expectStep(page, 1);
+  await expect(page.locator("#vehicle-error")).toHaveText("Укажите марку, модель и год автомобиля.");
+  await expect(page.getByLabel("Марка")).toBeFocused();
+  await expect(page.getByLabel("VIN")).toHaveAttribute("placeholder", "JTNB11HK5K3001234");
+});
+
+test("all mandatory vehicle details are required even with VIN entered", async ({ page }) => {
+  await page.getByLabel("VIN").fill("JTNB11HK5K3001234");
+  await page.getByLabel("Марка").fill("Toyota");
+  await nextStep(page);
+  await expectStep(page, 1);
+  await expect(page.getByLabel("Модель")).toBeFocused();
 });
 
 test("invalid year is rejected on vehicle step without losing fallback vehicle data", async ({ page }) => {
@@ -150,20 +170,20 @@ test("back and forward navigation preserves entered vehicle and part data", asyn
   await nextStep(page);
   await expectStep(page, 3);
 
-  await page.getByLabel("Телефон / WhatsApp / Telegram").fill("+971500000000");
+  await page.getByLabel("Номер WhatsApp").fill("+971500000000");
   await page.getByRole("button", { name: "← Назад" }).click();
   await expectStep(page, 2);
   await expect(page.getByLabel("Название детали")).toHaveValue("Передняя фара");
 
   await page.getByRole("button", { name: "← Назад" }).click();
   await expectStep(page, 1);
-  await expect(page.getByLabel("VIN")).toHaveValue("JT123456789012345");
+  await expect(page.getByLabel("VIN")).toHaveValue("JTNB11HK5K3001234");
 
   await nextStep(page);
   await expectStep(page, 2);
   await nextStep(page);
   await expectStep(page, 3);
-  await expect(page.getByLabel("Телефон / WhatsApp / Telegram")).toHaveValue("+971500000000");
+  await expect(page.getByLabel("Номер WhatsApp")).toHaveValue("+971500000000");
 });
 
 test("one vehicle can submit two part items in the same CRM request payload", async ({ page }) => {
@@ -188,7 +208,7 @@ test("one vehicle can submit two part items in the same CRM request payload", as
   });
   await nextStep(page);
   await expectStep(page, 3);
-  await page.getByLabel("Телефон / WhatsApp / Telegram").fill("+971500000000");
+  await page.getByLabel("Номер WhatsApp").fill("+971500000000");
   await page.getByRole("button", { name: "Отправить заявку" }).click();
 
   await expect(page.getByRole("status")).toContainText("Заявка №2001");
@@ -217,10 +237,22 @@ test("contact validation happens only after vehicle and part steps are valid", a
   await fillPrimaryPart(page);
   await page.getByRole("button", { name: "Отправить заявку" }).click();
 
-  const contact = page.getByLabel("Телефон / WhatsApp / Telegram");
-  await expect(page.locator("#contact-error")).toHaveText("Укажите телефон, WhatsApp или Telegram.");
+  const contact = page.getByLabel("Номер WhatsApp");
+  await expect(page.locator("#contact-error")).toHaveText("Укажите номер WhatsApp с кодом страны.");
   await expect(contact).toBeFocused();
   await expect(contact).toHaveAttribute("aria-invalid", "true");
+  await expectStep(page, 3);
+});
+
+test("contact requires an international WhatsApp phone number rather than a handle", async ({ page }) => {
+  await fillVinVehicle(page);
+  await fillPrimaryPart(page);
+  const phone = page.getByLabel("Номер WhatsApp");
+  await expect(phone).toHaveAttribute("type", "tel");
+  await phone.fill("@telegram");
+  await page.getByRole("button", { name: "Отправить заявку" }).click();
+  await expect(page.locator("#contact-error")).toHaveText("Укажите номер WhatsApp с кодом страны в международном формате.");
+  await expect(phone).toBeFocused();
   await expectStep(page, 3);
 });
 
@@ -245,28 +277,29 @@ test("recoverable server error preserves entered data and allows retry", async (
 
   await fillVinVehicle(page);
   await fillPrimaryPart(page);
-  await page.getByLabel("Телефон / WhatsApp / Telegram").fill("+971500000000");
+  await page.getByLabel("Номер WhatsApp").fill("+971500000000");
   await page.getByRole("button", { name: "Отправить заявку" }).click();
 
   await expect(page.locator("p.error[role=alert]")).toHaveText("Временная ошибка CRM");
-  await expect(page.getByLabel("VIN")).toHaveValue("JT123456789012345");
+  await expect(page.getByLabel("VIN")).toHaveValue("JTNB11HK5K3001234");
   await expect(page.getByLabel("Название детали")).toHaveValue("Передняя фара");
-  await expect(page.getByLabel("Телефон / WhatsApp / Telegram")).toHaveValue("+971500000000");
+  await expect(page.getByLabel("Номер WhatsApp")).toHaveValue("+971500000000");
 
   await page.getByRole("button", { name: "Отправить заявку" }).click();
   await expect(page.getByRole("status")).toContainText("Заявка №1001");
 });
 
-test("VIN path reaches confirmed success without creating a real CRM record", async ({ page }) => {
+test("complete vehicle details with optional VIN reach confirmed success without CRM record", async ({ page }) => {
   await mockAcceptedRequest(page, 999);
 
   await fillVinVehicle(page);
   await fillPrimaryPart(page);
-  await page.getByLabel("Телефон / WhatsApp / Telegram").fill("+971500000000");
+  await page.getByLabel("Номер WhatsApp").fill("+971500000000");
   await page.getByRole("button", { name: "Отправить заявку" }).click();
 
   await expect(page.getByRole("status")).toContainText("Заявка №999");
   await expect(page.getByRole("status")).toContainText("Менеджер продолжит подбор");
+  expect(await page.locator(".success").evaluate((element) => getComputedStyle(element).boxShadow)).toBe("none");
 });
 
 test("make model year fallback remains a valid vehicle path", async ({ page }) => {
@@ -282,7 +315,7 @@ test("make model year fallback remains a valid vehicle path", async ({ page }) =
   await nextStep(page);
   await expectStep(page, 3);
 
-  await page.getByLabel("Телефон / WhatsApp / Telegram").fill("@qa_test");
+  await page.getByLabel("Номер WhatsApp").fill("+7 999 123-45-67");
   await page.getByRole("button", { name: "Отправить заявку" }).click();
 
   await expect(page.getByRole("status")).toContainText("Заявка №1000");

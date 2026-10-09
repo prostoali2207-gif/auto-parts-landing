@@ -174,3 +174,8 @@
   .requestSection .requestFooterBrand span{font-size:12px;}
   .requestSection .requestFooterLinks{gap:23px;}
 }
+
+/* The old offset success shadow looked like a broken white L-shaped border on phones. */
+.requestSection .success{
+  box-shadow:none!important;
+}
