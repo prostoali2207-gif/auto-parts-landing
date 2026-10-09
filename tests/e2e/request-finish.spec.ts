@@ -30,7 +30,10 @@ test("compact mobile request retains 3-step flow and avoids premature submission
   await expect(section.locator('[data-form-step="2"]')).toBeHidden();
   await expect(section.locator(".requestAfterNote")).toBeHidden();
 
-  await page.getByLabel("VIN").fill("JT123456789012345");
+  await page.getByLabel("Марка").fill("Toyota");
+  await page.getByLabel("Модель").fill("Camry");
+  await page.getByLabel("Год").fill("2022");
+  await page.getByLabel("VIN").fill("JTNB11HK5K3001234");
   await section.getByRole("button", { name: "Далее →" }).click();
   await expect(section.locator('[data-form-step="2"]')).toBeVisible();
   await page.getByLabel("Название детали").fill("Передняя фара");
