@@ -158,7 +158,7 @@ export default function Home() {
   function focusStep(step: FormStep) {
     const form = formRef.current;
     if (!form) return;
-    const target = step === 1 ? "vin" : step === 2 ? `part-${parts[0].id}-name` : "contact";
+    const target = step === 1 ? "carMake" : step === 2 ? `part-${parts[0].id}-name` : "contact";
     requestAnimationFrame(() => requestAnimationFrame(() => {
       const field = form.elements.namedItem(target);
       if (field instanceof HTMLElement) field.focus({ preventScroll: true });
