@@ -310,8 +310,8 @@ export default function Home() {
             <span className="heroConceptTitleLight">Покажите машину и деталь.</span>
           </h1>
           <p className="heroConceptLead">
-            VIN или марка, модель и год — плюс фото, название, OEM-номер или описание.
-            Менеджер продолжит подбор.
+            Укажите марку, модель и год автомобиля, а также фото, название, OEM-номер или описание детали.
+            VIN можно добавить, если он известен.
           </p>
           <div className="heroConceptActions">
             <a className="heroConceptCta" href="#request">Запросить запчасть <span aria-hidden="true">↗</span></a>
