@@ -18,7 +18,7 @@ async function waitForTrustMedia(page: Page) {
   await trust.scrollIntoViewIfNeeded();
   await expect(trust).toBeVisible();
   const gallery = trust.locator(".supplierGallery");
-  await expect(gallery.locator(".supplierSlide")).toHaveCount(5);
+  await expect(gallery.locator(".supplierSlide")).toHaveCount(6);
   const image = gallery.locator("img").first();
   await image.scrollIntoViewIfNeeded();
   await expect.poll(() => image.evaluate((node) => {
