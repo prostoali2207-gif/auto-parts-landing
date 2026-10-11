@@ -16,10 +16,10 @@ test("uses authentic supplier photographs without weakening the trust claims", a
 
   const gallery = trust.locator(".supplierGallery");
   await expect(gallery).toBeVisible();
-  await expect(gallery.locator(".supplierSlide")).toHaveCount(5);
+  await expect(gallery.locator(".supplierSlide")).toHaveCount(6);
   await expect(gallery).toContainText("Снято у поставщиков в ОАЭ, где ищем детали.");
   await expect(gallery.getByRole("link", { name: /Подобрать запчасть/ })).toHaveAttribute("href", "#request");
-  await expect(gallery.locator("img")).toHaveCount(5);
+  await expect(gallery.locator("img")).toHaveCount(6);
   await expect(gallery.locator("img").first()).toHaveAttribute("alt", /BMW/);
   await expect(gallery).not.toContainText("В наличии");
   await expect(gallery.locator("video")).toHaveCount(0);
@@ -40,9 +40,9 @@ test("gallery can be scrolled by buttons and photos expanded then dismissed", as
   await gallery.getByRole("button", { name: /Открыть фото 2/ }).click();
   const dialog = page.getByRole("dialog", { name: "Просмотр фотографии" });
   await expect(dialog).toBeVisible();
-  await expect(dialog.locator("img")).toHaveAttribute("alt", /Audi/);
+  await expect(dialog.locator("img")).toHaveAttribute("alt", /BMW/);
   await dialog.getByRole("button", { name: "Следующее увеличенное фото" }).click();
-  await expect(dialog.locator("img")).toHaveAttribute("alt", /Mercedes-Benz/);
+  await expect(dialog.locator("img")).toHaveAttribute("alt", /Audi/);
   await page.keyboard.press("Escape");
   await expect(dialog).not.toBeVisible();
 });
