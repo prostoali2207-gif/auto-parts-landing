@@ -4,6 +4,13 @@ import { useRef, useState } from "react";
 
 const supplierPhotos = [
   {
+    src: "/gallery/bmw-showroom-20261011.jpg",
+    alt: "Реальные кузовные детали BMW, бамперы, фары и тормозные механизмы на площадке поставщика",
+    label: "BMW / Бамперы, оптика и тормоза",
+    width: 1100,
+    height: 1956,
+  },
+  {
     src: "/gallery/bmw-bodywork.jpg",
     alt: "Стеллажи с передними кузовными частями автомобилей BMW на площадке поставщика",
     label: "BMW / Кузовные детали",
