@@ -75,7 +75,7 @@ Reject directions relying mainly on:
 Also avoid visual confusion with the established Spline 3D/web-design brand. Do not make the automotive Spline look like a playful 3D creative tool or generic SaaS startup.
 
 ## Evidence standard
-Before material decisions inspect current external references. Prefer official brand histories/guidelines, respected identity case studies, real automotive/parts/industrial brands and credible typography/design sources.
+Before material decisions follow `docs/agent-architecture/ELITE_REFERENCE_DISCOVERY.md`: discover across independent expert sources and original identity makers, inspect actual logo/wordmark usage, check repeatable craft and small-size/mechanical production limits. Awards and large brands are leads, not a universal quality verdict. Inspect current external references. Prefer official brand histories/guidelines, respected identity case studies, real automotive/parts/industrial brands and credible typography/design sources.
 
 For each useful reference extract the principle and explicitly state what must not be copied.
 
