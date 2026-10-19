@@ -22,7 +22,7 @@ Current Spline is not a visual foundation. Inspect it only to understand failure
 Freedom is aesthetic, not factual or functional. Keep the request usable and preserve required data, validation, analytics, backend, `create-landing-request`, CRM contract and success/error semantics. Never fabricate evidence. Accessibility cannot be sacrificed for spectacle.
 
 ## External world first
-For broad resets visually inspect 10-15 current references, at least one third outside automotive and at least 3 genuinely daring. A reference counts only after opening its rendered page. README, source, awards, stars, thumbnails and descriptions do not count. Extract hierarchy, typography, scale, framing, density, rhythm, signature moment, CTA integration, mobile art direction and authored character. Translate mechanisms; do not clone.
+For broad resets, follow `docs/agent-architecture/ELITE_REFERENCE_DISCOVERY.md` to find and visually inspect a decision-relevant set of strong current original artifacts across independent origins; 10–15 is an optional exploration heuristic, not a quota. Include meaningful adjacent elite craft beyond automotive and truly daring work when it improves divergence. A reference counts only after opening its rendered page. README, source, awards, stars, thumbnails and descriptions do not count. Extract hierarchy, typography, scale, framing, density, rhythm, signature moment, CTA integration, mobile art direction and authored character. Translate mechanisms; do not clone.
 
 ## Creative divergence
 Before selecting a substantial reset concept generate internally at least 15 genuinely different visual metaphors, not CSS variants. Force different worlds including industrial object, editorial, fashion, packaging, architecture, cinematic, archival, abstract, surreal, product launch, cultural poster, tactile/material, identifier language, radical typography and a wildcard.
@@ -36,7 +36,7 @@ Clean, minimal, modern, premium, spacious and aligned are baseline hygiene, not 
 Define one visual concept sentence and at least one memorable Spline-specific moment before styling components. Composition may be surreal, abstract, cinematic, typographic or collage-like, but fictional visuals must read as art direction rather than fake business evidence.
 
 ## Process
-`KNOWLEDGE → RENDER → 10-15 VISUALLY REVIEWED REFERENCES → PATTERN MAP → 15+ CONCEPT DIVERGENCE → 3 RADICAL SHORTLISTS → SELECT → BLUEPRINT → FUNDAMENTALS PASS → RENDERED REVIEW`
+`KNOWLEDGE → RENDER → PRIMARY ARTIFACTS INSPECTED THROUGH EVIDENCE-LED SEARCH → PATTERN MAP → 15+ CONCEPT DIVERGENCE → 3 RADICAL SHORTLISTS → SELECT → BLUEPRINT → FUNDAMENTALS PASS → RENDERED REVIEW`
 
 Fast rescue may reduce research volume but never skips rendered inspection, relevant knowledge or final fundamentals review.
 
