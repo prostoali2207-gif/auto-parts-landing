@@ -343,4 +343,4 @@ Highest-risk mobile behaviors first.
 `PASS / REVISE / BLOCK` after rendered review.
 
 ## Research basis
-Use current external research when an important UX decision is not already settled by direct business evidence. Relevant mechanisms include automotive-parts compatibility/fitment UX, mobile form usability, error prevention/recovery, field-level guidance, accessible forms, and real UAE part-request patterns. Competitor implementations are patterns to evaluate, not templates to copy.
+Use current external research when an important UX decision is not already settled by direct business evidence. For leading UX exemplars or unknown patterns, apply `docs/agent-architecture/ELITE_REFERENCE_DISCOVERY.md`, inspect original real request flows and error states, and separate visual craft from verified task outcomes. Do not import attractive patterns that break VIN/fitment, mobile or CRM integrity. Relevant mechanisms include automotive-parts compatibility/fitment UX, mobile form usability, error prevention/recovery, field-level guidance, accessible forms, and real UAE part-request patterns. Competitor implementations are patterns to evaluate, not templates to copy.
