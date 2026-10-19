@@ -75,7 +75,7 @@ A score of 7 means competent, not excellent.
 A clean page is not automatically an 8+.
 
 ## Benchmark comparison
-For substantial visual work, compare the rendered page against at least 2–3 relevant strong references previously selected by Visual Director or current research.
+For substantial visual work, compare the rendered page against a small task-fit set of *inspected, sourced* strong references previously selected by Visual Director or current research under `docs/agent-architecture/ELITE_REFERENCE_DISCOVERY.md`. Source prestige or gallery thumbnails do not prove elite quality; the right selection matters more than a fixed 2–3 count.
 
 Compare mechanisms, not taste:
 - focal strength;
