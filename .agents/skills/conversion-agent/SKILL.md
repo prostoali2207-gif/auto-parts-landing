@@ -58,7 +58,7 @@ Evidence may include:
 - relevant UAE competitor mechanisms;
 - prior experiments and validated learnings.
 
-For external research prefer primary research, professional UX/CRO research and official documentation. Competitors are evidence of a market pattern, not proof that the pattern works.
+For external research prefer primary research, professional UX/CRO research and official documentation. When asked for best-in-class funnels or when a new conversion mechanism needs strong exemplars, also apply `docs/agent-architecture/ELITE_REFERENCE_DISCOVERY.md`. Trace to original live journeys and comparable results; an award-winning page, active ad or expensive-looking funnel is not proof of qualified requests or causal uplift. Keep conclusions bounded and do not infer performance from competitor visibility. Competitors are evidence of a market pattern, not proof that the pattern works.
 
 For competitor observations use:
 `PATTERN -> WHY IT MAY WORK -> EVIDENCE -> DAS MOTORS FIT -> TAKE / ADAPT / REJECT`
