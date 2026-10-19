@@ -19,6 +19,10 @@ Read the relevant specialist before changing the landing page.
 7. `.agents/skills/qa-agent/SKILL.md`
    Use after UI Guard PASS as the independent release gate. Test the real visitor journey, mobile devices, form submission, VIN/photo flows, WhatsApp/CRM handoff, performance, accessibility basics, and regressions.
 
+## Elite-reference routing
+
+For material creative/UX/CRO work or explicit requests for top professional exemplars, read `docs/agent-architecture/ELITE_REFERENCE_DISCOVERY.md` (canonical upstream: `professional-ai-agents/architect/methodology/excellence-reference-discovery.md`). The responsible agent must inspect original artifacts, use independent discovery origins and distinguish expert craft from actual commercial effects. Pass mechanism-level findings to Visual Taste/Director, UX, Conversion and independent UI Guard as relevant. Do not start a wide reference sweep for routine edits, and never override business-truth, customer flow, mobile/accessibility or final release gates.
+
 ## Working rules
 
 - First version is a focused one-page commercial landing page, not a full ecommerce store.

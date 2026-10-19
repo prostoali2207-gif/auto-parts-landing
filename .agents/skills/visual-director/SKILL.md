@@ -45,10 +45,12 @@ State a concise design diagnosis covering:
 - what must remain untouched because it supports conversion.
 
 ## 2. Benchmark research is mandatory for substantial work
+
+Use `docs/agent-architecture/ELITE_REFERENCE_DISCOVERY.md` for source mapping, original-artifact inspection and evidence distinctions. Curated galleries, award pages, fame and popularity generate candidates; they do not establish a reference as elite until original work is actually inspected. Search beyond well-known car/ecommerce names into credited studios and adjacent elite craft when it changes the visual direction.
 Use current external references when they materially improve the decision.
 Benchmark mechanisms, not aesthetics.
 
-Inspect at least 3 strong references where practical, including:
+Inspect a small complementary set of actually verified strong references (3 is a useful starting point, not a hard quota) where practical, including:
 - automotive/parts/industrial businesses;
 - strong commercial landing pages outside automotive;
 - relevant professional design/UX guidance.
